@@ -6,15 +6,11 @@ from newapi import printe
 
 main_dir = Path(__file__).parent.parent
 
-studies_urls_to_files_dir = Path("/data/project/mdwiki/studies_urls_to_files")
-# ---
-if str(main_dir).find("/mnt/nfs/labstore-secondary-tools-project/ncc") != -1:
-    studies_urls_to_files_dir = Path("/data/project/ncc/studies_urls_to_files")
-    printe.output(f"<<red>> studies_urls_to_files_dir set to {studies_urls_to_files_dir}")
+studies_urls_to_files_dir = Path("/data/project/ncc/nccbot/studies_urls_to_files")
 # ---
 if not os.path.exists(studies_urls_to_files_dir):
-    studies_urls_to_files_dir = main_dir / "studies_urls_to_files"
-    print(f'<<red>> studies_urls_to_files_dir set to {studies_urls_to_files_dir}')
+    studies_urls_to_files_dir = Path("I:/ncc/nccbot/studies_urls_to_files")
+    print(f"<<red>> studies_urls_to_files_dir set to {studies_urls_to_files_dir}")
 
 
 def dump_studies_urls_to_files(tab):

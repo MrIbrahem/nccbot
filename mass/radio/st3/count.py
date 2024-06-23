@@ -24,14 +24,10 @@ with open(main_dir / "jsons/all_ids.json", encoding="utf-8") as f:
 with open(main_dir / "jsons/cases_in_ids.json", encoding="utf-8") as f:
     cases_in_ids = json.load(f)
 # ---
-studies_dir = Path("/data/project/mdwiki/studies")
-# ---
-if str(main_dir).find("/mnt/nfs/labstore-secondary-tools-project/ncc") != -1:
-    studies_dir = Path("/data/project/ncc/studies")
-    printe.output(f"<<red>> studies_dir set to {studies_dir}")
+studies_dir = Path("/data/project/ncc/nccbot/studies")
 # ---
 if not os.path.exists(studies_dir):
-    studies_dir = main_dir / "studies"
+    studies_dir = Path("I:/ncc/nccbot/studies")
     print(f'<<red>> studies_dir set to {studies_dir}')
 # ---
 ids_tab = {

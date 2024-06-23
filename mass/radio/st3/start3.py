@@ -8,7 +8,7 @@ tfj run allids --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 co
 python3 core8/pwb.py mass/radio/st3/start3 nomulti ask 97387
 python3 core8/pwb.py mass/radio/st3/start3 get:500
 python3 core8/pwb.py mass/radio/st3/start3 dump_studies_urls_to_files nomulti
-python3 /data/project/mdwiki/pybot/mass/radio/st3/start3.py test
+python3 /data/project/ncc/nccbot/mass/radio/st3/start3.py test
 
 tfj run mnx1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:1 157"
 tfj run mnx2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:2 157"

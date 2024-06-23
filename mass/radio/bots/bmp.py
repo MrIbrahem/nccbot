@@ -5,12 +5,12 @@ from io import BytesIO
 try:
     from PIL import Image
 except ImportError:
-    print('Installing Pillow using pip...')
+    print("Installing Pillow using pip...")
     os.system("pip install pillow")
     from PIL import Image
 
 # مسار الدليل لحفظ الصور
-directory_path = "/data/project/mdwiki/public_html/images"
+directory_path = "/data/project/ncc/public_html/images"
 if not os.path.exists(directory_path):
     os.makedirs(directory_path)
 
@@ -68,7 +68,7 @@ def work_bmp(url):
     else:
         print(f"Image already exists at {img_path}. continue...")
     # ---
-    url = f'https://mdwiki.toolforge.org/images/{file_name}'
+    url = f"https://ncc.toolforge.org/images/{file_name}"
     # ---
     print(f"Image saved successfully. URL: {url}")
     return url, "jpg"

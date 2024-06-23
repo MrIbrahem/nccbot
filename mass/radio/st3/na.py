@@ -1,6 +1,6 @@
 '''
 
-python3 /data/project/mdwiki/pybot/mass/radio/st3/na.py test
+python3 /data/project/ncc/nccbot/mass/radio/st3/na.py test
 
 '''
 import sys
@@ -8,14 +8,14 @@ import os
 
 user_script_paths = [
     'I:/core/new',
-    'I:/mdwiki',
-    'I:/mdwiki/pybot',
-    'I:/mdwiki/pybot/md_core',
-    'I:/mdwiki/pybot/ncc_core',
-    '/data/project/mdwiki',
-    '/data/project/mdwiki/pybot',
-    '/data/project/mdwiki/pybot/md_core',
-    '/data/project/mdwiki/pybot/ncc_core',
+    'I:/ncc',
+    'I:/ncc/nccbot',
+    'I:/ncc/nccbot/md_core',
+    'I:/ncc/nccbot/ncc_core',
+    '/data/project/ncc',
+    '/data/project/ncc/nccbot',
+    '/data/project/ncc/nccbot/md_core',
+    '/data/project/ncc/nccbot/ncc_core',
 ]
 for _u_path in user_script_paths:
     if os.path.exists(_u_path):
