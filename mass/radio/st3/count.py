@@ -5,15 +5,15 @@ python3 core8/pwb.py mass/radio/st3/count
 tfj run coca --image python3.9 --command "$HOME/local/bin/python3 c8/pwb.py mass/radio/cases_in_ids && $HOME/local/bin/python3 c8/pwb.py mass/radio/st3/count"
 
 """
+import json
 import os
 import sys
-import json
-import tqdm
-from pathlib import Path
 from datetime import datetime
-from newapi import printe
+from pathlib import Path
 
-from mass.radio.get_studies import get_images_stacks, get_images
+import tqdm
+from mass.radio.get_studies import get_images, get_images_stacks
+from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
 
 main_dir = Path(__file__).parent.parent

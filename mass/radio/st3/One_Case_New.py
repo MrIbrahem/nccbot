@@ -8,7 +8,6 @@ import os
 from pathlib import Path
 import json
 
-# ---
 from nccommons import api
 from newapi import printe
 from newapi.ncc_page import NEW_API, MainPage as ncc_MainPage
@@ -22,18 +21,13 @@ from mass.radio.bots.studies_utf import dump_studies_urls_to_files
 from mass.radio.jsons_files import jsons  # , dumps_jsons, ids_to_urls, urls_to_ids
 from fix_mass.fix_sets.name_bots.files_names_bot import get_files_names
 
-add_studies_cat_del_case = [
-    "20060",
-]
 # ---
 try:
     import pywikibot
-
     pywikibotoutput = pywikibot.output
 except ImportError:
     pywikibotoutput = print
 # ---
-
 # dumps_jsons(infos=0, urls=0, cases_in_ids=0, cases_dup=0, authors=0, to_work=0, all_ids=0, urls_to_get_info=0)
 # ---
 main_dir = Path(__file__).parent.parent
@@ -58,6 +52,11 @@ if "updatetext" in sys.argv:
     from mass.radio.lists.PD_medical import PD_medical_pages_def
 
     PD_medical_pages = PD_medical_pages_def()
+
+
+add_studies_cat_del_case = [
+    "20060",
+]
 
 
 def get_image_extension(image_url):
