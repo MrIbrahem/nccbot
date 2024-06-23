@@ -21,8 +21,8 @@ import json
 from multiprocessing import Pool
 from newapi import printe
 from pathlib import Path
-from mass.radio.st3sort.count_files.Case_co import CaseDo
-from mass.radio.bots.studies_utf import studies_urls_to_files_dir
+from fix_mass.count_files.Case_co import CaseDo
+from ncc_jsons.dir_studies_bot import studies_urls_to_files_dir
 
 main_dir = Path(__file__).parent.parent.parent
 

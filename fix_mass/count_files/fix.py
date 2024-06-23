@@ -6,18 +6,10 @@ python3 core8/pwb.py mass/radio/st3sort/count_files/fix 134732
 import json
 import os
 import sys
-from pathlib import Path
-
 import requests
+
 from newapi import printe
-
-main_dir = Path(__file__).parent.parent.parent
-
-studies_urls_to_files_dir = Path("/data/project/ncc/nccbot/jsons/studies_urls_to_files")
-# ---
-if not os.path.exists(studies_urls_to_files_dir):
-    studies_urls_to_files_dir = Path("I:/ncc/nccbot/jsons/studies_urls_to_files")
-    print(f"<<red>> studies_urls_to_files_dir set to {studies_urls_to_files_dir}")
+from ncc_jsons.dir_studies_bot import studies_urls_to_files_dirs
 
 
 def get_stcks(study_id):

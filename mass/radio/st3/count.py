@@ -7,14 +7,16 @@ tfj run coca --image python3.9 --command "$HOME/local/bin/python3 c8/pwb.py mass
 """
 import json
 import os
+import tqdm
 import sys
 from datetime import datetime
 from pathlib import Path
 
-import tqdm
 from mass.radio.get_studies import get_images, get_images_stacks
 from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
+
+from ncc_jsons.dir_studies_bot import studies_dir
 
 main_dir = Path(__file__).parent.parent
 
@@ -24,16 +26,7 @@ with open(main_dir / "jsons/all_ids.json", encoding="utf-8") as f:
 with open(main_dir / "jsons/cases_in_ids.json", encoding="utf-8") as f:
     cases_in_ids = json.load(f)
 # ---
-studies_dir = Path("/data/project/ncc/nccbot/jsons/studies")
-# ---
-if not os.path.exists(studies_dir):
-    studies_dir = Path("I:/ncc/nccbot/jsons/studies")
-    print(f'<<red>> studies_dir set to {studies_dir}')
-# ---
-ids_tab = {
-    x: v
-    for x, v in all_ids.items() if x not in cases_in_ids
-}
+ids_tab = {x: v for x, v in all_ids.items() if x not in cases_in_ids}
 
 cases_done = len(all_ids) - len(ids_tab)
 
