@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Usage:
-python3 I:/mdwiki/pybot/mass/usask/getimages.py
+python3 I:/ncc/nccbot/mass/usask/getimages.py
 python3 core8/pwb.py mass/usask/getimages break
 
 """

@@ -6,7 +6,7 @@ write python code to do:
 * do def create_category(chapter_name)
 * upload images to nccommons.org using def upload_image(chapter_name, image_url, image_name, chapter_url)
 
-python3 I:/mdwiki/pybot/mass/usask/up.py
+python3 I:/ncc/nccbot/mass/usask/up.py
 python3 core8/pwb.py mass/usask/up break
 
 """

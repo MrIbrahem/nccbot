@@ -1,16 +1,16 @@
 '''
 
-python3 /data/project/mdwiki/pybot/mass/radio/st3/co.py
+python3 /data/project/ncc/nccbot/mass/radio/st3/co.py
 
 '''
 import sys
 import os
 
 user_script_paths = [
-    '/data/project/mdwiki',
-    '/data/project/mdwiki/pybot',
-    '/data/project/mdwiki/pybot/md_core',
-    '/data/project/mdwiki/pybot/ncc_core',
+    '/data/project/ncc',
+    '/data/project/ncc/nccbot',
+    '/data/project/ncc/nccbot/md_core',
+    '/data/project/ncc/nccbot/ncc_core',
 ]
 for _u_path in user_script_paths:
     if os.path.exists(_u_path):

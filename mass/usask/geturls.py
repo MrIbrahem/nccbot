@@ -10,7 +10,7 @@ like:(
 5. save urls to json file named urls.json
 
 
-python3 I:/mdwiki/pybot/mass/usask/geturls.py
+python3 I:/ncc/nccbot/mass/usask/geturls.py
 python3 core8/pwb.py mass/usask/geturls
 '''
 
