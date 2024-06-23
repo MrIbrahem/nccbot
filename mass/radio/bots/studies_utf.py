@@ -6,10 +6,10 @@ from newapi import printe
 
 main_dir = Path(__file__).parent.parent
 
-studies_urls_to_files_dir = Path("/data/project/ncc/nccbot/studies_urls_to_files")
+studies_urls_to_files_dir = Path("/data/project/ncc/nccbot/jsons/studies_urls_to_files")
 # ---
 if not os.path.exists(studies_urls_to_files_dir):
-    studies_urls_to_files_dir = Path("I:/ncc/nccbot/studies_urls_to_files")
+    studies_urls_to_files_dir = Path("I:/ncc/nccbot/jsons/studies_urls_to_files")
     print(f"<<red>> studies_urls_to_files_dir set to {studies_urls_to_files_dir}")
 
 

@@ -26,11 +26,11 @@ except ImportError:
 # ---
 main_dir = Path(__file__).parent.parent
 # ---
-studies_dir = Path("/data/project/ncc/studies")
+studies_dir = Path("/data/project/ncc/nccbot/jsons/studies")
 # ---
 if not os.path.exists(studies_dir):
     printe.output(f"<<red>> studies_dir {studies_dir} not found")
-    studies_dir = main_dir / "studies"
+    studies_dir = Path("I:/ncc/nccbot/jsons/studies")
     printe.output(f"<<red>> studies_dir set to {studies_dir}")
 
 
