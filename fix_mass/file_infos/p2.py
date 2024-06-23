@@ -44,58 +44,6 @@ def printdebug(s):
     if debug:
         printe.output(s)
 
-
-def get_file_rev(title):
-    # ---
-    params = {
-        "action": "query",
-        "format": "json",
-        "prop": "revisions",
-        "titles": title,
-        "utf8": 1,
-        "formatversion": "2",
-        "rvprop": "content",
-        "rvslots": "main",
-        "rvlimit": "10",
-        "rvdir": "newer",
-    }
-    # ---
-    data = api_new.post_params(params)
-    # ---
-    error = data.get("error", {})
-    if error:
-        printe.output(json.dumps(error, indent=2))
-    # ---
-    pages = data.get("query", {}).get("pages", [])
-    # ---
-    img_id = ""
-    urlx = ""
-    # ---
-    for page in pages:
-        title = page.get("title")
-        # ---
-        revisions = page.get("revisions")
-        # ---
-        if not revisions:
-            continue
-        # ---
-        for x in revisions:
-            _content = x["slots"]["main"]["content"]
-            # ---
-            # # if not img_id: img_id = match_id(_content, title)
-            # ---
-            # if not urlx:
-            # url = get_img_url_from_content(_content)
-            # if url: urlx = url
-            # ---
-            if img_id and urlx:
-                break
-    # ---
-    data = {"url": urlx, "id": img_id}
-    # ---
-    return data
-
-
 def one_rev(title, x):
     # ---
     return {

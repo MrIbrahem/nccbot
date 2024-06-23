@@ -33,6 +33,7 @@ def categories_work(text):
     remove all categories from the text
     """
     # ---
+    # Remove all existing category tags from the text
     text = re.sub(r"\[\[Category:(.*?)\]\]", "", text, flags=re.DOTALL)
     # ---
     text += "\n[[Category:Files imported from NC Commons]]"

@@ -80,12 +80,11 @@ class SqlLiteFilesDB:
     def find_data(self, url="", urlid="", file=""):
         to_s = {}
         # ---
-        if url:
-            to_s["url"] = url
-        if urlid:
-            to_s["urlid"] = urlid
-        if file:
-            to_s["file"] = file
+        to_s = {k: v for k, v in [('url', url), ('urlid', urlid), ('file', file)] if v}
+        # ---
+        # if url: to_s["url"] = url
+        # if urlid: to_s["urlid"] = urlid
+        # if file: to_s["file"] = file
         # ---
         if not to_s:
             return []

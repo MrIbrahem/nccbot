@@ -24,58 +24,6 @@ def dump_continues(params_continue):
     with open(Dir / "params_continue.json", "w", encoding="utf-8") as f:
         json.dump(params_continue, f, indent=2)
 
-
-def get_file_rev(title):
-    # ---
-    params = {
-        "action": "query",
-        "format": "json",
-        "prop": "revisions",
-        "titles": title,
-        "utf8": 1,
-        "formatversion": "2",
-        "rvprop": "content",
-        "rvslots": "main",
-        "rvlimit": "10",
-        "rvdir": "newer",
-    }
-    # ---
-    data = api_new.post_params(params)
-    # ---
-    error = data.get("error", {})
-    if error:
-        printe.output(json.dumps(error, indent=2))
-    # ---
-    pages = data.get("query", {}).get("pages", [])
-    # ---
-    img_id = ""
-    urlx = ""
-    # ---
-    for page in pages:
-        title = page.get("title")
-        # ---
-        revisions = page.get("revisions")
-        # ---
-        if not revisions:
-            continue
-        # ---
-        for x in revisions:
-            _content = x["slots"]["main"]["content"]
-            # ---
-            # # if not img_id: img_id = match_id(_content, title)
-            # ---
-            # if not urlx:
-            # url = get_img_url_from_content(_content)
-            # if url: urlx = url
-            # ---
-            if img_id and urlx:
-                break
-    # ---
-    data = {"url": urlx, "id": img_id}
-    # ---
-    return data
-
-
 def one_rev(title, x):
     # ---
     return {
@@ -85,13 +33,9 @@ def one_rev(title, x):
     }
 
 
-def get_files(params_continue=None):
-    # ---
-    global len_all_files
-    # ---
-    cat_title = "Category:Uploads by Mr. Ibrahem"
-    # ---
+def fetch_category_members(cat_title, params_continue=None):
     # get cat members
+    # ---
     params = {
         "action": "query",
         "format": "json",
@@ -114,6 +58,28 @@ def get_files(params_continue=None):
         dump_continues(params_continue)
         params.update(params_continue)
     # ---
+    return api_new.post_params(params)
+
+
+def process_category_data(data):
+    global len_all_files
+    # ---
+    pages = data.get("query", {}).get("pages", [])
+    # ---
+    len_all_files += len(pages)
+    # ---
+    for page in pages:
+        title = page["title"]
+        # ---
+        revisions = page.get("revisions", [{}])[0]
+        # ---
+        tab = one_rev(title, revisions)
+        # ---
+        yield tab
+
+
+def get_files(params_continue=None):
+    # ---
     # params[]"rvlimit"] = number # error: "titles", "pageids" or a generator was used to supply multiple pages, but the "rvlimit", "rvstartid", "rvendid", "rvdir=newer", "rvuser", "rvexcludeuser", "rvstart", and "rvend" parameters may only be used on a single page.
     # ---
     _result_example = {
@@ -122,7 +88,8 @@ def get_files(params_continue=None):
         "query": {"pages": [{}]},
     }
     # ---
-    data = api_new.post_params(params)
+    cat_title = "Category:Uploads by Mr. Ibrahem"
+    data = fetch_category_members(cat_title, params_continue)
     # ---
     error = data.get("error", {})
     # ---
@@ -145,16 +112,7 @@ def get_files(params_continue=None):
         "title": "File:État criblé with acute on chronic ischemia and amyloid angiopathy (Radiopaedia 35335-36839 Axial 3).jpg",
     }
     # ---
-    len_all_files += len(pages)
-    # ---
-    for page in pages:
-        title = page["title"]
-        # ---
-        revisions = page.get("revisions", [{}])[0]
-        # ---
-        tab = one_rev(title, revisions)
-        # ---
-        yield tab
+    yield from process_category_data(data)
     # ---
     if data.get("continue"):
         yield from get_files(data.get("continue", {}))

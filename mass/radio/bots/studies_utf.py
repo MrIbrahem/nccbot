@@ -20,6 +20,6 @@ def dump_studies_urls_to_files(tab):
         file = studies_urls_to_files_dir / f"{study}.json"
         with open(file, "w", encoding="utf-8") as f:
             json.dump(files, f, ensure_ascii=False, indent=2)
-            print(f"dump_studies_urls_to_files {file}, {len(files)=}")
+            print(f"Completed dumping {len(files)} items from {study} to {file}.")
 
     print(f"dump_studies_urls_to_files {len(tab)}")

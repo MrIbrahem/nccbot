@@ -23,7 +23,8 @@ class PageWork:
     def start(self):
         # ---
         if not self.page.exists():
-            print(f"self.page {self.page} not exists!")
+            # print(f"self.page {self.page} not exists!")
+            print(f"Page {self.title} does not exist on {self.code} Wikipedia.")
             return
         # ---
         self.get_temps()
@@ -40,12 +41,7 @@ class PageWork:
         # ---
         parsed = wtp.parse(self.text)
         # ---
-        for temp in parsed.templates:
-            # ---
-            name = str(temp.normal_name()).strip().lower().replace("_", " ")
-            # ---
-            if name == "nc":
-                self.temps.append(temp)
+        self.temps = [temp for temp in parsed.templates if str(temp.normal_name()).strip().lower().replace("_", " ") == "nc"]
         # ---
         printe.output(f"{len(self.temps)} temps")
 
@@ -90,6 +86,7 @@ class PageWork:
         # ---
         if self.new_text.find(cat) == -1:
             self.new_text += "\n[[Category:Contains images from NC Commons]]"
+            printe.output(f"Added category to {self.title}")
 
     def save(self):
         self.page.save(newtext=self.new_text, summary="bot: fix NC")

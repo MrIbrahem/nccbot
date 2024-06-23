@@ -8,6 +8,7 @@ import tqdm
 import json
 from pathlib import Path
 from mass.radio.bots.studies_utf import studies_urls_to_files_dir
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -34,8 +35,8 @@ for x in tqdm.tqdm(os.listdir(studies_urls_to_files_dir)):
     for file, va in data.items():
         all_files_to_url[file] = va["url"]
 # ---
-print(f"{count_all_files=}")
-print(f"{len(all_files_to_url)=}")
+print(f"Total files processed: {count_all_files}")
+print(f"Total unique files to URL mappings: {len(all_files_to_url)}")
 # ---
 with open(Dir / "all_files_to_url.json", "w", encoding="utf-8") as f:
     json.dump(all_files_to_url, f)
@@ -43,9 +44,9 @@ with open(Dir / "all_files_to_url.json", "w", encoding="utf-8") as f:
 with open(Dir / "errors.json", "w", encoding="utf-8") as f:
     json.dump(errors, f)
 # ---
-print(f"{len(errors)=}")
+print(f"Total processing errors: {len(errors)}")
 # ---
 if "del" in sys.argv:
     for x in errors:
         os.remove(studies_urls_to_files_dir / x)
-        print(f"delete {studies_urls_to_files_dir / x}")
+        print(f"Deleted file due to processing error: {studies_urls_to_files_dir / x}")

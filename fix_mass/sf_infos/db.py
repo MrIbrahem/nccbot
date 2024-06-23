@@ -14,7 +14,12 @@ main_db_bot = SqlLiteFilesDB(db_path)
 
 
 def insert_infos(data):
-    return main_db_bot.insert_infos(data)
+    """Insert information into the database."""
+    try:
+        return main_db_bot.insert_infos(data)
+    except Exception as e:
+        print(f"Failed to insert data: {e}")
+        return None
 
 
 def insert_url_file(url, file):
