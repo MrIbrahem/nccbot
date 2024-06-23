@@ -83,7 +83,7 @@ def start():
         if "dump_studies_urls_to_files" in sys.argv:
             for study in studies.copy():
                 file = studies_urls_to_files_dir / f"{study}.json"
-                if not f"{study}.json" in files:
+                if f"{study}.json" not in files:
                     new_s.append(study)
                 # if os.path.exists(file):
                 #     studies.remove(study)

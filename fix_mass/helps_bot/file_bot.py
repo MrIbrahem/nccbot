@@ -26,7 +26,7 @@ def dumpit(data, file):
     try:
         with open(file, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False)
-            printe.output(f"<<green>> write {len(data)} to file: {file}")
+            printe.output(f"<<green>> Successfully write {len(data)} to file: {file}")
 
     except Exception as e:
         printe.output(f"<<red>> Error writing to file {file}: {str(e)}")

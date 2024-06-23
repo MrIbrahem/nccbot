@@ -26,13 +26,13 @@ Dir = str(Path(__file__).parents[0])
 # ---
 cats = {}
 # ---
-with open(f'{Dir}/mv.json', "r", encoding="utf-8") as f:
+with open(f"{Dir}/mv.json", "r", encoding="utf-8") as f:
     cats = json.load(f)
 # ---
-printe.output(f'len of cats: {len(cats)}')
+printe.output(f"len of cats: {len(cats)}")
 # ---
 # ---
-api_new = NEW_API('www', family='mdwiki')
+api_new = NEW_API("www", family="mdwiki")
 api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # ---
@@ -41,15 +41,12 @@ exists = {}
 # ---
 to_create = [x for x, t in exists.items() if t is False]
 # ---
-printe.output(f'len of to_create: {len(to_create)}')
+printe.output(f"len of to_create: {len(to_create)}")
 # ---
-n = 0
-# ---
-for cat in to_create:
-    n += 1
-    printe.output(f'cat: {n}/{len(to_create)}:')
+for n, cat in enumerate(to_create, 1):
+    printe.output(f"cat: {n}/{len(to_create)}:")
     text = mdwiki_api.GetPageText(cat)
-    new = api.create_Page(text, cat, summary='Copy categories from mdwiki')
+    new = api.create_Page(text, cat, summary="Copy categories from mdwiki")
 # ---
 to_update = [x for x, t in exists.items() if t is True]
 to_update = cats
@@ -60,13 +57,13 @@ n = 0
 
 def delete_it(cat):
     # ---
-    printe.output(f'cat: {n}/{len(to_update)}:')
+    printe.output(f"cat: {n}/{len(to_update)}:")
     # ---
     params = {"action": "delete", "format": "json", "title": cat, "reason": "cat moved to nccommons.org"}  # , "deletetalk": 1}
     # ---
     doit = mdwiki_api.post_s(params, addtoken=True)
     # ---
-    printe.output(f'doit: {doit}')
+    printe.output(f"doit: {doit}")
 
 
 # ---
@@ -74,11 +71,11 @@ for cat in to_update:
     # ---
     n += 1
     # ---
-    printe.output(f'cat: {n}/{len(to_update)}:')
+    printe.output(f"cat: {n}/{len(to_update)}:")
     # ---
-    nspage = ncc_MainPage(cat, 'www', family='nccommons')
+    nspage = ncc_MainPage(cat, "www", family="nccommons")
     # ---
-    printe.output(f'GetPageText for page:{cat}')
+    printe.output(f"GetPageText for page:{cat}")
     # ---
     md_text = mdwiki_api.GetPageText(cat)
     # ---
@@ -88,12 +85,12 @@ for cat in to_update:
     nc_text = nspage.get_text()
     # ---
     if md_text == nc_text:
-        printe.output(f'{cat} is up to date')
+        printe.output(f"{cat} is up to date")
     else:
-        save_page = nspage.save(newtext=md_text, summary='Copy from mdwiki', nocreate=1)
+        save_page = nspage.save(newtext=md_text, summary="Copy from mdwiki", nocreate=1)
     # ---
     delete_it(cat)
     # ---
-    if 'break' in sys.argv:
+    if "break" in sys.argv:
         break
     # ---

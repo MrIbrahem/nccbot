@@ -35,18 +35,22 @@ def print_memory():
 
 
 def add_to_db(data_list, prnt=True):
-    # ---
+    """Add data to the database and handle memory more efficiently."""
     global add_to_db_done
-    # ---
     add_to_db_done += len(data_list)
-    # ---
     print(f"add_to_db ({add_to_db_done}): len: {len(data_list)}")
     # ---
     if debug:
         del data_list
         return
     # ---
-    return insert_all_infos(data_list, prnt=prnt)
+    try:
+        result = insert_all_infos(data_list, prnt=prnt)
+        print(f"Added {len(data_list)} entries to the database.")
+        return result
+    except Exception as e:
+        print(f"Error adding data: {e}")
+        return None
 
 
 def get_img_url_from_content(content):

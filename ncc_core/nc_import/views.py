@@ -21,7 +21,9 @@ fetch("https://pageviews.wmcloud.org/pageviews/api.php?pages=Kat%7CHond&project=
   "credentials": "omit"
 });
 """
+import requests
 from nc_import.bots.get_langs import get_langs_codes
+
 
 def get_views(code):
     endpoint = "https://pageviews.wmcloud.org/massviews/api.php"
@@ -29,14 +31,13 @@ def get_views(code):
     # ---
     # https://pageviews.wmcloud.org/massviews/api.php?project=af.wikipedia.org&category=Files_imported_from_NC_Commons&limit=20000
     # ---
-    params = {
-        "project": f"{code}.wikipedia.org",
-        "category": category
-    }
+    params = {"project": f"{code}.wikipedia.org", "category": category}
     # ---
     # result example: [{"title":"Chondrosarcoma_of_the_nasal_septum_(Radiopaedia_165701-135935_Sagittal_2).jpeg","ns":6}]
     # ---
-    
+    response = requests.get("https://pageviews.wmcloud.org/massviews/api.php", params=params)
+    return response.json()
+
 
 def start():
     """

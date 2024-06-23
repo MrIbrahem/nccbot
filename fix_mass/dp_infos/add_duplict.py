@@ -17,23 +17,32 @@ Dir = Path(st_ref_infos)
 # subdirs = [x for x in Dir.iterdir() if x.is_dir()]
 
 
-def work(na="names"):
+def load_json_files(directory, file_type):
+    # return [subdir / f"{file_type}.json" for subdir in tqdm.tqdm(directory.iterdir(), total=80000) if subdir.is_dir() and (subdir / f"{file_type}.json").exists()]
     lisst_of_files = []
-    na = na if na in ["names", "rev"] else "names"
-
-    for subdir in tqdm.tqdm(Dir.iterdir(), total=80000):
+    for subdir in tqdm.tqdm(directory.iterdir(), total=80000):
         # ---
         if not subdir.is_dir():
             continue
         # ---
         # find "names.json"
         # file_js = subdir / "names.json"
-        file_js = subdir / f"{na}.json"
+        file_js = subdir / f"{file_type}.json"
         # ---
         if not file_js.exists():
             continue
         # ---
         lisst_of_files.append(file_js)
+    # ---
+    return lisst_of_files
+
+
+def work(na="names"):
+    na = na if na in ["names", "rev"] else "names"
+    # ---
+    lisst_of_files = load_json_files(Dir, na)
+    # ---
+    # process_files(files, na)
     # ---
     for file_js in tqdm.tqdm(lisst_of_files):
         # ---
