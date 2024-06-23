@@ -5,16 +5,15 @@ python3 core8/pwb.py mass/radio/get_studies test
 from mass.radio.get_studies import get_stacks_fixed#(study_id, case_id, get_cach=False)
 
 """
+import json
 import os
 import re
-import requests
-import json
 from pathlib import Path
+
+import requests
 from bs4 import BeautifulSoup
-from newapi import printe
-
 from mass.radio.jsons_files import jsons, urls_to_ids
-
+from newapi import printe
 
 main_dir = Path(__file__).parent
 # ---

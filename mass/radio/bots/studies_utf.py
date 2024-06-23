@@ -1,7 +1,8 @@
-import sys
-import os
 import json
+import os
+import sys
 from pathlib import Path
+
 from newapi import printe
 
 main_dir = Path(__file__).parent.parent
