@@ -9,7 +9,7 @@ import sys
 import requests
 
 from newapi import printe
-from ncc_jsons.dir_studies_bot import studies_urls_to_files_dirs
+from ncc_jsons.dir_studies_bot import studies_urls_to_files_dir
 
 
 def get_stcks(study_id):

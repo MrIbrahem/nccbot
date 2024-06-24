@@ -16,7 +16,7 @@ from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
 from newapi.mdwiki_page import NEW_API
 from nccommons import api
-from mdpy.bots import mdwiki_api
+from api_bots import mdwiki_api
 
 # ---
 from pathlib import Path

@@ -6,7 +6,7 @@ from fix_mass.fix_sets.bots2.filter_ids import filter_no_title
 import sys
 from newapi import printe
 
-from fix_mass.jsons.files import studies_titles, studies_titles2
+from fix_mass.files import studies_titles, studies_titles2
 
 
 def filter_no_title(ids):

@@ -27,7 +27,7 @@ import sys
 
 from newapi import printe
 from fix_mass.fix_sets.new import work_one_study
-from fix_mass.jsons.files import studies_titles, studies_titles2
+from fix_mass.files import studies_titles, studies_titles2
 from fix_mass.fix_sets.lists.studies_fixed import studies_fixed_done
 
 

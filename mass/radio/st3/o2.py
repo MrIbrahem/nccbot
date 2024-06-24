@@ -148,7 +148,6 @@ python3 core8/pwb.py mass/radio/st3/o del2 updatetext 16447
 14225
 
 """
-import sys
 
 from mass.radio.st3.start3 import main_by_ids
 

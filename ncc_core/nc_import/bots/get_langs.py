@@ -5,7 +5,7 @@ https://nccommons.org/wiki/User:Mr._Ibrahem/import_bot
 """
 # import re
 import wikitextparser as wtp
-from nc_import.api_bots.ncc_page import ncc_MainPage
+from api_bots.ncc_page import ncc_MainPage
 from newapi import printe
 
 

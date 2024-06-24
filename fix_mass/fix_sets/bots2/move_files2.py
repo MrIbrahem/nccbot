@@ -6,21 +6,13 @@ from fix_mass.fix_sets.bots.move_files2 import to_move_work
 import re
 # import json
 import sys
-from pathlib import Path
 from newapi import printe
 from newapi.ncc_page import NEW_API
 from fix_mass.fix_sets.jsons_dirs import get_study_dir#, jsons_dir
+from logs_fix.files import move_text_dir
 
 api_new = NEW_API("www", family="nccommons")
 api_new.Login_to_wiki()
-
-Dir = Path(__file__).parent.parent
-
-move_dir = Dir / "move_text"
-
-if not move_dir.exists():
-    move_dir.mkdir()
-
 
 def change_names(file_dict, ty, study_id):
     modified_file_dict = {}
@@ -97,7 +89,7 @@ def log(same_titles, diff_titles, study_id):
     # ---
     file = study_id_dir / "move.txt"
     # ---
-    file2 = move_dir / f"{study_id}.txt"
+    file2 = move_text_dir / f"{study_id}.txt"
     # ---
     try:
         with open(file2, "w", encoding="utf-8") as f:

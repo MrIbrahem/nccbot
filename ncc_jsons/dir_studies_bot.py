@@ -2,7 +2,6 @@
 from ncc_jsons.dir_studies_bot import studies_dir, studies_urls_to_files_dir
 
 """
-import os
 from pathlib import Path
 
 from newapi import printe

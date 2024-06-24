@@ -14,7 +14,7 @@ from fix_mass.fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
 
 # st_dit = jsons_dir / "studies_files"
 
-from fix_mass.jsons.files import study_to_case_cats
+from fix_mass.files import study_to_case_cats
 
 
 def dump_it(data):

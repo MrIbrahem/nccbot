@@ -8,7 +8,7 @@ write python code to do:
 * get all images links from images_info in info.json like: ("Acanthosis Nigricans-Benign (Dermatology Atlas 1).jpg": "https://www.atlasdermatologico.com.br/img?imageId=1")
 * upload images to nccommons.org using def upload_image(category_name, image_path, image_url)
 
-python3 md_core/atlas/up.py
+python3 mass/atlas/up.py
 python3 core8/pwb.py atlas/up ask
 
 """

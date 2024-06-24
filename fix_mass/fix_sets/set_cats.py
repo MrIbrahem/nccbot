@@ -18,7 +18,7 @@ from newapi.ncc_page import CatDepth
 
 from fix_mass.fix_sets.bots2.text_cat_bot import add_cat_to_set
 from fix_mass.fix_sets.bots2.filter_ids import filter_no_title
-from fix_mass.jsons.files import studies_titles, studies_titles2
+from fix_mass.files import studies_titles, studies_titles2
 
 
 def work_one_study(study_id, study_title="", categories=[]):

@@ -3,7 +3,7 @@
 python3 core8/pwb.py fix_mass/fix_sets/lists/study_case_cats
 
 Usage:
-from fix_mass.jsons.files import studies_titles, study_to_case_cats
+from fix_mass.files import studies_titles, study_to_case_cats
 
 # ---
 

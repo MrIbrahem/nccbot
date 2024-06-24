@@ -28,7 +28,7 @@ from fix_mass.fix_sets.bots2.done2 import filter_done
 from fix_mass.fix_sets.bots2.set_text2 import make_text_study
 from fix_mass.fix_sets.bots2.move_files2 import to_move_work
 
-from fix_mass.jsons.files import studies_titles, studies_titles2
+from fix_mass.files import studies_titles, studies_titles2
 
 
 def update_set_text(title, n_text, study_id):
