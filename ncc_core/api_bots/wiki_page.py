@@ -1,6 +1,6 @@
 """
 
-from nc_import.api_bots.wiki_page import ncc_MainPage, ncc_NEW_API
+from api_bots.wiki_page import ncc_MainPage, ncc_NEW_API
 
 """
 import sys
@@ -8,8 +8,7 @@ from newapi.super import super_login
 from newapi.super import bot_api
 from newapi.super import super_page
 from newapi.super import catdepth_new
-from mdpy.bots import user_account_new
-
+from api_bots import user_account_new
 # ---
 # User_tables = {"username": user_account_new.my_username, "password": user_account_new.my_password}
 # ---

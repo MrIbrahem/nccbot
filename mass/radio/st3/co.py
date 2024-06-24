@@ -9,7 +9,6 @@ import os
 user_script_paths = [
     '/data/project/ncc',
     '/data/project/ncc/nccbot',
-    '/data/project/ncc/nccbot/md_core',
     '/data/project/ncc/nccbot/ncc_core',
 ]
 for _u_path in user_script_paths:

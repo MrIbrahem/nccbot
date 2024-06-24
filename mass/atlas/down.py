@@ -26,7 +26,7 @@ like:(
 * also image_url = urljoin("https://www.atlasdermatologico.com.br/", link['href'])
 
 
-python3 md_core/atlas/bot.py
+python3 mass/atlas/bot.py
 
 """
 #

@@ -20,6 +20,7 @@ from mass.radio.bots.add_cat import add_cat_to_images  # add_cat_to_images(sets,
 from mass.radio.bots.studies_utf import dump_studies_urls_to_files
 from mass.radio.jsons_files import jsons  # , dumps_jsons, ids_to_urls, urls_to_ids
 from fix_mass.fix_sets.name_bots.files_names_bot import get_files_names
+# from ncc_jsons.dir_studies_bot import studies_dir
 
 # ---
 try:
@@ -31,13 +32,6 @@ except ImportError:
 # dumps_jsons(infos=0, urls=0, cases_in_ids=0, cases_dup=0, authors=0, to_work=0, all_ids=0, urls_to_get_info=0)
 # ---
 main_dir = Path(__file__).parent.parent
-# ---
-studies_dir = Path("/data/project/ncc/nccbot/jsons/studies")
-# --
-if not os.path.exists(studies_dir):
-    printe.output(f"<<red>> studies_dir {studies_dir} not found")
-    studies_dir = Path("I:/ncc/nccbot/jsons/studies")
-    printe.output(f"<<red>> studies_dir set to {studies_dir}")
 # ---
 with open(os.path.join(str(main_dir), "authors_list/authors_infos.json"), encoding="utf-8") as f:
     authors_infos = json.load(f)

@@ -1,18 +1,11 @@
+"""
+
+from mass.radio.bots.studies_utf import dump_studies_urls_to_files
+
+"""
 import json
-import os
-import sys
-from pathlib import Path
 
-from newapi import printe
-
-main_dir = Path(__file__).parent.parent
-
-studies_urls_to_files_dir = Path("/data/project/ncc/nccbot/jsons/studies_urls_to_files")
-# ---
-if not os.path.exists(studies_urls_to_files_dir):
-    studies_urls_to_files_dir = Path("I:/ncc/nccbot/jsons/studies_urls_to_files")
-    print(f"<<red>> studies_urls_to_files_dir set to {studies_urls_to_files_dir}")
-
+from ncc_jsons.dir_studies_bot import studies_urls_to_files_dir
 
 def dump_studies_urls_to_files(tab):
     # tab[study][f"File:{file_name}"] = {"url": image_url, "id": image_id}

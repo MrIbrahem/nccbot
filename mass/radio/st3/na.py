@@ -10,11 +10,9 @@ user_script_paths = [
     'I:/core/new',
     'I:/ncc',
     'I:/ncc/nccbot',
-    'I:/ncc/nccbot/md_core',
     'I:/ncc/nccbot/ncc_core',
     '/data/project/ncc',
     '/data/project/ncc/nccbot',
-    '/data/project/ncc/nccbot/md_core',
     '/data/project/ncc/nccbot/ncc_core',
 ]
 for _u_path in user_script_paths:

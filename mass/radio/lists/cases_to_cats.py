@@ -7,15 +7,13 @@ from mass.radio.lists.cases_to_cats import cases_cats# cases_cats()
 import json
 import re
 import os
-from pathlib import Path
 from datetime import datetime
 from newapi.ncc_page import CatDepth
 from newapi import printe
+from mass.radio.jsons_bot import radio_jsons_dir
 
-# ---
-main_dir = Path(__file__).parent.parent
-# ---
-cases_cats_file = main_dir / 'jsons/cases_cats.json'
+
+cases_cats_file = radio_jsons_dir / 'cases_cats.json'
 # ---
 cases_cats_list = []
 # ---

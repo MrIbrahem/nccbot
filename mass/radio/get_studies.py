@@ -6,23 +6,13 @@ from mass.radio.get_studies import get_stacks_fixed#(study_id, case_id, get_cach
 
 """
 import json
-import os
 import re
-from pathlib import Path
-
 import requests
 from bs4 import BeautifulSoup
+
 from mass.radio.jsons_files import jsons, urls_to_ids
 from newapi import printe
-
-main_dir = Path(__file__).parent
-# ---
-studies_dir = Path("/data/project/ncc/nccbot/jsons/studies")
-# ---
-if not os.path.exists(studies_dir):
-    printe.output(f"<<red>> studies_dir {studies_dir} not found")
-    studies_dir = Path("I:/ncc/nccbot/jsons/studies")
-    printe.output(f"<<red>> studies_dir set to {studies_dir}")
+from ncc_jsons.dir_studies_bot import studies_dir
 
 
 def dump_it(study_id, data):

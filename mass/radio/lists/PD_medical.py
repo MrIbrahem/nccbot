@@ -8,14 +8,12 @@ PD_medical_pages = PD_medical_pages_def()
 import json
 import os
 from datetime import datetime
-from pathlib import Path
 from newapi.ncc_page import CatDepth
 from newapi import printe
+from mass.radio.jsons_bot import radio_jsons_dir
 
-# ---
-main_dir = Path(__file__).parent.parent
-# ---
-pd_file = main_dir / 'jsons/PD_medical_pages.json'
+
+pd_file = radio_jsons_dir / 'PD_medical_pages.json'
 # ---
 PD_medical_pages = []
 # ---

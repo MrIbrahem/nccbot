@@ -1,6 +1,6 @@
 import wikitextparser as wtp
 from newapi import printe
-from nc_import.api_bots.wiki_page import MainPage
+from api_bots.wiki_page import MainPage
 from nc_import.bots.import_files import import_file
 
 """

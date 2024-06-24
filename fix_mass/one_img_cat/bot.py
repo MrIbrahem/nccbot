@@ -21,7 +21,7 @@ from newapi.ncc_page import CatDepth
 from fix_mass.fix_sets.bots2.filter_ids import filter_no_title
 from fix_mass.fix_sets.bots.stacks import get_stacks
 from fix_mass.fix_sets.jsons_dirs import st_ref_infos
-from fix_mass.jsons.files import studies_titles
+from fix_mass.files import studies_titles
 
 Dir = Path(__file__).parent
 

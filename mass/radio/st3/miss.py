@@ -7,15 +7,14 @@ tfj run miss --image python3.9 --command "$HOME/local/bin/python3 c8/pwb.py mass
 """
 import sys
 import json
-import os
-from pathlib import Path
-from mass.radio.st3.start3 import main
 
-# ---
-main_dir = Path(__file__).parent.parent
-with open(os.path.join(str(main_dir), "jsons/all_ids.json"), encoding="utf-8") as f:
+from mass.radio.st3.start3 import main
+from mass.radio.jsons_bot import radio_jsons_dir
+
+
+with open(radio_jsons_dir / "all_ids.json", encoding="utf-8") as f:
     all_ids = json.load(f)
-# ---
+
 lista = """
     182746
     176190

@@ -7,7 +7,6 @@ python3 c8/pwb.py fix_mass/count_files/Case_co
 """
 import sys
 import os
-from pathlib import Path
 import json
 import traceback
 
@@ -15,6 +14,7 @@ import traceback
 from newapi import printe
 from mass.radio.get_studies import get_images_stacks, get_images
 from mass.radio.bots.studies_utf import dump_studies_urls_to_files
+from ncc_jsons.dir_studies_bot import studies_dir
 
 # ---
 try:
@@ -23,15 +23,6 @@ try:
     pywikibotoutput = pywikibot.output
 except ImportError:
     pywikibotoutput = print
-# ---
-main_dir = Path(__file__).parent.parent
-# ---
-studies_dir = Path("/data/project/ncc/nccbot/jsons/studies")
-# ---
-if not os.path.exists(studies_dir):
-    printe.output(f"<<red>> studies_dir {studies_dir} not found")
-    studies_dir = Path("I:/ncc/nccbot/jsons/studies")
-    printe.output(f"<<red>> studies_dir set to {studies_dir}")
 
 
 def printt(s):

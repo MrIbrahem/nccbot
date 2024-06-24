@@ -3,7 +3,6 @@
 python3 core8/pwb.py mass/radio/url_to_sys
 
 """
-import sys
 import os
 import json
 from pathlib import Path

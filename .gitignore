@@ -34,9 +34,9 @@ ncc_core/nc_import/long_bots.py
 mass/usaid/.env
 *.sqlite
 /infos
-.github/fix_mass/jsons/find_from_url.jsonl1
-.github/fix_mass/jsons/find_from_url.jsonl
-/.github/fix_mass/fix_sets/has_url
+fix_mass/fix_sets/has_url
 mass/usask/usask.html
 ncc_core/nc_import/public_html‏‏-ncc-Tables.lnk
 ncc_core/nc_import/README.md
+ncc_jsons/fix_mass_jsons/find_from_url.jsonl
+ncc_jsons/fix_mass_jsons/find_from_url.jsonl1

@@ -1,5 +1,5 @@
 """
-python3 core8/pwb.py md_core/nccommons/ext
+python3 core8/pwb.py nccommons/ext
 """
 from pathlib import Path
 import mimetypes

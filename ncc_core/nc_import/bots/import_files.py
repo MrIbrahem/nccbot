@@ -5,7 +5,7 @@ bot for importing files from nccommons to wikipedia
 """
 import re
 from newapi import printe
-from nc_import.api_bots.ncc_page import ncc_MainPage, ncc_NEW_API
+from api_bots.ncc_page import ncc_MainPage, ncc_NEW_API
 from nc_import.bots import upload_file
 from nc_import.bots.db import add_to_db, add_to_jsonl
 

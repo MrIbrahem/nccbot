@@ -7,33 +7,24 @@ tfj run coca --image python3.9 --command "$HOME/local/bin/python3 c8/pwb.py mass
 """
 import json
 import os
+import tqdm
 import sys
 from datetime import datetime
-from pathlib import Path
 
-import tqdm
 from mass.radio.get_studies import get_images, get_images_stacks
-from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
 
-main_dir = Path(__file__).parent.parent
+from ncc_jsons.dir_studies_bot import studies_dir
+from mass.radio.jsons_bot import radio_jsons_dir
 
-with open(main_dir / "jsons/all_ids.json", encoding="utf-8") as f:
+
+with open(radio_jsons_dir / "all_ids.json", encoding="utf-8") as f:
     all_ids = json.load(f)
 
-with open(main_dir / "jsons/cases_in_ids.json", encoding="utf-8") as f:
+with open(radio_jsons_dir / "cases_in_ids.json", encoding="utf-8") as f:
     cases_in_ids = json.load(f)
 # ---
-studies_dir = Path("/data/project/ncc/nccbot/jsons/studies")
-# ---
-if not os.path.exists(studies_dir):
-    studies_dir = Path("I:/ncc/nccbot/jsons/studies")
-    print(f'<<red>> studies_dir set to {studies_dir}')
-# ---
-ids_tab = {
-    x: v
-    for x, v in all_ids.items() if x not in cases_in_ids
-}
+ids_tab = {x: v for x, v in all_ids.items() if x not in cases_in_ids}
 
 cases_done = len(all_ids) - len(ids_tab)
 
@@ -45,7 +36,7 @@ class All:
 
 
 All.cases = len(ids_tab)
-cases_count_file = main_dir / "jsons/cases_count.json"
+cases_count_file = radio_jsons_dir / "cases_count.json"
 
 
 def cases_counts():
@@ -85,11 +76,11 @@ def get_studies(studies_ids, caseId):
 def sa():
     day = datetime.now().strftime("%Y-%b-%d %H:%M:%S")
     # text = f"{day}\n"
-    text = f"* --~~~~\n"
+    text = "* --~~~~\n"
 
     text += f"* All Cases: {len(all_ids):,}\n"
     text += f"* Cases done: {cases_done:,}\n\n"
-    text += f";Remaining:\n"
+    text += ";Remaining:\n"
     text += f"* Cases: {All.cases:,}\n"
     text += f"* Images: {All.images:,}\n"
     text += f"* Studies: {All.studies:,}\n"
