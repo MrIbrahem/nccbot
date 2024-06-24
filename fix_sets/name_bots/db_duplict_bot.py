@@ -1,6 +1,6 @@
 """
 
-from fix_mass.fix_sets.name_bots.db_duplict_bot import find_url_file_upload
+from fix_sets.name_bots.db_duplict_bot import find_url_file_upload
 
 """
 import re
@@ -10,7 +10,7 @@ import jsonlines
 from newapi.ncc_page import NEW_API
 from newapi import printe
 
-from fix_mass.fix_sets.jsons_dirs import jsons_dir
+from fix_sets.jsons_dirs import jsons_dir
 from fix_mass.dp_infos.db_duplict import get_all_key_url_urlid, insert_url_file  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
 
 api_new = NEW_API("www", family="nccommons")

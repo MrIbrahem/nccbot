@@ -8,7 +8,7 @@ import sys
 import tqdm
 import json
 from pathlib import Path
-from fix_mass.fix_sets.jsons_dirs import st_ref_infos
+from fix_sets.jsons_dirs import st_ref_infos
 from fix_mass.dp_infos.db_duplict import insert_all_infos  # , insert_url_file  # insert_url_file(url, file)
 
 Dir = Path(st_ref_infos)

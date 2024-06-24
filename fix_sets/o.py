@@ -1,14 +1,14 @@
 """
 
-python3 core8/pwb.py fix_mass/fix_sets/o reverse noapi
-python3 core8/pwb.py fix_mass/fix_sets/o
+python3 core8/pwb.py fix_sets/o reverse noapi
+python3 core8/pwb.py fix_sets/o
 
-tfj run seta1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/fix_sets/o noapi multi"
-tfj run seta2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/fix_sets/o noapi multi reverse"
+tfj run seta1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/o noapi multi"
+tfj run seta2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/o noapi multi reverse"
 
 """
 import sys
-from fix_mass.fix_sets.new import work_one_study
+from fix_sets.new import work_one_study
 
 main_ids_text = """
     101212

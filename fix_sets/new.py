@@ -2,31 +2,31 @@
 
 tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/o updatetex 90505 nodone noid noc del2 multi"
 
-python3 core8/pwb.py fix_mass/fix_sets/new ask 109711 # 2files
-python3 core8/pwb.py fix_mass/fix_sets/new ask 143304
-python3 core8/pwb.py fix_mass/fix_sets/new ask 80304 printtext
-python3 core8/pwb.py fix_mass/fix_sets/new ask 14038 printtext
-python3 core8/pwb.py fix_mass/fix_sets/new ask 62191 printtext
-python3 core8/pwb.py fix_mass/fix_sets/new ask 144866 nodudb
-python3 core8/pwb.py fix_mass/fix_sets/new ask
-python3 core8/pwb.py fix_mass/fix_sets/new ask 71160
-python3 core8/pwb.py fix_mass/fix_sets/new ask 80302
-python3 core8/pwb.py fix_mass/fix_sets/new ask 14090
-python3 core8/pwb.py fix_mass/fix_sets/new ask all
+python3 core8/pwb.py fix_sets/new ask 109711 # 2files
+python3 core8/pwb.py fix_sets/new ask 143304
+python3 core8/pwb.py fix_sets/new ask 80304 printtext
+python3 core8/pwb.py fix_sets/new ask 14038 printtext
+python3 core8/pwb.py fix_sets/new ask 62191 printtext
+python3 core8/pwb.py fix_sets/new ask 144866 nodudb
+python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask 71160
+python3 core8/pwb.py fix_sets/new ask 80302
+python3 core8/pwb.py fix_sets/new ask 14090
+python3 core8/pwb.py fix_sets/new ask all
 """
 # import re
 import sys
 from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
 
-from fix_mass.fix_sets.bots.stacks import get_stacks  # get_stacks(study_id)
-from fix_mass.fix_sets.bots.has_url import has_url_append
+from fix_sets.bots.stacks import get_stacks  # get_stacks(study_id)
+from fix_sets.bots.has_url import has_url_append
 
-from fix_mass.fix_sets.bots2.text_cat_bot import add_cat_to_set, fix_cats
-from fix_mass.fix_sets.bots2.filter_ids import filter_no_title
-from fix_mass.fix_sets.bots2.done2 import filter_done
-from fix_mass.fix_sets.bots2.set_text2 import make_text_study
-from fix_mass.fix_sets.bots2.move_files2 import to_move_work
+from fix_sets.bots2.text_cat_bot import add_cat_to_set, fix_cats
+from fix_sets.bots2.filter_ids import filter_no_title
+from fix_sets.bots2.done2 import filter_done
+from fix_sets.bots2.set_text2 import make_text_study
+from fix_sets.bots2.move_files2 import to_move_work
 
 from fix_mass.files import studies_titles, studies_titles2
 

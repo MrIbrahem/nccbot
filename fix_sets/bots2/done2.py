@@ -1,8 +1,8 @@
 """
 
-from fix_mass.fix_sets.bots2.done2 import filter_done, find_done_study #find_done_study(title)
+from fix_sets.bots2.done2 import filter_done, find_done_study #find_done_study(title)
 
-python3 core8/pwb.py fix_mass/fix_sets/bots2/done2 printurl
+python3 core8/pwb.py fix_sets/bots2/done2 printurl
 
 """
 

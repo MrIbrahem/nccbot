@@ -1,6 +1,6 @@
 """
 s
-from fix_mass.fix_sets.bots.move_files2 import to_move_work
+from fix_sets.bots.move_files2 import to_move_work
 
 """
 import re
@@ -8,7 +8,7 @@ import re
 import sys
 from newapi import printe
 from newapi.ncc_page import NEW_API
-from fix_mass.fix_sets.jsons_dirs import get_study_dir#, jsons_dir
+from fix_sets.jsons_dirs import get_study_dir#, jsons_dir
 from logs_fix.files import move_text_dir
 
 api_new = NEW_API("www", family="nccommons")

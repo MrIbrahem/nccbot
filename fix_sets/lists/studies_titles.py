@@ -1,8 +1,8 @@
 """
 
-python3 core8/pwb.py fix_mass/fix_sets/lists/studies_titles
-python3 core8/pwb.py fix_mass/fix_sets/lists/studies_titles nodump
-python3 core8/pwb.py fix_mass/fix_sets/lists/studies_titles nodump fix_2
+python3 core8/pwb.py fix_sets/lists/studies_titles
+python3 core8/pwb.py fix_sets/lists/studies_titles nodump
+python3 core8/pwb.py fix_sets/lists/studies_titles nodump fix_2
 
 Usage:
 from fix_mass.files import studies_titles, study_to_case_cats
@@ -15,7 +15,7 @@ import json
 from newapi import printe
 from newapi.ncc_page import CatDepth
 
-from fix_mass.fix_sets.jsons_dirs import jsons_dir
+from fix_sets.jsons_dirs import jsons_dir
 
 mem_cach = {}
 

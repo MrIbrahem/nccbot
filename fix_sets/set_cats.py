@@ -1,10 +1,10 @@
 """
 
 tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/o updatetex 90505 nodone noid noc del2 multi"
-tfj run catpages --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/fix_sets/set_cats catpages"
+tfj run catpages --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/set_cats catpages"
 
-python3 core8/pwb.py fix_mass/fix_sets/set_cats catpages ask
-python3 core8/pwb.py fix_mass/fix_sets/set_cats studies_titles2 ask
+python3 core8/pwb.py fix_sets/set_cats catpages ask
+python3 core8/pwb.py fix_sets/set_cats studies_titles2 ask
 
 إضافة تصنيف الحالة إلى صفحات الدراسات
 
@@ -16,8 +16,8 @@ from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
 from newapi.ncc_page import CatDepth
 
-from fix_mass.fix_sets.bots2.text_cat_bot import add_cat_to_set
-from fix_mass.fix_sets.bots2.filter_ids import filter_no_title
+from fix_sets.bots2.text_cat_bot import add_cat_to_set
+from fix_sets.bots2.filter_ids import filter_no_title
 from fix_mass.files import studies_titles, studies_titles2
 
 

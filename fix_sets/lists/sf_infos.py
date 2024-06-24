@@ -1,13 +1,13 @@
 """
-python3 core8/pwb.py fix_mass/fix_sets/lists/sf_infos
+python3 core8/pwb.py fix_sets/lists/sf_infos
 
-from fix_mass.fix_sets.lists.sf_infos import from_sf_infs # from_sf_infs(url, study_id)
+from fix_sets.lists.sf_infos import from_sf_infs # from_sf_infs(url, study_id)
 
 """
 import json
 from newapi import printe
 
-from fix_mass.fix_sets.jsons_dirs import jsons_dir
+from fix_sets.jsons_dirs import jsons_dir
 
 # ---
 starts_with = "https://prod-images-static.radiopaedia.org/images"

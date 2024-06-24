@@ -1,6 +1,6 @@
 """
 
-from fix_mass.fix_sets.lists.studies_fixed import studies_fixed_done
+from fix_sets.lists.studies_fixed import studies_fixed_done
 
 """
 import re
