@@ -1,9 +1,9 @@
 """
 
-python3 core8/pwb.py fix_mass/fix_sets/name_bots/get_rev 20060
-python3 core8/pwb.py fix_mass/fix_sets/name_bots/get_rev 132518
+python3 core8/pwb.py fix_sets/name_bots/get_rev 20060
+python3 core8/pwb.py fix_sets/name_bots/get_rev 132518
 
-from fix_mass.fix_sets.name_bots.get_rev import get_images_ids, get_file_urls_rev # get_file_urls_rev(study_id)
+from fix_sets.name_bots.get_rev import get_images_ids, get_file_urls_rev # get_file_urls_rev(study_id)
 
 """
 import tqdm
@@ -16,8 +16,8 @@ import json
 from newapi import printe
 from newapi.ncc_page import NEW_API
 from fix_mass.files import study_to_case_cats
-from fix_mass.fix_sets.bots.study_files import get_study_files
-from fix_mass.fix_sets.jsons_dirs import get_study_dir
+from fix_sets.bots.study_files import get_study_files
+from fix_sets.jsons_dirs import get_study_dir
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 
 api_new = NEW_API("www", family="nccommons")

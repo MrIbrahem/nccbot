@@ -1,6 +1,6 @@
 """
 
-from fix_mass.fix_sets.name_bots.files_names_bot import get_files_names
+from fix_sets.name_bots.files_names_bot import get_files_names
 
 """
 import re
@@ -9,11 +9,11 @@ import tqdm
 import sys
 from newapi import printe
 
-from fix_mass.fix_sets.name_bots.db_duplict_bot import find_url_file_upload
-from fix_mass.fix_sets.name_bots.get_rev import get_file_urls_rev  # get_file_urls_rev(study_id)
+from fix_sets.name_bots.db_duplict_bot import find_url_file_upload
+from fix_sets.name_bots.get_rev import get_file_urls_rev  # get_file_urls_rev(study_id)
 
-# from fix_mass.fix_sets.lists.sf_infos import from_sf_infs  # from_sf_infs(url, study_id)
-from fix_mass.fix_sets.jsons_dirs import get_study_dir
+# from fix_sets.lists.sf_infos import from_sf_infs  # from_sf_infs(url, study_id)
+from fix_sets.jsons_dirs import get_study_dir
 
 from fix_mass.dp_infos.db_duplict import insert_all_infos
 from fix_mass.file_infos.db import get_all_key_url_urlid  # , find_from_data_db  # find_from_data_db(url, urlid)

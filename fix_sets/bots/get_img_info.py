@@ -1,8 +1,8 @@
 """
 
-python3 core8/pwb.py fix_mass/fix_sets/bots/get_img_info
+python3 core8/pwb.py fix_sets/bots/get_img_info
 
-from fix_mass.fix_sets.bots.get_img_info import one_img_info
+from fix_sets.bots.get_img_info import one_img_info
 
 """
 import sys
@@ -12,7 +12,7 @@ import json
 # import os
 from newapi import printe
 from newapi.ncc_page import NEW_API
-from fix_mass.fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
+from fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 
 api_new = NEW_API("www", family="nccommons")

@@ -1,6 +1,6 @@
 """
 
-from fix_mass.fix_sets.bots.has_url import has_url_append
+from fix_sets.bots.has_url import has_url_append
 
 """
 

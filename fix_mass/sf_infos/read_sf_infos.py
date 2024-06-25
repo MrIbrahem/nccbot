@@ -13,7 +13,7 @@ import json
 import tqdm
 from pathlib import Path
 from newapi import printe
-from fix_mass.fix_sets.jsons_dirs import jsons_dir
+from fix_sets.jsons_dirs import jsons_dir
 
 Dir = Path(__file__).parent
 # ---

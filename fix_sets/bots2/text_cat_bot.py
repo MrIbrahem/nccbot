@@ -1,5 +1,5 @@
 """
-from fix_mass.fix_sets.bots2.text_cat_bot import add_cat_to_set, fix_cats
+from fix_sets.bots2.text_cat_bot import add_cat_to_set, fix_cats
 """
 
 import re

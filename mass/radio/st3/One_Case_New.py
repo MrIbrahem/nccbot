@@ -19,7 +19,7 @@ from mass.radio.bots.update import update_text_add_pd_medical, update_text
 from mass.radio.bots.add_cat import add_cat_to_images  # add_cat_to_images(sets, cat_title)
 from mass.radio.bots.studies_utf import dump_studies_urls_to_files
 from mass.radio.jsons_files import jsons  # , dumps_jsons, ids_to_urls, urls_to_ids
-from fix_mass.fix_sets.name_bots.files_names_bot import get_files_names
+from fix_sets.name_bots.files_names_bot import get_files_names
 # from ncc_jsons.dir_studies_bot import studies_dir
 
 # ---

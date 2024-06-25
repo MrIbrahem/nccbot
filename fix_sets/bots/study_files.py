@@ -1,6 +1,6 @@
 """
 
-from fix_mass.fix_sets.bots.study_files import get_study_files
+from fix_sets.bots.study_files import get_study_files
 
 """
 import re
@@ -10,7 +10,7 @@ import json
 # from pathlib import Path
 from newapi import printe
 from newapi.ncc_page import CatDepth
-from fix_mass.fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
+from fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
 
 # st_dit = jsons_dir / "studies_files"
 

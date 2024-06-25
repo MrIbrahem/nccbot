@@ -1,6 +1,6 @@
 """
 
-from fix_mass.fix_sets.bots2.filter_ids import filter_no_title
+from fix_sets.bots2.filter_ids import filter_no_title
 
 """
 import sys

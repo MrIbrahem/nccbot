@@ -1,5 +1,5 @@
 """
-python3 core8/pwb.py fix_mass/fix_sets/delete
+python3 core8/pwb.py fix_sets/delete
 """
 from newapi.ncc_page import NEW_API
 

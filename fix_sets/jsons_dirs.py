@@ -1,14 +1,12 @@
 """
 
-from fix_mass.fix_sets.jsons_dirs import get_study_dir, jsons_dir
+from fix_sets.jsons_dirs import get_study_dir, jsons_dir
 
 """
 from pathlib import Path
 from newapi import printe
 
-Dir = Path(__file__).parent.parent
-
-jsons_dir = Dir / "jsons"
+jsons_dir = Path(__file__).parent.parent / "ncc_jsons/fix_mass_jsons"
 
 if not jsons_dir.exists():
     jsons_dir.mkdir()
