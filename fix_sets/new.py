@@ -8,7 +8,7 @@ python3 core8/pwb.py fix_sets/new ask 80304 printtext
 python3 core8/pwb.py fix_sets/new ask 14038 printtext
 python3 core8/pwb.py fix_sets/new ask 62191 printtext
 python3 core8/pwb.py fix_sets/new ask 144866 nodudb
-python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask 24240
 python3 core8/pwb.py fix_sets/new ask 71160
 python3 core8/pwb.py fix_sets/new ask 80302
 python3 core8/pwb.py fix_sets/new ask 14090
@@ -20,7 +20,7 @@ from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
 
 from fix_sets.bots.stacks import get_stacks  # get_stacks(study_id)
-from fix_sets.bots.has_url import has_url_append
+from fix_sets.bots.has_url import has_url_append, find_has_url  # , already_has_url
 
 from fix_sets.bots2.text_cat_bot import add_cat_to_set, fix_cats
 from fix_sets.bots2.filter_ids import filter_no_title
@@ -82,11 +82,13 @@ def work_text(study_id, study_title):
     # ---
     all_files = list(set(all_files))
     # ---
-    printe.output(f"all_files: {len(all_files)}")
+    printe.output(f"all_files: {len(all_files)}, len json_data: {len(json_data)}")
     # ---
-    if len(all_files) < 3 and len(all_files) != 1:
-        printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, all_files < 3")
-        return "", {}
+    # if len(all_files) != len(json_data):
+    #     # ---
+    #     if len(all_files) < 3 and len(all_files) != 1 and "nosskip" not in sys.argv:
+    #         printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, all_files < 3")
+    #         return "", {}
     # ---
     text, to_move = make_text_study(json_data, study_title, study_id)
     # ---
@@ -103,6 +105,10 @@ def work_one_study(study_id, study_title=""):
         return
     # ---
     printe.output(f"_____________\n {study_id=}, {study_title=}")
+    # ---
+    if find_has_url(study_id):
+        printe.output(f"has url... study_id: {study_id}")
+        return
     # ---
     text, to_move = work_text(study_id, study_title)
     # ---

@@ -10,19 +10,19 @@ import sys
 from newapi import printe
 import json
 from pathlib import Path
-from newapi.ncc_page import CatDepth
 
-already_done22 = {1: {}}
+# from newapi.ncc_page import CatDepth
+# from fix_mass.helps_bot.file_bot import from_cach, dumpit
+from fix_sets.lists.studies_fixed import studies_fixed_done
 
 
 def find_done_study(title):
-    if not already_done22[1]:
-        already_done22[1] = CatDepth("Category:Sort studies fixed", sitecode="www", family="nccommons", depth=0, props="categories")
     # ---
-    if title in already_done22[1]:
+    if title in studies_fixed_done:
         return True
     # ---
     return False
+
 
 def filter_done(ids_titles):
     # ---
@@ -52,4 +52,4 @@ if __name__ == "__main__":
     title = "Acute pancreatic necrosis (Radiopaedia 13560-18500 Axial C+ portal venous phase)"
     print(find_done_study(title))
     with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(already_done22[1], f, indent=2)
+        json.dump(studies_fixed_done, f, indent=2)
