@@ -27,7 +27,7 @@ def get_files_names_2(study_id, json_data):
     # ---
     maain_uurls = list(set(maain_uurls))
     # ---
-    files_names = get_files_names(maain_uurls, url_to_file, study_id)
+    files_names = get_files_names(maain_uurls, url_to_file, study_id, files)
     # ---
     return files_names
 

@@ -1,5 +1,5 @@
 """
-python3 core8/pwb.py fix_sets/new_all del2 noapi get:5 ask nodudb norevip
+python3 core8/pwb.py fix_sets/new_all del2 noapi ask norevip
 
 tfj run fiaa6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all del2 noapi nodudb get:6"
 tfj run fiaa4 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all del2 norevip noapi nodudb get:4"

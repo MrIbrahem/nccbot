@@ -9,8 +9,6 @@ from pathlib import Path
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 from newapi.ncc_page import CatDepth
 
-studies_fixed_done = CatDepth("Category:Sort studies fixed", sitecode="www", family="nccommons", depth=0, only_titles=True)
-
 no_match = []
 
 def get_data():
@@ -19,6 +17,9 @@ def get_data():
     uu = from_cach(file)
     # ---
     if not uu:
+        # ---
+        uu = []
+        # ---
         jj = CatDepth("Category:Sort studies fixed", sitecode="www", family="nccommons", depth=0, props="categories")
         # ---
         for x in jj:

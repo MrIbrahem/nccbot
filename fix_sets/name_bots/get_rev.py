@@ -157,7 +157,7 @@ def get_rev_infos(files):
     return info
 
 
-def get_file_urls_rev(study_id, only_cach=False):
+def get_file_urls_rev(study_id, files, only_cach=False):
     na = {}
     # ---
     cach = get_cach_one_study(study_id)
@@ -170,7 +170,7 @@ def get_file_urls_rev(study_id, only_cach=False):
         printe.output(f"Cat not found for: {study_id}")
         return na
     # ---
-    files = get_study_files(study_id)
+    # files = get_study_files(study_id)
     # ---
     if not files:
         printe.output(f"Files not found for: {study_id}")

@@ -3,7 +3,7 @@
 from fix_sets.bots2.filter_ids import filter_no_title
 
 """
-import sys
+# import sys
 from newapi import printe
 
 from fix_mass.files import studies_titles, studies_titles2
