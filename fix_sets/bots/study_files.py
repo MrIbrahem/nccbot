@@ -11,6 +11,7 @@ import json
 from newapi import printe
 from newapi.ncc_page import CatDepth
 from fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
+from fix_mass.helps_bot.file_bot import from_cach, dumpit
 
 # st_dit = jsons_dir / "studies_files"
 
@@ -25,13 +26,7 @@ def dump_it(data):
         # ---
         file = study_id_dir / "study_files.json"
         # ---
-        try:
-            with open(file, "w", encoding="utf-8") as f:
-                json.dump(files, f, ensure_ascii=False, indent=2)
-                printe.output(f"<<green>> write {len(files)} to studies_files/{s_id}.json")
-
-        except Exception as e:
-            printe.output(f"<<red>> Error writing to file {file}: {str(e)}")
+        dumpit(files, file)
 
 def get_from_cach(study_id):
     # ---
@@ -41,12 +36,7 @@ def get_from_cach(study_id):
     # ---
     file = study_id_dir / "study_files.json"
     # ---
-    if file.exists():
-        printe.output(f"<<green>> get_study_files: {study_id}.json exists")
-        with open(file, encoding="utf-8") as f:
-            return json.load(f)
-    # ---
-    return {}
+    return from_cach(file)
 
 
 def filter_members(cat_members):

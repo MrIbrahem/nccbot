@@ -120,12 +120,12 @@ def get_file_name_rev(url, url_data_to_file, rev_id_to_file):
     return file_name
 
 
-def make_names_2(urls, study_id):
+def make_names_2(urls, study_id, files):
     printe.output(f"no_names: {len(urls)}")
     # ---
     only_cach = "revcach" in sys.argv
     # ---
-    url_data2 = get_file_urls_rev(study_id, only_cach=only_cach)
+    url_data2 = get_file_urls_rev(study_id, files, only_cach=only_cach)
     # ---
     url_data_to_file = {d["url"]: file for file, d in url_data2.items() if d.get("url")}
     # ---
@@ -145,7 +145,7 @@ def make_names_2(urls, study_id):
     return names2
 
 
-def get_files_names(urls, url_to_file, study_id):
+def get_files_names(urls, url_to_file, study_id, files):
     # ---
     if study_id not in data_uu:
         data_uu[study_id] = {}
@@ -154,7 +154,7 @@ def get_files_names(urls, url_to_file, study_id):
     # ---
     files_names = {}
     # ---
-    for url in tqdm.tqdm(urls):
+    for url in urls:
         # ---
         # printe.output(f"<<yellow>> get_files_names: {n}/{len(urls)}: {url}")
         # ---
@@ -176,7 +176,7 @@ def get_files_names(urls, url_to_file, study_id):
     no_names = [x for x in urls if not files_names.get(x)]
     # ---
     if no_names:
-        names_2 = make_names_2(no_names, study_id)
+        names_2 = make_names_2(no_names, study_id, files)
         if names_2:
             files_names.update(names_2)
     # ---

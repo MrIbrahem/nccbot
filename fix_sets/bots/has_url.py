@@ -1,6 +1,6 @@
 """
 
-from fix_sets.bots.has_url import has_url_append
+from fix_sets.bots.has_url import has_url_append, already_has_url
 
 """
 
@@ -21,3 +21,4 @@ def has_url_append(study_id):
     file = has_url_dir / f"{study_id}.h"
     if not file.exists():
         file.touch()
+        print(f"has_url_append: {study_id}")

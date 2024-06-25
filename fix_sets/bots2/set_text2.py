@@ -27,9 +27,45 @@ def get_files_names_2(study_id, json_data):
     # ---
     maain_uurls = list(set(maain_uurls))
     # ---
-    files_names = get_files_names(maain_uurls, url_to_file, study_id)
+    files_names = get_files_names(maain_uurls, url_to_file, study_id, files)
     # ---
     return files_names
+
+
+def make_new_text(texts, to_move, study_title2):
+    text_new = ""
+    # ---
+    text_new += "{{Imagestack\n|width=850\n"
+    text_new += f"|title={study_title2}\n|align=centre\n|loop=no\n"
+    # ---
+    for ty, files in to_move.items():
+        # ---
+        print(f"ty: {ty}, files: {len(files)}")
+        # ---
+        text_new += texts[ty].strip()
+        text_new += "\n"
+    # ---
+    text_new += "}}\n"
+    # ---
+    return text_new
+
+
+def make_text_normal(texts, to_move, study_title2):
+    text = ""
+    # ---
+    for ty, files in to_move.items():
+        # ---
+        print(f"ty: {ty}, files: {len(files)}")
+        # ---
+        if ty.strip():
+            text += f"== {ty} ==\n"
+        # ---
+        text += "{{Imagestack\n|width=850\n"
+        text += f"|title={study_title2}\n|align=centre\n|loop=no\n"
+        text += texts[ty].strip()
+        text += "\n}}\n"
+    # ---
+    return text
 
 
 def make_text_study(json_data, study_title, study_id):
@@ -111,20 +147,18 @@ def make_text_study(json_data, study_title, study_id):
     # sum all files in to_move
     all_files = sum([len(x) for x in to_move.values()])
     # ---
-    if all_files == len(to_move) and all_files > 3:
-        printe.output("len to_move == all_files")
-        has_url_append(study_id)
-        return text, to_move
+    if all_files == 0:
+        printe.output(f"len to_move == 0 : {all_files}")
+        return "", {}
     # ---
-    for ty, files in to_move.items():
-        # ---
-        print(f"ty: {ty}, files: {len(files)}")
-        # ---
-        if ty.strip():
-            text += f"== {ty} ==\n"
-        text += "{{Imagestack\n|width=850\n"
-        text += f"|title={study_title2}\n|align=centre\n|loop=no\n"
-        text += texts[ty].strip()
-        text += "\n}}\n"
+    if all_files == len(to_move):
+        printe.output(f"len to_move == all_files : {all_files}")
+    # ---
+    text = ""
+    # ---
+    if all_files == len(to_move):
+        text = make_new_text(texts, to_move, study_title2)
+    else:
+        text = make_text_normal(texts, to_move, study_title2)
     # ---
     return text, to_move

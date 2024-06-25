@@ -45,10 +45,15 @@ class SqlLiteFilesDB:
         # ---
         data = fix_data(data)
         # ---
-        self.main_db.insert(
-            "infos",
-            data,
-        )
+        try:
+            self.main_db.insert(
+                "infos",
+                data,
+            )
+        except Exception as e:
+            print(f"Failed to insert: {e}")
+        # ---
+        return data
 
     def insert_url_file(self, url, file):
         return self.insert_infos({"url": url, "urlid": "", "file": file})
@@ -61,7 +66,10 @@ class SqlLiteFilesDB:
         # ---
         print(f"insert_all_infos: data_list_or: {len(data_list_or)}, with 'urlid': {len(data_list)} ")
         # ---
-        self.main_db.insert_all("infos", data_list, prnt=prnt)
+        try:
+            self.main_db.insert_all("infos", data_list, prnt=prnt)
+        except Exception as e:
+            print(f"Failed to insert_all: {e}")
         # ---
         del data_list, data_list_or
 
@@ -72,15 +80,18 @@ class SqlLiteFilesDB:
         # ---
         data = {k: v for k, v in data.items() if k in table_keys["infos"]}
         # ---
-        self.main_db.insert(
-            "infos",
-            data,
-        )
+        try:
+            self.main_db.insert(
+                "infos",
+                data,
+            )
+        except Exception as e:
+            print(f"Failed to insert: {e}")
 
     def find_data(self, url="", urlid="", file=""):
         to_s = {}
         # ---
-        to_s = {k: v for k, v in [('url', url), ('urlid', urlid), ('file', file)] if v}
+        to_s = {k: v for k, v in [("url", url), ("urlid", urlid), ("file", file)] if v}
         # ---
         # if url: to_s["url"] = url
         # if urlid: to_s["urlid"] = urlid
@@ -89,7 +100,12 @@ class SqlLiteFilesDB:
         if not to_s:
             return []
         # ---
-        data = self.main_db.select_or("infos", to_s)
+        try:
+            data = self.main_db.select_or("infos", to_s)
+        except Exception as e:
+            print(f"Failed to find data: {e}")
+            data = []
+        # ---
         return data
 
     def update_data(self, url="", urlid="", file=""):
@@ -122,12 +138,19 @@ class SqlLiteFilesDB:
                 # ---
                 print(sql)
                 # ---
-                self.main_db.update(sql)
+                try:
+                    self.main_db.update(sql)
+                except Exception as e:
+                    print(f"Failed to update: {e}")
+                    return []
         # ---
         del new_data, data_in
 
     def query(self, sql):
-        return self.main_db.query(sql)
+        try:
+            return self.main_db.query(sql)
+        except Exception as e:
+            print(f"Failed to query: {e}")
 
     def find_from_data_db(self, url, urlid):
         # ---
@@ -149,19 +172,31 @@ class SqlLiteFilesDB:
         return ""
 
     def check(self):
-        self.main_db.create_table(
-            "infos",
-            {"id": int, "url": str, "urlid": str, "file": str},
-            pk="id",
-            defaults={
-                "url": "",
-                "file": "",
-                "urlid": "",
-            },
-        )
+        try:
+            self.main_db.create_table(
+                "infos",
+                {"id": int, "url": str, "urlid": str, "file": str},
+                pk="id",
+                defaults={
+                    "url": "",
+                    "file": "",
+                    "urlid": "",
+                },
+            )
+        except Exception as e:
+            print(f"Failed to create table: {e}")
+            return []
 
     def get_data(self, table_name="infos"):
-        return self.main_db.get_data(table_name)
+        try:
+            return self.main_db.get_data(table_name)
+        except Exception as e:
+            print(f"Failed to get data: {e}")
+            return []
 
     def select(self, data, table_name="infos"):
-        return self.main_db.select(table_name, data)
+        try:
+            return self.main_db.select(table_name, data)
+        except Exception as e:
+            print(f"Failed to select: {e}")
+            return []

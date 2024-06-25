@@ -60,7 +60,8 @@ def find_from_data_db(url, urlid):
 def get_all_key_url_urlid():
     data = {}
     # ---
-    if "nodudb" in sys.argv:
+    # if "nodudb" in sys.argv: return data
+    if "dudb" not in sys.argv:
         return data
     # ---
     print("get_all_key_url_urlid")
