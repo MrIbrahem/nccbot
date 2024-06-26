@@ -1,8 +1,8 @@
 """
 
-from fix_mass.file_infos.pages import get_files
+from sets_dbs.file_infos.pages import get_files
 
-python3 core8/pwb.py fix_mass/file_infos/p2 debug
+python3 core8/pwb.py fix_db/file_infos/p2 debug
 
 """
 import sys

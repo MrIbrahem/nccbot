@@ -25,7 +25,12 @@ def stacks_from_cach(study_id):
     # ---
     file = study_id_dir / "stacks.json"
     # ---
-    return from_cach(file)
+    data = from_cach(file)
+    # ---
+    if not data:
+        printe.output(f"stacks_from_cach: file not found: {file}")
+    # ---
+    return data
 
 
 def get_stacks_o(study_id):

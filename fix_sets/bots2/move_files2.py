@@ -144,7 +144,7 @@ def to_move_work(text, to_move, study_id):
             printe.output(f"<<red>> {ty} {len(files)} x.startswith(http)")
             return text
         # ---
-        printe.output(f"<<blue>> {ty} {len(files)}")
+        # printe.output(f"<<blue>> {ty} {len(files)}")
         # ---
         neww = change_names(files, ty, study_id)
         # ---

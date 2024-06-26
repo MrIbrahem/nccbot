@@ -1,7 +1,7 @@
 """
 
-python3 core8/pwb.py fix_mass/dp_infos/add_duplict
-python3 core8/pwb.py fix_mass/dp_infos/add_duplict names
+python3 core8/pwb.py fix_db/dp_infos/add_duplict
+python3 core8/pwb.py fix_db/dp_infos/add_duplict names
 
 """
 import sys
@@ -9,7 +9,7 @@ import tqdm
 import json
 from pathlib import Path
 from fix_sets.jsons_dirs import st_ref_infos
-from fix_mass.dp_infos.db_duplict import insert_all_infos  # , insert_url_file  # insert_url_file(url, file)
+from sets_dbs.dp_infos.db_duplict import insert_all_infos  # , insert_url_file  # insert_url_file(url, file)
 
 Dir = Path(st_ref_infos)
 

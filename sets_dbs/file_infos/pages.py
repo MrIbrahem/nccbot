@@ -1,6 +1,6 @@
 """
 
-from fix_mass.file_infos.pages import get_files
+from sets_dbs.file_infos.pages import get_files
 
 
 """

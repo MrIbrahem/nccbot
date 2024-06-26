@@ -11,7 +11,7 @@ from newapi.ncc_page import NEW_API
 from newapi import printe
 
 from fix_sets.jsons_dirs import jsons_dir
-from fix_mass.dp_infos.db_duplict import get_all_key_url_urlid, insert_url_file  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
+from sets_dbs.dp_infos.db_duplict import get_all_key_url_urlid, insert_url_file  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
 
 api_new = NEW_API("www", family="nccommons")
 api_new.Login_to_wiki()
