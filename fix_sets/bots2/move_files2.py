@@ -94,6 +94,7 @@ def log(same_titles, diff_titles, study_id):
     try:
         with open(file2, "w", encoding="utf-8") as f:
             f.write(text)
+            printe.output(f"written to {file2}")
 
     except Exception as e:
         printe.output(f"<<red>> Error writing to file {file}: {str(e)}")

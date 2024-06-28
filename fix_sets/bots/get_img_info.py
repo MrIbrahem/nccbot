@@ -14,6 +14,8 @@ from newapi import printe
 from newapi.ncc_page import NEW_API
 from fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
+from fix_sets.bots2.match_helps import match_id  # match_id(content, title)
+
 
 api_new = NEW_API("www", family="nccommons")
 api_new.Login_to_wiki()
@@ -28,6 +30,7 @@ def dump_st(data, study_id):
     file = study_id_dir / "img_info.json"
     # ---
     dumpit(data, file)
+
 
 def get_cach_img_info(study_id):
     # ---
@@ -49,24 +52,6 @@ def gt_img_info(titles, id_to_url=None):
     # ---
     info = {}
     printe.output(f"one_img_info: {len(titles)=}")
-    # ---
-    _x = {
-        "pages": [
-            {
-                "pageid": 1382521,
-                "ns": 6,
-                "title": "File:Appendicitis (CT angiogram) (Radiopaedia 154713-134732 This comic explains the pathophysiology of appendicitis. 4).jpg",
-                "extlinks": [
-                    {"url": "https://radiopaedia.org/cases/appendicitis-ct-angiogram"},
-                    {"url": "https://creativecommons.org/licenses/by-nc-sa/3.0/"},
-                    {"url": "http://creativecommons.org/licenses/by-nc-sa/3.0/"},
-                    {"url": "https://radiopaedia.org/cases/154713/studies/134732"},
-                    {"url": "https://prod-images-static.radiopaedia.org/images/61855973/2bdea73556100c7fb71c76c05394c69df2b00153ab6b00647c53c51ee7c88f3d.jpg"},
-                    {"url": "https://radiopaedia.org/users/stefan-tigges?lang=us"},
-                ],
-            }
-        ]
-    }
     # ---
     params = {
         "action": "query",
@@ -124,11 +109,11 @@ def gt_img_info(titles, id_to_url=None):
                 continue
             # ---
             revisions = revisions[0]["content"]
-            # match * Image ID: 58331091 in revisions.split("\n")
-            ma = re.search(r"Image ID: (\d+)", revisions, re.IGNORECASE)
-            if ma:
-                info[title]["img_id"] = ma.group(1)
-                info[title]["img_url"] = id_to_url.get(str(ma.group(1)), "")
+            ma_id = match_id(revisions, title)
+            # ---
+            if ma_id:
+                info[title]["img_id"] = ma_id
+                info[title]["img_url"] = id_to_url.get(str(ma_id), "")
             else:
                 print(revisions)
     # ---

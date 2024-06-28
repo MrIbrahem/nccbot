@@ -3,7 +3,7 @@
 tfj run onebot --image python3.9 --command "$HOME/nccbot/fix_mass/one_img_cat/u.sh"
 tfj run onebot --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/one_img_cat/bot"
 
-python3 core8/pwb.py fix_mass/one_img_cat/bot from_files ask three
+python3 core8/pwb.py fix_mass/one_img_cat/bot from_files ask 1
 python3 core8/pwb.py fix_mass/one_img_cat/bot files ask
 python3 core8/pwb.py fix_mass/one_img_cat/bot ask
 
@@ -22,6 +22,7 @@ from fix_sets.bots2.filter_ids import filter_no_title
 from fix_sets.bots.stacks import get_stacks
 from fix_sets.jsons_dirs import st_ref_infos
 from fix_mass.files import studies_titles
+from fix_sets.by_count.bot import counts_from_files
 
 Dir = Path(__file__).parent
 
@@ -65,7 +66,7 @@ for x, ba in args_na.items():
         break
 
 
-def update_text(title):
+def update_text(title, files=0):
     # ---
     printe.output(f"<<yellow>> update_text: {title}")
     # ---
@@ -81,6 +82,9 @@ def update_text(title):
     # ---
     if new_text.find(MAIN_CAT_ONE) == -1:
         new_text += f"\n[[{MAIN_CAT_ONE}]]"
+    # ---
+    if files == 1 and new_text.find("[[Category:Sort studies fixed]]") == -1 and new_text.count("|File:") == 1:
+        new_text += "\n[[Category:Sort studies fixed]]"
     # ---
     if new_text.strip() == p_text.strip():
         printe.output("no changes..")
@@ -140,6 +144,10 @@ def from_files_g(files_file):
         printe.output(f"<<red>> Error reading {files_file}: {str(e)}")
         return False
     # ---
+    # counts_from_files
+    # ---
+    lisst_of_s.update(counts_from_files())
+    # ---
     if lisst_of_s:
         for x, counts in lisst_of_s.items():
             count_cach[x] = counts
@@ -153,6 +161,7 @@ def from_files():
     files_file = Dir / "studies_one_file.json"
     # ---
     da = from_files_g(files_file)
+    # ---
     if da:
         return da
     # ---
@@ -229,7 +238,7 @@ def main():
         if not count_files_true(study_id, MAIN_COUNT, counts=all_files):
             continue
         # ---
-        update_text(study_title)
+        update_text(study_title, files=all_files)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 """
 python3 core8/pwb.py mass/radio/st3sort/count_files/do nomult get:2323
 
-tfj run mnt1 --mem 1Gi --image python3.9 --command "$HOME/move.sh"
+tfj run update --mem 1Gi --image mariadb --command "$HOME/update.sh"
 tfj run mnt2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3sort/do get:2 "
 tfj run mnt3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3sort/do get:3 "
 tfj run mnt4 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3sort/do get:4 "
