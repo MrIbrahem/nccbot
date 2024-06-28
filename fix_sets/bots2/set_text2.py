@@ -26,17 +26,17 @@ def get_files_names_2(study_id, json_data):
     # ---
     maain_uurls = list(set(maain_uurls))
     # ---
-    fils_names = get_files_names(maain_uurls, url_to_file, study_id, files)
+    file_names  = get_files_names(maain_uurls, url_to_file, study_id, files)
     # ---
-    return fils_names
+    return file_names
 
 
-def make_new_text(texts, to_move, study_title2):
+def make_new_text(texts, to_move, study_title):
     # ---
     text_new = ""
     # ---
     text_new += "{{Imagestack\n|width=850\n"
-    text_new += f"|title={study_title2}\n|align=centre\n|loop=no\n"
+    text_new += f"|title={study_title}\n|align=centre\n|loop=no\n"
     # ---
     for ty, files in to_move.items():
         # ---
@@ -130,13 +130,11 @@ def prase_json_data(json_data, study_id):
     return urlls, to_move, texts
 
 
-def texts_url_replaces(urlls, texts):
-    for ty, txt in texts.copy().items():
-        for url, file_name in urlls.items():
-            txt = txt.replace(url, file_name)
-        # ---
-        texts[ty] = txt
-    # ---
+def replace_urls_in_texts(url_to_filename, texts):
+    for text_type, text_content in texts.copy().items():
+        for url, file_name in url_to_filename.items():
+            text_content = text_content.replace(url, file_name)
+        texts[text_type] = text_content
     return texts
 
 
@@ -148,7 +146,7 @@ def make_text_study(json_data, study_title, study_id):
     # ---
     urlls, to_move, texts = prase_json_data(json_data, study_id)
     # ---
-    texts = texts_url_replaces(urlls, texts)
+    texts = replace_urls_in_texts(urlls, texts)
     # ---
     # sum all files in to_move
     all_files = sum([len(x) for x in to_move.values()])

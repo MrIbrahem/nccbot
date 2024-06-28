@@ -83,11 +83,11 @@ def get_file_name_dd(url, study_id, url_id):
         file_name = db_data.get(url) or (db_data.get(url_id) if url_id else "")
         # ---
         # if file_name: printe.output(f"<<1green>> find_from_data_db: {url} -> {file_name}")
-    # ---
-    if not file_name:
-        do_api = "noapi" not in sys.argv
-        file_name = find_url_file_upload(url, do_api=do_api)
-    # ---
+    # # ---
+    # if not file_name:
+    #     do_api = "noapi" not in sys.argv
+    #     file_name = find_url_file_upload(url, do_api=do_api)
+    # # ---
     data_uu[study_id][url] = file_name
     # ---
     return file_name
@@ -125,7 +125,7 @@ def make_names_2(urls, study_id, files):
     # ---
     only_cach = "revcach" in sys.argv
     # ---
-    url_data2 = get_file_urls_rev(study_id, files, only_cach=only_cach)
+    url_data2 = get_file_urls_rev(study_id, files=files, only_cach=only_cach)
     # ---
     url_data_to_file = {d["url"]: file for file, d in url_data2.items() if d.get("url")}
     # ---
@@ -136,6 +136,10 @@ def make_names_2(urls, study_id, files):
     for url in tqdm.tqdm(urls):
         # ---
         file_name = get_file_name_rev(url, url_data_to_file, rev_id_to_file)
+        # ---
+        if not file_name:
+            do_api = "noapi" not in sys.argv
+            file_name = find_url_file_upload(url, do_api=do_api)
         # ---
         if file_name:
             names2[url] = file_name

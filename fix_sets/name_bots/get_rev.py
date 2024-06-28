@@ -19,6 +19,7 @@ from fix_mass.files import study_to_case_cats
 from fix_sets.bots.study_files import get_study_files
 from fix_sets.jsons_dirs import get_study_dir
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
+from fix_sets.bots2.match_helps import match_id  # match_id(content, title)
 
 api_new = NEW_API("www", family="nccommons")
 api_new.Login_to_wiki()
@@ -62,19 +63,6 @@ def match_img_url_from_content(content):
             return url
     # ---
     return ""
-
-
-def match_id(content, title):
-    # ---
-    # match * Image ID: 10422592
-    ma = re.findall(r"Image ID: (\d+)", content)
-    img_id = ""
-    if ma:
-        img_id = ma[0]
-        images_to_ids[title] = img_id
-        ids_to_images[img_id] = title
-    # ---
-    return img_id
 
 
 def get_images_ids(title="", img_id=""):
@@ -137,6 +125,10 @@ def get_file_rev(title):
             if img_id and urlx:
                 break
     # ---
+    if img_id:
+        images_to_ids[title] = img_id
+        ids_to_images[img_id] = title
+    # ---
     data = {"url": urlx, "id": img_id}
     # ---
     return data
@@ -157,7 +149,7 @@ def get_rev_infos(files):
     return info
 
 
-def get_file_urls_rev(study_id, files, only_cach=False):
+def get_file_urls_rev(study_id, files=None, only_cach=False):
     na = {}
     # ---
     cach = get_cach_one_study(study_id)

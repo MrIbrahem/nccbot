@@ -1,45 +1,64 @@
 """
 
-tfj run all3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all del2 noapi norevip reverse"
+tfj run all3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all noapi norevip reverse"
 
-tfj run fiaa6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all del2 noapi nodudb get:6"
-tfj run fiaa4 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all del2 norevip noapi nodudb get:4"
+tfj run fiaa6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all noapi nodudb get:6"
+tfj run fiaa4 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all norevip noapi nodudb get:4"
 
 
-python3 core8/pwb.py fix_sets/new_all del2 noapi studies_titles2
+python3 core8/pwb.py fix_sets/new_all noapi studies_titles2
 
 tfj run sst2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all noapi studies_titles2"
 S
-python3 core8/pwb.py fix_sets/new_all del2 noapi reverse
-python3 core8/pwb.py fix_sets/new_all del2 noapi norevip reverse
-python3 core8/pwb.py fix_sets/new_all del2 noapi norevip
+python3 core8/pwb.py fix_sets/new_all reverse
+python3 core8/pwb.py fix_sets/new_all noapi norevip reverse
+python3 core8/pwb.py fix_sets/new_all noapi norevip
 
-tfj run fxxy1 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:1 norevipx del2 noapi"
-tfj run fxyx2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:2 norevipx del2 noapi"
-tfj run fxyx3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:3 norevipx del2 noapi"
-tfj run fxyx4 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:4 norevipx del2 noapi"
-tfj run fxys5 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:5 norevipx del2 noapi"
-tfj run fxys6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:6 norevipx del2 noapi"
-tfj run fxyd7 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:7 norevipx del2 noapi"
-tfj run fxyx8 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:8 norevipx del2 noapi"
-tfj run fxyx9 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:9 norevipx del2 noapi"
-tfj run fxy10 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:10 norevipx del2 noapi"
+tfj run aa1 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:1"
+tfj run aa2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:2"
+tfj run aa3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:3"
+tfj run aa4 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:4"
+tfj run aa5 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:5"
+tfj run aa6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:6"
+tfj run aa7 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:7"
+tfj run aa8 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:8"
+tfj run aa9 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:9"
+tfj run aa10 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:10"
 
 
 """
 import sys
-import tqdm
+# import tqdm
 from time import sleep
 from newapi import printe
-from fix_sets.new import work_one_study
 from fix_mass.files import studies_titles, studies_titles2
+
+from fix_sets.new import work_one_study
 from fix_sets.lists.studies_fixed import studies_fixed_done
 from fix_sets.bots.has_url import already_has_url
 
 
-def ddo(taba):
-    ids = taba
+def make_tabs(ids):
+    length = (len(ids) // 10) + 1
+    length = 1500
+    # ---
     tabs = {}
+    for i in range(0, len(ids), length):
+        num = i // length + 1
+        # ---
+        tabs[str(num)] = ids[i : i + length]
+        # ---
+        command = f'tfj run fix{num} --mem 1Gi --image python3.9 --command "'
+        command += f"$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:{num} {len(tabs[str(num)])}"
+        command += '"'
+        # ---
+        printe.output(command)
+    # ---
+    return tabs
+
+
+def ddo(taba, spli=True):
+    ids = taba
     # ---
     Done = []
     # ---
@@ -68,25 +87,15 @@ def ddo(taba):
     # ---
     ids = after_has_urls
     # ---
-    length = (len(ids) // 10) + 1
-    # ---
-    for i in range(0, len(ids), length):
-        num = i // length + 1
+    if spli:
+        tabs = make_tabs(ids)
         # ---
-        tabs[str(num)] = ids[i : i + length]
-        # ---
-        command = f'tfj run fix{num} --mem 1Gi --image python3.9 --command "'
-        command += f"$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:{num} {len(tabs[str(num)])}"
-        command += '"'
-        # ---
-        printe.output(command)
-    # ---
-    for arg in sys.argv:
-        arg, _, value = arg.partition(":")
-        if arg == "get":
-            ids = tabs[value]
-            printe.output(f"work in {len(ids)} ids")
-    del tabs
+        for arg in sys.argv:
+            arg, _, value = arg.partition(":")
+            if arg == "get":
+                ids = tabs[value]
+                printe.output(f"work in {len(ids)} ids")
+        del tabs
     # ---
     printe.output("<<green>> \n end ddo\n----------------")
     # ---

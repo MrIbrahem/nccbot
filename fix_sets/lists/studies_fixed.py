@@ -25,8 +25,11 @@ def new_data():
     jj = CatDepth("Category:Sort studies fixed", sitecode="www", family="nccommons", depth=0, props="categories")
     # ---
     for x in jj:
-        ma = re.search(r"\(Radiopaedia (\d+)-(\d+) ", x) or re.search(r"id: (\d+) study: (\d+)", x)
+        # Regex to extract study IDs from categories
+        pattern = r"\(Radiopaedia (\d+)-(\d+) "
+        ma = re.search(pattern, x) or re.search(r"id: (\d+) study: (\d+)", x)
         if not ma:
+            # Handle no matches explicitly
             no_match.append(x)
             continue
         # ---
@@ -39,7 +42,7 @@ def new_data():
     return uu
 
 
-def get_data():
+def get_data(mknew=False):
     # ---
     uu = from_cach(dd_file)
     # ---
@@ -50,7 +53,7 @@ def get_data():
     # ---
     today = datetime.today().strftime("%Y-%m-%d")
     # ---
-    if date != today or not uu:
+    if date != today or not uu or mknew:
         printe.output(f"<<purple>> last modified: {date} , today: {today}, len: {len(uu)} ")
         uu = new_data()
     # ---
@@ -62,4 +65,4 @@ studies_fixed_done = get_data()
 print(f"studies_fixed_done: {len(studies_fixed_done):,}")
 
 if __name__ == "__main__":
-    new_data()
+    get_data(mknew=True)
