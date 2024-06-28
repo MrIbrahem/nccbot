@@ -1,6 +1,6 @@
 """
 
-python3 core8/pwb.py fix_mass/dp_infos/me
+python3 core8/pwb.py fix_db/dp_infos/me
 
 """
 import tqdm

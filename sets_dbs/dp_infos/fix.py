@@ -1,12 +1,12 @@
 """
 
-python3 core8/pwb.py fix_mass/dp_infos/fix new
-python3 core8/pwb.py fix_mass/dp_infos/fix new -path:fs_infos_duplict1.sqlite
-python3 core8/pwb.py fix_mass/dp_infos/fix new -path:fs_infos_duplict_x.sqlite
+python3 core8/pwb.py fix_db/dp_infos/fix new
+python3 core8/pwb.py fix_db/dp_infos/fix new -path:fs_infos_duplict1.sqlite
+python3 core8/pwb.py fix_db/dp_infos/fix new -path:fs_infos_duplict_x.sqlite
 
-python3 core8/pwb.py fix_mass/dp_infos/fix delete
+python3 core8/pwb.py fix_db/dp_infos/fix delete
 
-tfj run --mem 1Gi fix --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/dp_infos/fix new"
+tfj run --mem 1Gi fix --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_db/dp_infos/fix new"
 
 """
 import tqdm

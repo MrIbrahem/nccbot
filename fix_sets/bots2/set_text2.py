@@ -5,10 +5,9 @@ from fix_sets.bots.set_text2 import make_text_study
 # import sys
 from newapi import printe
 
+# from fix_sets.bots.has_url import has_url_append
 from fix_sets.bots.study_files import get_study_files
 from fix_sets.bots.get_img_info import one_img_info
-from fix_sets.bots.has_url import has_url_append
-
 from fix_sets.name_bots.files_names_bot import get_files_names
 
 
@@ -27,12 +26,13 @@ def get_files_names_2(study_id, json_data):
     # ---
     maain_uurls = list(set(maain_uurls))
     # ---
-    files_names = get_files_names(maain_uurls, url_to_file, study_id, files)
+    fils_names = get_files_names(maain_uurls, url_to_file, study_id, files)
     # ---
-    return files_names
+    return fils_names
 
 
 def make_new_text(texts, to_move, study_title2):
+    # ---
     text_new = ""
     # ---
     text_new += "{{Imagestack\n|width=850\n"
@@ -68,20 +68,13 @@ def make_text_normal(texts, to_move, study_title2):
     return text
 
 
-def make_text_study(json_data, study_title, study_id):
+def prase_json_data(json_data, study_id):
     # ---
     files_names = get_files_names_2(study_id, json_data)
     # ---
-    modalities = set([x["modality"] for x in json_data])
-    # ---
-    printe.output(f"modalities: {modalities}")
-    # ---
     noo = 0
-    # ---
     urlls = {}
-    # ---
     to_move = {}
-    # ---
     texts = {}
     # ---
     for x in json_data:
@@ -134,15 +127,28 @@ def make_text_study(json_data, study_title, study_id):
     # ---
     print(f"noo: {noo}")
     # ---
-    text = ""
-    # ---
-    study_title2 = study_title
-    # ---
+    return urlls, to_move, texts
+
+
+def texts_url_replaces(urlls, texts):
     for ty, txt in texts.copy().items():
         for url, file_name in urlls.items():
             txt = txt.replace(url, file_name)
         # ---
         texts[ty] = txt
+    # ---
+    return texts
+
+
+def make_text_study(json_data, study_title, study_id):
+    # ---
+    modalities = set([x["modality"] for x in json_data])
+    # ---
+    printe.output(f"modalities: {modalities}")
+    # ---
+    urlls, to_move, texts = prase_json_data(json_data, study_id)
+    # ---
+    texts = texts_url_replaces(urlls, texts)
     # ---
     # sum all files in to_move
     all_files = sum([len(x) for x in to_move.values()])
@@ -157,8 +163,8 @@ def make_text_study(json_data, study_title, study_id):
     text = ""
     # ---
     if all_files == len(to_move):
-        text = make_new_text(texts, to_move, study_title2)
+        text = make_new_text(texts, to_move, study_title)
     else:
-        text = make_text_normal(texts, to_move, study_title2)
+        text = make_text_normal(texts, to_move, study_title)
     # ---
     return text, to_move

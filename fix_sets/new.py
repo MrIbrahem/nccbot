@@ -8,6 +8,11 @@ python3 core8/pwb.py fix_sets/new ask 80304 printtext
 python3 core8/pwb.py fix_sets/new ask 14038 printtext
 python3 core8/pwb.py fix_sets/new ask 62191 printtext
 python3 core8/pwb.py fix_sets/new ask 144866 nodudb
+python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask 13950
 python3 core8/pwb.py fix_sets/new ask 24240
 python3 core8/pwb.py fix_sets/new ask 71160
 python3 core8/pwb.py fix_sets/new ask 80302
@@ -75,14 +80,15 @@ def work_text(study_id, study_title):
     # ---
     json_data = get_stacks(study_id)
     # ---
-    all_files = []
-    # ---
-    for x in json_data:
-        all_files.extend([x["public_filename"] for x in x["images"]])
-    # ---
-    all_files = list(set(all_files))
-    # ---
-    printe.output(f"all_files: {len(all_files)}, len json_data: {len(json_data)}")
+    if "iop" in sys.argv:
+        all_files = []
+        # ---
+        for x in json_data:
+            all_files.extend([x["public_filename"] for x in x["images"]])
+        # ---
+        all_files = list(set(all_files))
+        # ---
+        printe.output(f"all_files: {len(all_files)}, len json_data: {len(json_data)}")
     # ---
     # if len(all_files) != len(json_data):
     #     # ---
@@ -95,6 +101,23 @@ def work_text(study_id, study_title):
     return text, to_move
 
 
+def has_http_links(text, study_id):
+    if text.find("|http") == -1:
+        return False
+    # ---
+    # count how many http links in the text
+    http_links = text.count("|http")
+    # ---
+    printe.output(f"<<red>> text has http links ({http_links})... study_id: {study_id}")
+    # ---
+    has_url_append(study_id)
+    # ---
+    if "printtext" in sys.argv:
+        printe.output(text)
+    # ---
+    return True
+
+
 def work_one_study(study_id, study_title=""):
     # ---
     if not study_title:
@@ -104,7 +127,7 @@ def work_one_study(study_id, study_title=""):
         printe.output(f"<<red>> study_title is empty... study_id: {study_id}")
         return
     # ---
-    printe.output(f"_____________\n {study_id=}, {study_title=}")
+    printe.output(f"{study_id=}, {study_title=}")
     # ---
     if find_has_url(study_id):
         printe.output(f"has url... study_id: {study_id}")
@@ -114,11 +137,7 @@ def work_one_study(study_id, study_title=""):
     # ---
     text = text.strip()
     # ---
-    if text.find("|http") != -1:
-        printe.output(f"<<red>> text has http links... study_id: {study_id}")
-        has_url_append(study_id)
-        if "printtext" in sys.argv:
-            printe.output(text)
+    if has_http_links(text, study_id):
         return
     # ---
     if not text:
@@ -140,7 +159,8 @@ def main(ids):
     # ---
     ids_titles = filter_done(ids_titles)
     # ---
-    for study_id, study_title in ids_titles.items():
+    for n, (study_id, study_title) in enumerate(ids_titles.items()):
+        print(f"_____________\n {n=}/{len(ids_titles)}:")
         work_one_study(study_id, study_title)
 
 

@@ -1,10 +1,9 @@
 """
-python3 core8/pwb.py fix_mass/file_infos/db test3
-python3 core8/pwb.py fix_mass/file_infos/db 52960001
+python3 core8/pwb.py fix_db/dp_infos/db_duplict test3 fs_infos_duplict-old.sqlite
+python3 core8/pwb.py fix_db/dp_infos/db_duplict test3
+python3 core8/pwb.py fix_db/dp_infos/db_duplict 54575469
 
-from fix_mass.file_infos.db import find_data # find_data(url="", urlid="", file="")
-from fix_mass.file_infos.db import insert_all_infos # insert_all_infos(data_list, prnt=True)
-from fix_mass.file_infos.db import insert_url_file # insert_url_file(url, file)
+from sets_dbs.dp_infos.db_duplict import insert_url_file # insert_url_file(url, file)
 
 """
 import sys
@@ -12,7 +11,12 @@ from pathlib import Path
 from fix_mass.sqlite_bot import SqlLiteFilesDB
 
 Dir = Path(__file__).parent
-db_path = Dir / "db.sqlite"
+
+db_path = Dir / "fs_infos_duplict.sqlite"
+
+if "fs_infos_duplict-old.sqlite" in sys.argv:
+    db_path = Dir / "fs_infos_duplict-old.sqlite"
+
 main_db_bot = SqlLiteFilesDB(db_path)
 
 
@@ -56,6 +60,10 @@ def find_from_data_db(url, urlid):
 def get_all_key_url_urlid():
     data = {}
     # ---
+    # if "nodudb" in sys.argv: return data
+    if "dudb" not in sys.argv:
+        return data
+    # ---
     print("get_all_key_url_urlid")
     # ---
     for row in main_db_bot.get_data("infos"):
@@ -72,7 +80,7 @@ def get_all_key_url_urlid():
         if urlid:
             data[urlid] = file
     # ---
-    print(f"len get_all_key_url_urlid(file_infos/db): {len(data)}")
+    print(f"len get_all_key_url_urlid(fs_infos_duplict): {len(data)}")
     # ---
     return data
 
@@ -116,8 +124,6 @@ def test2():
     for x in ids:
         data = main_db_bot.select({"urlid": x}, "infos")
         # ---
-        print(f"x: {x}, data:")
-        # ---
         print(data)
     # ---
     # print(main_db_bot.select({"url": ""}, "infos"))
@@ -132,9 +138,6 @@ def test3():
     # ---
     print(f"len result: {len(result)}")
     # ---
-    ux = find_from_data_db("", "52960001")
-    print(f"ux: {ux}")
-    # ---
     if "printall" in sys.argv:
         for row in result:
             print(row)
@@ -147,3 +150,4 @@ if __name__ == "__main__":
         test3()
     else:
         test2()
+[]

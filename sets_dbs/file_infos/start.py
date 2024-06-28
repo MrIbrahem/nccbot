@@ -1,10 +1,10 @@
 """
 
-tfj run --mem 2Gi startx --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/file_infos/start"
+tfj run --mem 2Gi startx --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_db/file_infos/start"
 
 
-python3 core8/pwb.py fix_mass/file_infos/start debug
-python3 core8/pwb.py fix_mass/file_infos/start
+python3 core8/pwb.py fix_db/file_infos/start debug
+python3 core8/pwb.py fix_db/file_infos/start
 
 Category:Radiopaedia case Active rickets id: 58738 study: 65957
 
@@ -16,8 +16,8 @@ import re
 
 # from pathlib import Path
 # from newapi import printe
-from fix_mass.file_infos.p2 import get_files
-from fix_mass.file_infos.db import insert_all_infos  # insert_all_infos(data_list, prnt=True)
+from sets_dbs.file_infos.p2 import get_files
+from sets_dbs.file_infos.db import insert_all_infos  # insert_all_infos(data_list, prnt=True)
 
 debug = "debug" in sys.argv
 number = 10 if debug and "no" not in sys.argv else 2000
