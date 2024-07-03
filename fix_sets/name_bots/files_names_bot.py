@@ -4,6 +4,7 @@ from fix_sets.name_bots.files_names_bot import get_files_names
 
 """
 import re
+
 # import json
 import tqdm
 import sys
@@ -15,11 +16,12 @@ from fix_sets.name_bots.get_rev import get_file_urls_rev  # get_file_urls_rev(st
 # from fix_sets.lists.sf_infos import from_sf_infs  # from_sf_infs(url, study_id)
 from fix_sets.jsons_dirs import get_study_dir
 
-from sets_dbs.dp_infos.db_duplict import insert_all_infos
-from sets_dbs.file_infos.db import get_all_key_url_urlid  # , find_from_data_db  # find_from_data_db(url, urlid)
+# from sets_dbs.dp_infos.db_duplict import insert_all_infos
+# from sets_dbs.file_infos.db import get_all_key_url_urlid  # , find_from_data_db  # find_from_data_db(url, urlid)
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 
-db_data = get_all_key_url_urlid()
+# db_data = get_all_key_url_urlid()
+db_data = {}
 
 # studies_names_dir = jsons_dir / "studies_names"
 data_uu = {}
@@ -41,24 +43,33 @@ def dump_it(data2, cach, study_id):
     # ---
     # file = studies_names_dir / f"{study_id}.json"
     # ---
+    data2 = {x: v for x, v in data2.items() if v}
+    # ---
+    if data2 == cach:
+        return
+    # ---
+    study_id_dir = get_study_dir(study_id)
+    # ---
+    file = study_id_dir / "names.json"
+    # ---
+    if not cach:
+        dumpit(data2, file)
+        return
+    # ---
     data = cach.copy()
     # ---
     for x in data2:
         if not data.get(x):
             data[x] = data2[x]
     # ---
-    study_id_dir = get_study_dir(study_id)
-    # ---
-    file = study_id_dir / "names.json"
-    # ---
     dumpit(data, file)
     # ---
-    new_data = [{"url": url, "urlid": "", "file": file} for url, file in data.items()]
+    # new_data = [{"url": url, "urlid": "", "file": file} for url, file in data.items()]
     # ---
-    try:
-        insert_all_infos(new_data, prnt=False)
-    except Exception as e:
-        printe.output(f"<<red>> Error insert_all_infos: {str(e)}")
+    # try:
+    #     insert_all_infos(new_data, prnt=False)
+    # except Exception as e:
+    #     printe.output(f"<<red>> Error insert_all_infos: {str(e)}")
 
 
 def get_names_from_cach(study_id):
@@ -67,7 +78,13 @@ def get_names_from_cach(study_id):
     # ---
     file = study_id_dir / "names.json"
     # ---
-    return from_cach(file)
+    cca = from_cach(file)
+    # ---
+    if cca:
+        cca = {x: v for x, v in cca.items() if v}
+    # ---
+    return cca
+
 
 def get_file_name_dd(url, study_id, url_id):
     # ---
@@ -87,7 +104,7 @@ def get_file_name_dd(url, study_id, url_id):
     # if not file_name:
     #     do_api = "noapi" not in sys.argv
     #     file_name = find_url_file_upload(url, do_api=do_api)
-    # # ---
+    # ---
     data_uu[study_id][url] = file_name
     # ---
     return file_name

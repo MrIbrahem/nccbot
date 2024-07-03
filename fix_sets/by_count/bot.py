@@ -1,10 +1,8 @@
 """
 
-from fix_sets.by_count.bot import counts_from_files
-
 python3 core8/pwb.py fix_sets/by_count/bot ask
 
-tfj run bycount2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot"
+tfj run bycount3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot"
 tfj run bot1 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot 1"
 tfj run bot2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot 2"
 tfj run aa3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot 3 && $HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot 4"
@@ -19,32 +17,15 @@ tfj run aa10 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core
 
 """
 import sys
-import json
 from pathlib import Path
 
 from newapi import printe
-from fix_sets.new_all import ddo
+from fix_sets.ddo_bot import ddo
 from fix_sets.new import work_one_study
 from fix_sets.by_count.co import from_files
+from fix_sets.by_count.lists import counts_from_files
 
 Dir = Path(__file__).parent
-
-
-def counts_from_files():
-    # ---
-    files_file = Dir / "by_count.json"
-    # ---
-    if not files_file.exists():
-        files_file.write_text("{}")
-    # ---
-    try:
-        with open(files_file, "r", encoding="utf-8") as f:
-            lisst_of_s = json.load(f)
-    except Exception as e:
-        printe.output(f"<<red>> Error reading {files_file}: {str(e)}")
-        return False
-    # ---
-    return lisst_of_s
 
 
 def from_files_get():
@@ -57,7 +38,7 @@ def from_files_get():
     return da
 
 
-def doda(ids_by_count):
+def doda(ids_by_count, numbs=None):
     # ---
     by_coun = {}
     # ---
@@ -71,14 +52,14 @@ def doda(ids_by_count):
     new = {}
     # ---
     for counts, ids in by_coun.items():
-        # ---
-        if counts < 100:
+        if len(ids) > 100:
             printe.output(f"<<purple>> {counts=:,}: {len(ids)=:,}")
         # ---
-        if str(counts) in sys.argv:
+        to_ge = numbs == counts or str(counts) in sys.argv
+        # ---
+        if to_ge and not new:
             printe.output(f"<<green>> USE {counts}...")
             new = {x: ids_by_count[x] for x in ids}
-            break
     # ---
     if new:
         return new
@@ -86,11 +67,11 @@ def doda(ids_by_count):
     return ids_by_count
 
 
-def main():
+def get_ids_o(numbs=None):
     # ---
     iui = from_files_get()
     # ---
-    iui = doda(iui)
+    iui = doda(iui, numbs=numbs)
     # ---
     ids = ddo(list(iui.keys()), spli=False)
     # ---
@@ -106,6 +87,13 @@ def main():
     printe.output(f"<<purple>> len of ids: {len(ids_by_count)}")
     # ---
     ids_by_count2 = dict(sorted(ids_by_count.items(), key=lambda x: x[1], reverse=False))
+    # ---
+    return ids_by_count2
+
+
+def main():
+    # ---
+    ids_by_count2 = get_ids_o()
     # ---
     for n, (study_id, counts) in enumerate(ids_by_count2.items()):
         print(f"_____________\n {n=}/{len(ids_by_count2)}: {counts=}")

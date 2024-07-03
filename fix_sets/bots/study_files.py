@@ -28,6 +28,7 @@ def dump_it(data):
         # ---
         dumpit(files, file)
 
+
 def get_from_cach(study_id):
     # ---
     # file = st_dit / f"{study_id}.json"
@@ -79,8 +80,8 @@ def get_study_files(study_id):
     cat = study_to_case_cats.get(study_id)
     # ---
     if not cat:
-        printe.output(f"!{study_id} not found")
-        return
+        printe.output(f"!cat for {study_id} not found")
+        return []
     # ---
     cat_members = CatDepth(cat, sitecode="www", family="nccommons", depth=1)
     # ---
@@ -92,6 +93,6 @@ def get_study_files(study_id):
     # ---
     if not result:
         printe.output(f"!{study_id} not found")
-        return
+        return []
     # ---
     return result

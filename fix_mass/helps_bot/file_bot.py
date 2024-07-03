@@ -23,6 +23,8 @@ def from_cach(file):
 
 def dumpit(data, file):
     file = Path(file)
+    if "nodump" in sys.argv:
+        return
     try:
         with open(file, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False)

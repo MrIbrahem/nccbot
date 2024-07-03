@@ -1,8 +1,10 @@
 """
 
 from fix_sets.bots.set_text2 import make_text_study
+
 """
-# import sys
+import sys
+import json
 from newapi import printe
 
 # from fix_sets.bots.has_url import has_url_append
@@ -26,12 +28,24 @@ def get_files_names_2(study_id, json_data):
     # ---
     maain_uurls = list(set(maain_uurls))
     # ---
-    file_names  = get_files_names(maain_uurls, url_to_file, study_id, files)
+    file_names = get_files_names(maain_uurls, url_to_file, study_id, files)
     # ---
-    return file_names
+    file_names = {x:v for x, v in file_names.items() if v}
+    # ---
+    # print(json.dumps(file_names, indent=4))
+    # ---
+    # urls in maain_uurls not in file_names
+    urls2 = list(set(maain_uurls) - set(file_names))
+    # ---
+    if urls2:
+        printe.output(f"<<purple>> len urls without filenames: {len(urls2):,} ")
+    # ---
+    return file_names, urls2
 
 
 def make_new_text(texts, to_move, study_title):
+    # ---
+    print("make_new_text:")
     # ---
     text_new = ""
     # ---
@@ -53,6 +67,8 @@ def make_new_text(texts, to_move, study_title):
 def make_text_normal(texts, to_move, study_title2):
     text = ""
     # ---
+    print("make_text_normal:")
+    # ---
     for ty, files in to_move.items():
         # ---
         print(f"ty: {ty}, files: {len(files)}")
@@ -70,7 +86,7 @@ def make_text_normal(texts, to_move, study_title2):
 
 def prase_json_data(json_data, study_id):
     # ---
-    files_names = get_files_names_2(study_id, json_data)
+    files_names, urls2 = get_files_names_2(study_id, json_data)
     # ---
     noo = 0
     urlls = {}
@@ -127,14 +143,27 @@ def prase_json_data(json_data, study_id):
     # ---
     print(f"noo: {noo}")
     # ---
-    return urlls, to_move, texts
+    return urlls, to_move, texts, urls2
 
 
 def replace_urls_in_texts(url_to_filename, texts):
+    # ---
+    pp = "pp" in sys.argv
+    # ---
+    if pp:
+        print(json.dumps(url_to_filename, indent=2))
+    # ---
     for text_type, text_content in texts.copy().items():
+        # ---
+        if pp:
+            print(f"text_type: {text_type}, len: {len(text_content)}")
+            print(text_content)
+        # ---
         for url, file_name in url_to_filename.items():
             text_content = text_content.replace(url, file_name)
+        # ---
         texts[text_type] = text_content
+    # ---
     return texts
 
 
@@ -144,7 +173,7 @@ def make_text_study(json_data, study_title, study_id):
     # ---
     printe.output(f"modalities: {modalities}")
     # ---
-    urlls, to_move, texts = prase_json_data(json_data, study_id)
+    urlls, to_move, texts, urls2 = prase_json_data(json_data, study_id)
     # ---
     texts = replace_urls_in_texts(urlls, texts)
     # ---
@@ -165,4 +194,4 @@ def make_text_study(json_data, study_title, study_id):
     else:
         text = make_text_normal(texts, to_move, study_title)
     # ---
-    return text, to_move
+    return text, to_move, urls2

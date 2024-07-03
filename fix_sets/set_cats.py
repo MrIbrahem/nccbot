@@ -91,9 +91,9 @@ def main(ids):
     printe.output(f"<<purple>> len of ids: {len(ids)}")
     printe.output(f"<<purple>> len of ids: {len(ids)}")
     # ---
-    ids_titles = filter_no_title(ids)
+    ids_to_titles = filter_no_title(ids)
     # ---
-    for study_id, study_title in ids_titles.items():
+    for study_id, study_title in ids_to_titles.items():
         work_one_study(study_id, study_title)
 
 
