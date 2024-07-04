@@ -1,9 +1,12 @@
 """
 
 python3 core8/pwb.py fix_sets/by_count/co
+python3 core8/pwb.py fix_sets/by_count/co titles2
 
 from fix_sets.by_count.co import from_files, count_files
+from fix_sets.by_count.co import files_file
 """
+import sys
 import json
 import tqdm
 from newapi import printe
@@ -11,6 +14,8 @@ from pathlib import Path
 
 from fix_sets.jsons_dirs import st_ref_infos
 from fix_sets.lists.studies_fixed import studies_fixed_done
+from fix_mass.files import studies_titles
+from fix_sets.bots.stacks import get_stacks  # get_stacks(study_id)
 
 Dir = Path(__file__).parent
 
@@ -31,9 +36,20 @@ data_keys = list(set(data_keys))
 
 def count_files(x):
     file_js = st_ref_infos / x / "stacks.json"
-    with open(file_js, "r", encoding="utf-8") as f:
+
+    stacks = {}
+    all_files = 0
+
+    if file_js.exists():
+        with open(file_js, "r", encoding="utf-8") as f:
+            stacks = json.load(f)
+    else:
+        stacks = get_stacks(x)
+
+    if stacks:
         # Combine loading and processing into a single expression (generator comprehension)
-        public_filenames = {item["public_filename"] for item in json.load(f) for item in item.get("images", [])}
+        public_filenames = {item["public_filename"] for item in stacks for item in item.get("images", [])}
+
         all_files = len(public_filenames)
 
     return all_files
@@ -74,10 +90,24 @@ def from_stacks_files():
     return lala
 
 
-def from_files():
-    printe.output("from_files:")
+def from_titles2():
+    # ---
+    printe.output("from_titles2:")
+    # ---
+    titles2 = [x for x in studies_titles.keys() if x not in data_keys]
+    # ---
+    printe.output(f"from_titles2: {len(titles2):,}")
+    # ---
+    return titles2
 
-    lala = from_stacks_files()
+
+def from_files():
+    printe.output(f"co start: len data_keys: {len(data_keys)}")
+    # ---
+    if "titles2" in sys.argv:
+        lala = from_titles2()
+    else:
+        lala = from_stacks_files()
 
     lal2 = []
 

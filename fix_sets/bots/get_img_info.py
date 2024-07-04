@@ -14,7 +14,7 @@ from newapi import printe
 from newapi.ncc_page import NEW_API
 from fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
-from fix_sets.bots2.match_helps import match_id  # match_id(content, title)
+from fix_sets.bots2.match_helps import match_urlid, match_id
 
 
 api_new = NEW_API("www", family="nccommons")
@@ -41,14 +41,37 @@ def get_cach_img_info(study_id):
     return from_cach(file)
 
 
+def match_them(extlinks, revisions, title, id_to_url):
+    data = {"img_url": "", "img_id": ""}
+    # ---
+    ma_id = ""
+    # ---
+    if revisions:
+        revisions = revisions[0]["content"]
+        ma_id = match_id(revisions, title)
+    # ---
+    if ma_id:
+        data["img_id"] = ma_id
+        data["img_url"] = id_to_url.get(str(ma_id), "")
+    else:
+        print(revisions)
+        # ---
+        for extlink in extlinks:
+            url = extlink.get("url")
+            if url.find("radiopaedia.org/images/") != -1:
+                data["img_url"] = url
+                data["img_id"] = match_urlid(url)
+                break
+    # ---
+    return data
+
+
 def gt_img_info(titles, id_to_url=None):
     # ---
     if not id_to_url:
         id_to_url = {}
     # ---
-    titles = [titles] if not isinstance(titles, list) else titles
-    # ---
-    titles = [x for x in titles if x]
+    # titles = [x for x in titles if x]
     # ---
     info = {}
     printe.output(f"one_img_info: {len(titles)=}")
@@ -82,47 +105,17 @@ def gt_img_info(titles, id_to_url=None):
         # ---
         for page in pages:
             extlinks = page.get("extlinks", [])
+            revisions = page.get("revisions")
             title = page.get("title")
             # ---
-            # info[title] = {"img_url": "", "case_url": "", "study_url": "", "caseId": "", "studyId": "", "img_id": ""}
-            info[title] = {"img_url": "", "img_id": ""}
-            # ---
-            for extlink in extlinks:
-                url = extlink.get("url")
-                # ma = re.match("https://radiopaedia.org/cases/(\d+)/studies/(\d+)", url)
-                if url.find("/images/") != -1:
-                    info[title]["img_url"] = url
-
-                # elif re.match(r"^https://radiopaedia.org/cases/[^\d\/]+$", url):
-                #     info[title]["case_url"] = url
-
-                # elif ma:
-                #     info[title]["study_url"] = url
-                #     info[title]["caseId"] = ma.group(1)
-                #     info[title]["studyId"] = ma.group(2)
-            # ---
-            revisions = page.get("revisions")
-            if info[title]["img_url"]:
-                continue
-            # ---
-            if not revisions:
-                continue
-            # ---
-            revisions = revisions[0]["content"]
-            ma_id = match_id(revisions, title)
-            # ---
-            if ma_id:
-                info[title]["img_id"] = ma_id
-                info[title]["img_url"] = id_to_url.get(str(ma_id), "")
-            else:
-                print(revisions)
+            info[title] = match_them(extlinks, revisions, title, id_to_url)
     # ---
-    # printe.output(json.dumps(pages, indent=2))
+    printe.output(json.dumps(info, indent=2))
     # ---
     return info
 
 
-def one_img_info(title, study_id, json_data):
+def one_img_info(files, study_id, json_data):
     # ---
     if "oo" not in sys.argv:
         return {}
@@ -137,7 +130,7 @@ def one_img_info(title, study_id, json_data):
         for image in x["images"]:
             id_to_url[str(image["id"])] = image["public_filename"]
     # ---
-    info = gt_img_info(title, id_to_url)
+    info = gt_img_info(files, id_to_url)
     # ---
     dump_st(info, study_id)
     # ---

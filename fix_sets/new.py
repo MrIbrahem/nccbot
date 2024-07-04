@@ -9,9 +9,9 @@ python3 core8/pwb.py fix_sets/new ask 14038 printtext
 python3 core8/pwb.py fix_sets/new ask 62191 printtext
 python3 core8/pwb.py fix_sets/new ask 144866 nodudb
 python3 core8/pwb.py fix_sets/new ask
-python3 core8/pwb.py fix_sets/new ask
-python3 core8/pwb.py fix_sets/new ask 58546
-python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask 101946
+python3 core8/pwb.py fix_sets/new ask 104863
+python3 core8/pwb.py fix_sets/new ask 101829
 python3 core8/pwb.py fix_sets/new ask 13950
 python3 core8/pwb.py fix_sets/new ask 24240
 python3 core8/pwb.py fix_sets/new ask 71160
@@ -29,7 +29,7 @@ from fix_sets.bots.has_url import has_url_append, find_has_url  # , already_has_
 
 from fix_sets.bots2.text_cat_bot import add_cat_to_set, fix_cats
 from fix_sets.bots2.filter_ids import filter_no_title
-from fix_sets.bots2.done2 import filter_done
+from fix_sets.bots2.done2 import filter_done_list
 from fix_sets.bots2.set_text2 import make_text_study
 from fix_sets.bots2.move_files2 import to_move_work
 
@@ -80,6 +80,10 @@ def work_text(study_id, study_title):
     # ---
     json_data = get_stacks(study_id)
     # ---
+    if not json_data:
+        printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, no json_data")
+        return "", {}
+    # ---
     if "iop" in sys.argv:
         all_files = []
         # ---
@@ -96,7 +100,7 @@ def work_text(study_id, study_title):
     #         printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, all_files < 3")
     #         return "", {}
     # ---
-    text, to_move = make_text_study(json_data, study_title, study_id)
+    text, to_move, urls2 = make_text_study(json_data, study_title, study_id)
     # ---
     return text, to_move
 
@@ -130,7 +134,6 @@ def work_one_study(study_id, study_title=""):
     printe.output(f"{study_id=}, {study_title=}")
     # ---
     if find_has_url(study_id):
-        printe.output(f"has url... study_id: {study_id}")
         return
     # ---
     text, to_move = work_text(study_id, study_title)
@@ -155,12 +158,12 @@ def main(ids):
     printe.output(f"<<purple>> len of ids: {len(ids)}")
     printe.output(f"<<purple>> len of ids: {len(ids)}")
     # ---
-    ids_titles = filter_no_title(ids)
+    ids = filter_done_list(ids)
     # ---
-    ids_titles = filter_done(ids_titles)
+    ids_to_titles = filter_no_title(ids)
     # ---
-    for n, (study_id, study_title) in enumerate(ids_titles.items()):
-        print(f"_____________\n {n=}/{len(ids_titles)}:")
+    for n, (study_id, study_title) in enumerate(ids_to_titles.items()):
+        print(f"_____________\n {n=}/{len(ids_to_titles)}:")
         work_one_study(study_id, study_title)
 
 

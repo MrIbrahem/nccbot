@@ -24,27 +24,57 @@ def find_done_study(title):
     return False
 
 
-def filter_done(ids_titles):
+def filter_done(ids_to_titles):
+    # ---
+    printe.output("filter_done::")
     # ---
     if "nodone" in sys.argv:
-        return ids_titles
+        return ids_to_titles
     # ---
-    if not ids_titles:
-        printe.output("\t<<red>> filter_done, no ids_titles. return {}")
-        return ids_titles
+    if not ids_to_titles:
+        printe.output("\t<<red>> filter_done, no ids_to_titles. return {}")
+        return ids_to_titles
     # ---
-    already_done = [study_title for study_title in ids_titles.values() if find_done_study(study_title)]
+    already_done = [st_id for st_id in ids_to_titles.keys() if st_id in studies_fixed_done]
     # ---
-    printe.output(f"already_done: {len(already_done):,}")
+    printe.output(f"already_done: {len(already_done):,}.")
     # ---
     if not already_done:
-        return ids_titles
+        return ids_to_titles
     # ---
-    ids_titles = {study_id: study_title for study_id, study_title in ids_titles.items() if study_title not in already_done}
+    ids_to_titles = {st_id: study_title for st_id, study_title in ids_to_titles.items() if st_id not in already_done}
     # ---
-    printe.output(f"<<green>> ids_titles: {len(ids_titles):,}, after remove already_done..")
+    printe.output(f"<<green>> ids_to_titles: {len(ids_to_titles):,}, after remove already_done..")
     # ---
-    return ids_titles
+    return ids_to_titles
+
+
+def filter_done_list(ids):
+    # ---
+    printe.output("filter_done_list::")
+    # ---
+    if "nodone" in sys.argv:
+        return ids
+    # ---
+    if not ids:
+        printe.output("\t<<red>> filter_done, no ids. return {}")
+        return ids
+    # ---
+    if isinstance(ids, dict):
+        ids = list(ids.keys())
+    # ---
+    already_done = [st_id for st_id in ids if st_id in studies_fixed_done]
+    # ---
+    printe.output(f"already_done: {len(already_done):,}.")
+    # ---
+    if not already_done:
+        return ids
+    # ---
+    ids_new = [k for k in ids if k not in already_done]
+    # ---
+    printe.output(f"<<green>> ids_new: {len(ids_new):,}, after remove already_done..")
+    # ---
+    return ids_new
 
 
 if __name__ == "__main__":

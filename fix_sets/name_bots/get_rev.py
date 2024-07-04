@@ -152,25 +152,42 @@ def get_rev_infos(files):
 def get_file_urls_rev(study_id, files=None, only_cach=False):
     na = {}
     # ---
+    if not files:
+        files = get_study_files(study_id)
+    # ---
     cach = get_cach_one_study(study_id)
-    if cach or only_cach:
+    # ---
+    files2 = []
+    # ---
+    if cach:
+        files2 = [x for x in files if not cach.get(x) or not (cach.get(x, {}).get("url") and cach.get(x, {}).get("id"))]
+        # ---
+        if files2:
+            printe.output(f"get_file_urls_rev: files2: {len(files2)=}")
+    # ---
+    if (cach or only_cach) and not files2:
         return cach
-    # ---
-    cat = study_to_case_cats.get(study_id)
-    # ---
-    if not cat:
-        printe.output(f"Cat not found for: {study_id}")
-        return na
-    # ---
-    # files = get_study_files(study_id)
     # ---
     if not files:
         printe.output(f"Files not found for: {study_id}")
         return na
     # ---
+    if files2:
+        files = files2
+    # ---
     na = get_rev_infos(files)
     # ---
-    if na:
+    if not na:
+        return {}
+    # ---
+    if na == cach:
+        return na
+    # ---
+    if cach:
+        cach.update(na)
+        # ---
+        dump_st(cach, study_id)
+    else:
         dump_st(na, study_id)
     # ---
     return na

@@ -21,6 +21,7 @@ api_new = NEW_API("www", family="nccommons")
 yes_answer = ["y", "a", "", "Y", "A", "all"]
 upload_all = {1: False}
 
+
 def download_file(url):
     """
     Downloads a file from a given URL to a temporary location.
@@ -33,6 +34,7 @@ def download_file(url):
     except Exception as e:
         print(f"An error occurred while downloading the file: {e}")
         return None
+
 
 def do_post(params, code="", family="", files=None):
     """
@@ -50,6 +52,7 @@ def do_post(params, code="", family="", files=None):
         result = api_new.post_params(params, addtoken=True)
     # ---
     return result
+
 
 def upload_by_file(file_name, text, url, comment="", code="en", family="wikipedia", fix_svg_dtd=False):
     """
@@ -96,6 +99,13 @@ def upload_by_file(file_name, text, url, comment="", code="en", family="wikipedi
         error_code = error.get("code", "")
         error_info = error.get("info", "")
         printe.output(f"<<lightred>> error when upload_by_url, error_code:{error_code}")
+        # ---
+        # if error_code == "verification-error":
+        #     if do_ext and "MIME type of the file" in error_info:
+        #         new_file_name = ext.get_new_ext(error_info, "wiki.jpg")
+        #         if new_file_name:
+        #             return upload_by_file(url, filename=new_file_name, do_ext=False)
+        # else:
         printe.output(error)
 
     # ---
@@ -121,6 +131,7 @@ def do_ask(text, file_name):
         upload_all[1] = True
     # ---
     return True
+
 
 def upload_by_url(file_name, text, url, comment="", return_file_name=False, do_ext=False, code="en", family="wikipedia"):
     """
