@@ -10,6 +10,7 @@ import tqdm
 import sys
 from newapi import printe
 
+from fix_sets.bots.study_files import get_study_files
 from fix_sets.name_bots.db_duplict_bot import find_url_file_upload
 from fix_sets.name_bots.get_rev import get_file_urls_rev  # get_file_urls_rev(study_id)
 
@@ -166,7 +167,10 @@ def make_names_2(urls, study_id, files):
     return names2
 
 
-def get_files_names(urls, url_to_file, study_id, files):
+def get_files_names(urls, url_to_file, study_id, files=None):
+    # ---
+    if not files:
+        files = get_study_files(study_id)
     # ---
     if study_id not in data_uu:
         data_uu[study_id] = {}

@@ -2,7 +2,7 @@
 from mass.radio.bots.add_cat import add_cat_to_images, add_cat_bot
 
 """
-import re
+# import re
 import sys
 from multiprocessing import Pool
 from newapi import printe
