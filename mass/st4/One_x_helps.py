@@ -155,7 +155,8 @@ class CaseHelps:
         # ---
         text += "\n}}\n[[Category:Image set]]\n"
         text += f"[[Category:{set_title}|*]]\n"
-        text += "[[Category:Radiopaedia sets]]"
+        text += "[[Category:Radiopaedia sets]]\n"
+        # text += "[[Category:Sort studies fixed]]"
         # ---
         page = ncc_MainPage(set_title, "www", family="nccommons")
         # ---

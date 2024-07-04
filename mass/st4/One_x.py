@@ -120,7 +120,7 @@ class OneCase(CaseHelps):
             images = get_stacks_fixed(study, self.caseId, get_cach=True)
             # ---
             # sort images by position key
-            # images = sorted(images, key=lambda x: x["position"])
+            images = sorted(images, key=lambda x: x["position"])
             # ---
             self.studies_names_cach[study] = self.get_files_names_from_urls(study, images)
             # ---
