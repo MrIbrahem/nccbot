@@ -15,10 +15,10 @@ import json
 import jsonlines
 from newapi.db_bot import LiteDB
 
-root_path = "I:/" if os.path.exists("I:/") else "/data/project/"
+root_path = "I:" if os.path.exists("I:") else "/data/project/"
 
-db_path = f"{root_path}ncc/public_html/ncc2/Tables/nc_files.db"
-jsonl_path = f"{root_path}ncc/public_html/ncc2/Tables/nc_files.jsonl"
+db_path = f"{root_path}/ncc/public_html/ncc2/lists/nc_files.db"
+jsonl_path = f"{root_path}/ncc/public_html/ncc2/lists/nc_files.jsonl"
 
 print(db_path)
 
