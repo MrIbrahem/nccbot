@@ -132,7 +132,7 @@ def get_from_api(url, filename="", do_ext=True):
         # ---
         if error_code == "verification-error":
             if do_ext and "MIME type of the file" in error_info:
-                new_file_name = ext.get_new_ext(error_info, "wiki.jpg")
+                new_file_name = get_new_ext(error_info, "wiki.jpg")
                 if new_file_name:
                     return get_from_api(url, filename=new_file_name, do_ext=False)
     else:

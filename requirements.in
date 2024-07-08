@@ -1,12 +1,14 @@
 beautifulsoup4
+ijson
 jsonlines
-mwparserfromhell
 MySQL-python
 Pillow
 psutil
 PyMySQL
 regex
+Requests
 setuptools
+sqlite_utils
 tqdm
 tweepy
 wikitextparser
