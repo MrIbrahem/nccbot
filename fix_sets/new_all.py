@@ -14,6 +14,7 @@ python3 core8/pwb.py fix_sets/new_all reverse
 python3 core8/pwb.py fix_sets/new_all noapi norevip reverse
 python3 core8/pwb.py fix_sets/new_all noapi norevip
 
+tfj run newall --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all nodb noapi"
 tfj run aa1 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:1"
 tfj run aa2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:2"
 tfj run aa3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:3"
