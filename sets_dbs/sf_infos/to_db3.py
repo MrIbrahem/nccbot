@@ -1,7 +1,7 @@
 """
-python3 core8/pwb.py fix_mass/sf_infos/to_db3
+python3 core8/pwb.py sets_dbs/sf_infos/to_db3
 
-tfj run --mem 1Gi tdb3 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/sf_infos/to_db3"
+tfj run --mem 1Gi tdb3 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py sets_dbs/sf_infos/to_db3"
 
 """
 
@@ -17,7 +17,7 @@ from pathlib import Path
 try:
     from db import insert_all_infos
 except Exception as e:
-    from fix_mass.sf_infos.db import insert_all_infos
+    from sets_dbs.sf_infos.db import insert_all_infos
 
 Dir = Path(__file__).parent
 all_data_file = Dir / "jsons/sf_infos_all.json"

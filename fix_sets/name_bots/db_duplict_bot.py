@@ -2,7 +2,10 @@
 
 from fix_sets.name_bots.db_duplict_bot import find_url_file_upload
 
+python3 core8/pwb.py fix_sets/name_bots/db_duplict_bot
+
 """
+import sys
 import re
 import jsonlines
 from pathlib import Path
@@ -14,7 +17,7 @@ from newapi import printe
 
 from fix_sets.jsons_dirs import jsons_dir
 
-# from sets_dbs.dp_infos.db_duplict import get_all_key_url_urlid, insert_url_file  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
+from sets_dbs.dp_infos.db_duplict_new import find_data, insert_url_file, insert_all_infos  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
 
 api_new = NEW_API("www", family="nccommons")
 api_new.Login_to_wiki()
@@ -29,6 +32,13 @@ data_maain = {d["url"]: d["file_name"] for d in data1x}
 
 # db_data = get_all_key_url_urlid()
 db_data = {}
+
+
+def insert_infos_all(data):
+    try:
+        return insert_all_infos(data)
+    except Exception as e:
+        printe.output(f"<<red>> Error insert_all_infos: {str(e)}")
 
 
 def get_new_ext(error_info, file_name):
@@ -79,13 +89,16 @@ def match_urlid(url):
 def append_data(url, file_name):
     data_maain[url] = file_name
     # ---
-    # insert_url_file(url, file_name)
+    insert_url_file(url, file_name)
     # ---
     # with jsonlines.open(url_to_file_file, mode="a") as writer:
     #     writer.write({"url": url, "file_name": file_name})
 
 
 def get_from_api(url, filename="", do_ext=True):
+    # ---
+    if "noapi" in sys.argv:
+        return ""
     # ---
     # extension = get_image_extension(image_url)
     # ---
@@ -152,9 +165,12 @@ def from_cach_or_db(url, url_id=""):
     # file_name = find_from_db_dp(url, "")
     file_name = ""
     # ---
-    file_name = db_data.get(url) or (db_data.get(url_id) if url_id else "")
+    # file_name = db_data.get(url) or (db_data.get(url_id) if url_id else "")
     # ---
-    # if file_name: printe.output(f"<<green>> find_from_data_db: {url} -> {file_name}")
+    file_name = find_data(url=url) or (find_data(urlid=url_id) if url_id else "")
+    # ---
+    if file_name:
+        printe.output(f"<<green>> find_from_data_db: {url} -> {file_name}")
     # ---
     return file_name
 
@@ -178,3 +194,18 @@ def find_url_file_upload(url, do_api=True):
         append_data(url, na)
     # ---
     return na
+
+
+if __name__ == "__main__":
+    # ---
+    url = "https://prod-images-static.radiopaedia.org/images/41297969/ebc7b3d1e1f61485f3aa37071c66f8.png"
+    # ---
+    print(f"{url=}")
+    # ---
+    print(from_cach_or_db(url))
+    # ---
+    url_id = "1159649"
+    # ---
+    print(f"{url_id=}")
+    # ---
+    print(from_cach_or_db("", url_id=url_id))

@@ -32,7 +32,7 @@ from newapi import printe
 from fix_mass.files import studies_titles, studies_titles2
 
 from fix_sets.new import work_one_study
-from fix_sets.ddo_bot import ddo
+from fix_sets.bots.ddo_bot import ddo
 
 
 def main():

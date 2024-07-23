@@ -1,9 +1,9 @@
 """
-python3 core8/pwb.py fix_mass/sf_infos/read_sf_infos
-python3 core8/pwb.py fix_mass/sf_infos/read_sf_infos dump
-python3 core8/pwb.py fix_mass/sf_infos/read_sf_infos read_all
+python3 core8/pwb.py sets_dbs/sf_infos/read_sf_infos
+python3 core8/pwb.py sets_dbs/sf_infos/read_sf_infos dump
+python3 core8/pwb.py sets_dbs/sf_infos/read_sf_infos read_all
 
-tfj run --mem 4Gi readall --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_mass/sf_infos/read_sf_infos read_all"
+tfj run --mem 4Gi readall --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py sets_dbs/sf_infos/read_sf_infos read_all"
 
 """
 import sys
