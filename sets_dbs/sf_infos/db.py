@@ -1,9 +1,7 @@
 """
-python3 core8/pwb.py fix_db/dp_infos/db_duplict test3 fs_infos_duplict-old.sqlite
-python3 core8/pwb.py fix_db/dp_infos/db_duplict test3
-python3 core8/pwb.py fix_db/dp_infos/db_duplict 54575469
+python3 core8/pwb.py sets_dbs/sf_infos/db 54575469
 
-from sets_dbs.dp_infos.db_duplict import insert_url_file # insert_url_file(url, file)
+from sets_dbs.sf_infos.db import insert_url_file # insert_url_file(url, file)
 
 """
 import sys
@@ -11,12 +9,7 @@ from pathlib import Path
 from fix_mass.sqlite_bot import SqlLiteFilesDB
 
 Dir = Path(__file__).parent
-
-db_path = Dir / "fs_infos_duplict.sqlite"
-
-if "fs_infos_duplict-old.sqlite" in sys.argv:
-    db_path = Dir / "fs_infos_duplict-old.sqlite"
-
+db_path = Dir / "sf_infos.sqlite"
 main_db_bot = SqlLiteFilesDB(db_path)
 
 
@@ -55,34 +48,6 @@ def query(sql):
 
 def find_from_data_db(url, urlid):
     return main_db_bot.find_from_data_db(url, urlid)
-
-
-def get_all_key_url_urlid():
-    data = {}
-    # ---
-    # if "nodudb" in sys.argv: return data
-    if "dudb" not in sys.argv:
-        return data
-    # ---
-    print("get_all_key_url_urlid")
-    # ---
-    for row in main_db_bot.get_data("infos"):
-        url = row["url"]
-        urlid = row["urlid"]
-        file = row["file"]
-        # ---
-        if not file:
-            continue
-        # ---
-        if url:
-            data[url] = file
-        # ---
-        if urlid:
-            data[urlid] = file
-    # ---
-    print(f"len get_all_key_url_urlid(fs_infos_duplict): {len(data)}")
-    # ---
-    return data
 
 
 def test():
@@ -150,4 +115,3 @@ if __name__ == "__main__":
         test3()
     else:
         test2()
-[]

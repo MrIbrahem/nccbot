@@ -1,12 +1,8 @@
 """
 
-python3 core8/pwb.py fix_db/dp_infos/fix new
-python3 core8/pwb.py fix_db/dp_infos/fix new -path:fs_infos_duplict1.sqlite
-python3 core8/pwb.py fix_db/dp_infos/fix new -path:fs_infos_duplict_x.sqlite
+python3 core8/pwb.py sets_dbs/sf_infos/fix
 
-python3 core8/pwb.py fix_db/dp_infos/fix delete
-
-tfj run --mem 1Gi fix --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_db/dp_infos/fix new"
+tfj run --mem 1Gi fix --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py sets_dbs/sf_infos/fix new"
 
 """
 import tqdm
@@ -17,7 +13,7 @@ from newapi.db_bot import LiteDB
 
 Dir = Path(__file__).parent
 
-db_path_value = "fs_infos_duplict.sqlite"
+db_path_value = "sf_infos.sqlite"
 
 for arg in sys.argv:
     arg, _, value = arg.partition(":")

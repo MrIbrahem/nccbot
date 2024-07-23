@@ -11,13 +11,12 @@ import sys
 from newapi import printe
 
 from fix_sets.bots.study_files import get_study_files
-from fix_sets.name_bots.db_duplict_bot import find_url_file_upload
 from fix_sets.name_bots.get_rev import get_file_urls_rev  # get_file_urls_rev(study_id)
 
 # from fix_sets.lists.sf_infos import from_sf_infs  # from_sf_infs(url, study_id)
 from fix_sets.jsons_dirs import get_study_dir
 
-# from sets_dbs.dp_infos.db_duplict import insert_all_infos
+from fix_sets.name_bots.db_duplict_bot import find_url_file_upload, insert_infos_all
 # from sets_dbs.file_infos.db import get_all_key_url_urlid  # , find_from_data_db  # find_from_data_db(url, urlid)
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 
@@ -65,12 +64,9 @@ def dump_it(data2, cach, study_id):
     # ---
     dumpit(data, file)
     # ---
-    # new_data = [{"url": url, "urlid": "", "file": file} for url, file in data.items()]
+    new_data = [{"url": url, "urlid": "", "file": file} for url, file in data.items()]
     # ---
-    # try:
-    #     insert_all_infos(new_data, prnt=False)
-    # except Exception as e:
-    #     printe.output(f"<<red>> Error insert_all_infos: {str(e)}")
+    insert_infos_all(new_data)
 
 
 def get_names_from_cach(study_id):

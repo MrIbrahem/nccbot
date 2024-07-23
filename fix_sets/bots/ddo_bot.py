@@ -1,5 +1,5 @@
 """
-from fix_sets.ddo_bot import ddo
+from fix_sets.bots.ddo_bot import ddo
 """
 import sys
 from time import sleep

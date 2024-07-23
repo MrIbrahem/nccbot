@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 from newapi import printe
-from fix_sets.ddo_bot import ddo
+from fix_sets.bots.ddo_bot import ddo
 from fix_sets.new import work_one_study
 from fix_sets.by_count.co import from_files
 from fix_sets.by_count.lists import counts_from_files
