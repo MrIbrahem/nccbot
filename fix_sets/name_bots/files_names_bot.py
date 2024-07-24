@@ -17,6 +17,7 @@ from fix_sets.name_bots.get_rev import get_file_urls_rev  # get_file_urls_rev(st
 from fix_sets.jsons_dirs import get_study_dir
 
 from fix_sets.name_bots.db_duplict_bot import find_url_file_upload, insert_infos_all
+
 # from sets_dbs.file_infos.db import get_all_key_url_urlid  # , find_from_data_db  # find_from_data_db(url, urlid)
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 
@@ -149,7 +150,8 @@ def make_names_2(urls, study_id, files, study_infos={}):
     # ---
     for url in tqdm.tqdm(urls):
         # ---
-        file_name_to_upload = ""
+        file_name_to_upload = study_infos.get(url, {}).get("file", "")
+        file_text = study_infos.get(url, {}).get("text", "")
         # ---
         file_name = get_file_name_rev(url, url_data_to_file, rev_id_to_file)
         # ---

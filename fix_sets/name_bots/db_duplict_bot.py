@@ -95,10 +95,13 @@ def append_data(url, file_name):
     #     writer.write({"url": url, "file_name": file_name})
 
 
-def get_from_api(url, filename="", do_ext=True):
+def get_from_api(url, filename="", do_ext=True, file_text=""):
     # ---
     if "noapi" in sys.argv:
         return ""
+    # ---
+    if filename.startswith("File:"):
+        filename = filename.replace("File:", "")
     # ---
     # extension = get_image_extension(image_url)
     # ---
@@ -118,21 +121,29 @@ def get_from_api(url, filename="", do_ext=True):
         # ---
         filename = files.get(extension, filename)
     # ---
+    filename = filename.replace("_", " ")
+    # ---
     params = {
         "action": "upload",
         "format": "json",
         "filename": filename,
+        "text": file_text,
         "url": url,
         # "stash": 1,
         "formatversion": "2",
     }
     # ---
-    # { "upload": { "result": "Warning", "warnings": { "duplicate": [ "Angiodysplasia_-_cecal_active_bleed_(Radiopaedia_168775-136954_Coronal_91).jpeg" ] }, "filekey": "1b00hc5unqxw.olk8pi.13.", "sessionkey": "1b00hc5unqxw.olk8pi.13." } }
-    # ---
     data = api_new.post_params(params)
     # ---
     result = data.get("upload", {}).get("result", "")  # Success
+    # ---
+    # { "upload": { "result": "Warning", "warnings": { "duplicate": [ "Angiodysplasia_-_cecal_active_bleed_(Radiopaedia_168775-136954_Coronal_91).jpeg" ] }, "filekey": "1b00hc5unqxw.olk8pi.13.", "sessionkey": "1b00hc5unqxw.olk8pi.13." } }
+    # ---
     duplicate = data.get("upload", {}).get("warnings", {}).get("duplicate", [])
+    # ---
+    # { "upload": { "result": "Warning", "warnings": { "exists": "Axillary_hidradenitis_suppurativa_(Radiopaedia_91902-109711_None_2).png", "nochange": { "timestamp": "2024-01-09T02:30:04Z" } }, "filekey": "x.", "sessionkey": "x" } }
+    # ---
+    exists = data.get("upload", {}).get("warnings", {}).get("exists", "").replace("_", " ")
     error = data.get("error", {})
     # ---
     du = ""
@@ -142,9 +153,21 @@ def get_from_api(url, filename="", do_ext=True):
         du = du.replace("_", " ")
         # ---
         printe.output(f"duplicate, find url_file_upload: {du}")
+        return du
+    elif exists:
+        du = "File:" + exists
+        du = du.replace("_", " ")
+        # ---
+        printe.output(f"exists, find url_file_upload: {du}")
+        return du
+
     elif result == "Success":
-        printe.output(f"Success, find url_file_upload: {url}")
+        new_filename = data.get("upload", {}).get("filename") or filename
+        # { "upload": { "result": "Success", "filename": "Test1x.jpeg", "imageinfo": { "timestamp": "2024-07-24T22:28:32Z", "user": "Mr. Ibrahem", "userid": 13, "size": 67938, "width": 512, "height": 512, "parsedcomment": "", "comment": "", "html": "", "canonicaltitle": "File:Test1x.jpeg", "url": "https://nccommons.org/media/3/3f/Test1x.jpeg", "descriptionurl": "", "sha1": "e145b86530458d59bd0d9f3b709954d5301a18c9", "metadata": [ { "name": "MEDIAWIKI_EXIF_VERSION", "value": 2 } ], "commonmetadata": [], "extmetadata": { "DateTime": { "value": "2024-07-24T22:28:32Z", "source": "mediawiki-metadata", "hidden": "" }, "ObjectName": { "value": "Test1x", "source": "mediawiki-metadata" } }, "mime": "image/jpeg", "mediatype": "BITMAP", "bitdepth": 8 } } }
+        printe.output(f"<<green>> new upload Success, File:{new_filename}")
+        return f"File:{new_filename}"
         # print(data)
+
     elif error:
         error_code = error.get("code", "")
         error_info = error.get("info", "")
@@ -183,7 +206,7 @@ def from_cach_or_db(url, url_id=""):
     return file_name
 
 
-def find_url_file_upload(url, file_name_to_upload, do_api):
+def find_url_file_upload(url, file_name_to_upload, do_api, file_text):
     # ---
     url_id = match_urlid(url)
     # ---
@@ -196,7 +219,7 @@ def find_url_file_upload(url, file_name_to_upload, do_api):
     na = ""
     # ---
     if do_api:
-        na = get_from_api(url, filename=file_name_to_upload)
+        na = get_from_api(url, filename=file_name_to_upload, file_text=file_text)
     # ---
     if na:
         append_data(url, na)

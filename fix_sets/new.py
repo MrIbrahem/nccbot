@@ -40,6 +40,7 @@ from fix_mass.files import studies_titles, studies_titles2
 from fix_sets.bots.study_files import get_study_files
 from fix_sets.new_works.get_info import get_study_infos
 
+
 def update_set_text(title, n_text, study_id):
     # ---
     printe.output(f"<<yellow>> update_set_text: {title}")
@@ -184,6 +185,8 @@ def work_one_study(study_id, study_title=""):
         return
     # ---
     study_infos = get_study_infos(study_id)
+    # ---
+    study_infos = {v["url"]: v for v in study_infos}
     # ---
     printe.output(f"{study_id=}, {study_title=}")
     # ---
