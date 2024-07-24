@@ -133,7 +133,7 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
         "formatversion": "2",
     }
     # ---
-    data = api_new.post_params(params)
+    data = api_new.post_params(params, do_error=False)
     # ---
     result = data.get("upload", {}).get("result", "")  # Success
     # ---
@@ -172,13 +172,14 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
         error_code = error.get("code", "")
         error_info = error.get("info", "")
         # ---
+        printe.output(f"<<yellow>> {filename=}, {url=}")
         printe.output(f"<<lightred>> error when upload_by_url, error_code:{error_code}")
         # ---
         if error_code == "verification-error":
             if do_ext and "MIME type of the file" in error_info:
                 new_file_name = get_new_ext(error_info, filename)
                 if new_file_name:
-                    return get_from_api(url, filename=new_file_name, do_ext=False)
+                    return get_from_api(url, filename=new_file_name, do_ext=False, file_text=file_text)
     else:
         print(data)
     # ---
@@ -206,7 +207,7 @@ def from_cach_or_db(url, url_id=""):
     return file_name
 
 
-def find_url_file_upload(url, file_name_to_upload, do_api, file_text):
+def find_url_file_upload(url, file_name_to_upload, do_api, file_text, noapi=False):
     # ---
     url_id = match_urlid(url)
     # ---
@@ -218,10 +219,11 @@ def find_url_file_upload(url, file_name_to_upload, do_api, file_text):
     # ---
     na = ""
     # ---
-    if do_api:
+    if do_api and not noapi:
         na = get_from_api(url, filename=file_name_to_upload, file_text=file_text)
     # ---
     if na:
+        na = na.replace("_", " ")
         append_data(url, na)
     # ---
     return na

@@ -1,4 +1,5 @@
 """
+python3 core8/pwb.py mass/radio/st3/o del2 ask 16850
 python3 core8/pwb.py mass/radio/st3/o del2 ask 90352
 
 tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/o updatetex 90505 nodone noid noc del2 multi"
@@ -12,6 +13,10 @@ python3 core8/pwb.py fix_sets/new ask 144866 nodudb
 python3 core8/pwb.py fix_sets/new ask nodb 101035
 python3 core8/pwb.py fix_sets/new ask nodb
 python3 core8/pwb.py fix_sets/new ask nodb
+python3 core8/pwb.py fix_sets/new ask nodb
+python3 core8/pwb.py fix_sets/new ask nodb
+python3 core8/pwb.py fix_sets/new ask nodb
+python3 core8/pwb.py fix_sets/new ask nodb 108736
 python3 core8/pwb.py fix_sets/new ask 101946
 python3 core8/pwb.py fix_sets/new ask 104863
 python3 core8/pwb.py fix_sets/new ask 101829
@@ -112,7 +117,8 @@ def work_text(study_id, study_title, study_infos={}):
 
 def fix_one_url(text, study_id, files=None):
     # ---
-    if "fix_one_url" not in sys.argv and "ask" not in sys.argv:
+    # if "fix_one_url" not in sys.argv and "ask" not in sys.argv:
+    if "fix_one_url" not in sys.argv:
         return text
     # ---
     # count how many http links in the text
@@ -186,7 +192,7 @@ def work_one_study(study_id, study_title=""):
     # ---
     study_infos = get_study_infos(study_id)
     # ---
-    study_infos = {v["url"]: v for v in study_infos}
+    study_infos = {v["url"]: v for x, v in study_infos.items()}
     # ---
     printe.output(f"{study_id=}, {study_title=}")
     # ---

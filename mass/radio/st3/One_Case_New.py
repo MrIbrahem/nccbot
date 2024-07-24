@@ -114,7 +114,7 @@ class OneCase(CASE_HELPS):
         # ---
         maain_uurls = list({x["public_filename"] for x in images})
         # ---
-        files_names = get_files_names(maain_uurls, {}, study)
+        files_names = get_files_names(maain_uurls, {}, study, noapi=True)
         # ---
         self.studies_names_cach[study] = files_names
 
@@ -198,6 +198,9 @@ class OneCase(CASE_HELPS):
         # ---
         if (str(study_id) in add_studies_cat_del_case or "del2" in sys.argv) and set_cat:
             cat_case = ""
+        # ---
+        if cat_case != "":
+            set_cat = ""
         # ---
         image_text = "== {{int:summary}} ==\n"
 
@@ -378,7 +381,7 @@ class OneCase(CASE_HELPS):
             # ---
             if na_in_cach and "noc" not in sys.argv:
                 file_name = na_in_cach.replace("File:", "")
-                printe.output(f"<<yellow>> make File name from studies_names_cach: {file_name}")
+                # printe.output(f"<<yellow>> make File name from studies_names_cach: {file_name}")
             # ---
             to_up[f"File:{file_name}"] = (image_url, file_name, image_id, plane, modality, study)
             # ---
@@ -460,6 +463,7 @@ class OneCase(CASE_HELPS):
         text += f"|title={set_title}\n|align=centre\n|loop=no\n"
         # ---
         for image_name in set_files:
+            image_name = image_name.replace("_", " ")
             text += f"|{image_name}|\n"
         # ---
         text += "\n}}\n[[Category:Image set]]\n"
