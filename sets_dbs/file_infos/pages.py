@@ -13,7 +13,7 @@ from newapi.ncc_page import NEW_API
 Dir = Path(__file__).parent
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 debug = "debug" in sys.argv
 number = 10 if debug and "no" not in sys.argv else 500

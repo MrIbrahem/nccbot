@@ -11,7 +11,7 @@ from newapi.ncc_page import NEW_API as ncc_NEW_API
 
 api_new = ncc_NEW_API("www", family="nccommons")
 
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 imges_liist = [
     "File:Extracted image icon.svg",

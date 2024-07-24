@@ -22,7 +22,7 @@ from nccommons import api_upload
 from newapi.ncc_page import NEW_API
 
 api_new = NEW_API('www', family='nccommons')
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 # ---
 yes_answer = ["y", "a", "", "Y", "A", "all"]
 # ---

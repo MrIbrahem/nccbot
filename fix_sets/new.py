@@ -1,4 +1,5 @@
 """
+python3 core8/pwb.py mass/radio/st3/o del2 ask 90352
 
 tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/o updatetex 90505 nodone noid noc del2 multi"
 
@@ -8,7 +9,9 @@ python3 core8/pwb.py fix_sets/new ask 80304 printtext
 python3 core8/pwb.py fix_sets/new ask 14038 printtext
 python3 core8/pwb.py fix_sets/new ask 62191 printtext
 python3 core8/pwb.py fix_sets/new ask 144866 nodudb
-python3 core8/pwb.py fix_sets/new ask
+python3 core8/pwb.py fix_sets/new ask nodb 101035
+python3 core8/pwb.py fix_sets/new ask nodb
+python3 core8/pwb.py fix_sets/new ask nodb
 python3 core8/pwb.py fix_sets/new ask 101946
 python3 core8/pwb.py fix_sets/new ask 104863
 python3 core8/pwb.py fix_sets/new ask 101829
@@ -19,7 +22,7 @@ python3 core8/pwb.py fix_sets/new ask 80302
 python3 core8/pwb.py fix_sets/new ask 14090
 python3 core8/pwb.py fix_sets/new ask all
 """
-# import re
+import re
 import sys
 from newapi import printe
 from newapi.ncc_page import MainPage as ncc_MainPage
@@ -34,7 +37,8 @@ from fix_sets.bots2.set_text2 import make_text_study
 from fix_sets.bots2.move_files2 import to_move_work
 
 from fix_mass.files import studies_titles, studies_titles2
-
+from fix_sets.bots.study_files import get_study_files
+from fix_sets.new_works.get_info import get_study_infos
 
 def update_set_text(title, n_text, study_id):
     # ---
@@ -76,7 +80,7 @@ def update_set_text(title, n_text, study_id):
     page.save(newtext=n_text, summary="Fix sort.")
 
 
-def work_text(study_id, study_title):
+def work_text(study_id, study_title, study_infos={}):
     # ---
     json_data = get_stacks(study_id)
     # ---
@@ -100,12 +104,60 @@ def work_text(study_id, study_title):
     #         printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, all_files < 3")
     #         return "", {}
     # ---
-    text, to_move, urls2 = make_text_study(json_data, study_title, study_id)
+    text, to_move, urls2 = make_text_study(json_data, study_title, study_id, study_infos=study_infos)
     # ---
     return text, to_move
 
 
+def fix_one_url(text, study_id, files=None):
+    # ---
+    if "fix_one_url" not in sys.argv and "ask" not in sys.argv:
+        return text
+    # ---
+    # count how many http links in the text
+    http_links = text.count("|http")
+    # ---
+    if http_links != 1:
+        return text
+    # ---
+    printe.output(f"<<red>> text has http links ({http_links})... study_id: {study_id}")
+    # ---
+    if not files:
+        files = get_study_files(study_id)
+    # ---
+    print(files)
+    # ---
+    files2 = [x for x in files if x not in text]
+    # ---
+    printe.output(f"len of files2: {len(files2)}")
+    # ---
+    if len(files2) != 1:
+        return text
+    # ---
+    n_file = files2[0]
+    # ---
+    # match url in text
+    pat = r"\|https?://.*?\|"
+    # ---
+    fi = re.findall(pat, text)
+    # ---
+    if len(fi) != 1:
+        return text
+    # ---
+    url = fi[0]
+    # ---
+    if url.find("https://") == -1:
+        return text
+    # ---
+    printe.output(f"<<yellow>> fix_one_url: {url}")
+    # ---
+    text = text.replace(url, f"|File:{n_file}|")
+    # ---
+    return text
+
+
 def has_http_links(text, study_id):
+    # ---
     if text.find("|http") == -1:
         return False
     # ---
@@ -114,7 +166,7 @@ def has_http_links(text, study_id):
     # ---
     printe.output(f"<<red>> text has http links ({http_links})... study_id: {study_id}")
     # ---
-    has_url_append(study_id)
+    has_url_append(study_id, text)
     # ---
     if "printtext" in sys.argv:
         printe.output(text)
@@ -131,14 +183,18 @@ def work_one_study(study_id, study_title=""):
         printe.output(f"<<red>> study_title is empty... study_id: {study_id}")
         return
     # ---
+    study_infos = get_study_infos(study_id)
+    # ---
     printe.output(f"{study_id=}, {study_title=}")
     # ---
     if find_has_url(study_id):
         return
     # ---
-    text, to_move = work_text(study_id, study_title)
+    text, to_move = work_text(study_id, study_title, study_infos=study_infos)
     # ---
     text = text.strip()
+    # ---
+    text = fix_one_url(text, study_id)
     # ---
     if has_http_links(text, study_id):
         return

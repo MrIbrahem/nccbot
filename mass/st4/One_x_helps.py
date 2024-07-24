@@ -14,7 +14,7 @@ from mass.radio.bots.add_cat import add_cat_to_images  # add_cat_to_images(sets,
 from fix_sets.name_bots.files_names_bot import get_files_names
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 
 def printt(s):

@@ -20,7 +20,7 @@ from fix_sets.jsons_dirs import jsons_dir
 from sets_dbs.dp_infos.db_duplict_new import find_data, insert_url_file, insert_all_infos  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 url_to_file_file = jsons_dir / "find_from_url.jsonl"
 
@@ -110,15 +110,22 @@ def get_from_api(url, filename="", do_ext=True):
             extension = ext.split(".")[-1].lower()
         # ---
         files = {
-            "jpg": "Wiki.jpg",
+            "jpg": "wikia2.jpg",
             "png": "Test.png",
         }
         # ---
-        filename = f"Wiki.{extension}"
+        filename = f"wikia2.{extension}"
         # ---
         filename = files.get(extension, filename)
     # ---
-    params = {"action": "upload", "format": "json", "filename": filename, "url": url, "stash": 1, "formatversion": "2"}
+    params = {
+        "action": "upload",
+        "format": "json",
+        "filename": filename,
+        "url": url,
+        # "stash": 1,
+        "formatversion": "2",
+    }
     # ---
     # { "upload": { "result": "Warning", "warnings": { "duplicate": [ "Angiodysplasia_-_cecal_active_bleed_(Radiopaedia_168775-136954_Coronal_91).jpeg" ] }, "filekey": "1b00hc5unqxw.olk8pi.13.", "sessionkey": "1b00hc5unqxw.olk8pi.13." } }
     # ---
@@ -134,9 +141,10 @@ def get_from_api(url, filename="", do_ext=True):
         du = "File:" + duplicate[0]
         du = du.replace("_", " ")
         # ---
-        printe.output(f"duplicate, find_url_file_upload: {du}")
+        printe.output(f"duplicate, find url_file_upload: {du}")
     elif result == "Success":
-        printe.output(f"Success, find_url_file_upload: {url}")
+        printe.output(f"Success, find url_file_upload: {url}")
+        # print(data)
     elif error:
         error_code = error.get("code", "")
         error_info = error.get("info", "")
@@ -145,7 +153,7 @@ def get_from_api(url, filename="", do_ext=True):
         # ---
         if error_code == "verification-error":
             if do_ext and "MIME type of the file" in error_info:
-                new_file_name = get_new_ext(error_info, "wiki.jpg")
+                new_file_name = get_new_ext(error_info, filename)
                 if new_file_name:
                     return get_from_api(url, filename=new_file_name, do_ext=False)
     else:
@@ -159,7 +167,7 @@ def from_cach_or_db(url, url_id=""):
     if url in data_maain:
         da = data_maain[url]
         if da.find("https") == -1:
-            # printe.output(f"find_url_file_upload: {data_maain[url]}")
+            # printe.output(f"find url_file_upload: {data_maain[url]}")
             return da
     # ---
     # file_name = find_from_db_dp(url, "")
@@ -175,20 +183,20 @@ def from_cach_or_db(url, url_id=""):
     return file_name
 
 
-def find_url_file_upload(url, do_api=True):
+def find_url_file_upload(url, file_name_to_upload, do_api):
     # ---
     url_id = match_urlid(url)
     # ---
     in_cach = from_cach_or_db(url, url_id)
     # ---
     if in_cach and in_cach.find("https") == -1:
-        # printe.output(f"find_url_file_upload, from_cach_or_db: {in_cach}")
+        # printe.output(f"find url_file_upload, from_cach_or_db: {in_cach}")
         return in_cach
     # ---
     na = ""
     # ---
     if do_api:
-        na = get_from_api(url)
+        na = get_from_api(url, filename=file_name_to_upload)
     # ---
     if na:
         append_data(url, na)

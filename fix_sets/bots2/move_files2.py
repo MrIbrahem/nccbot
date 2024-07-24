@@ -12,7 +12,7 @@ from fix_sets.jsons_dirs import get_study_dir#, jsons_dir
 from logs_fix.files import move_text_dir
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 def change_names(file_dict, ty, study_id):
     modified_file_dict = {}

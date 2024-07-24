@@ -48,7 +48,7 @@ list_to_delete = [
 
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 
 for x in list_to_delete:

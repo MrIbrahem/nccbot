@@ -15,7 +15,7 @@ from mass.radio.st3.start3 import main_by_ids
 
 # ---
 api_new = NEW_API('www', family='nccommons')
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 # ---
 
 
