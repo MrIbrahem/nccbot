@@ -32,14 +32,14 @@ from mass.radio.st3.One_Case_New import OneCase
 # ---
 radio_jsons_dir = Path(__file__).parent.parent / "jsons"
 # ---
+with open(radio_jsons_dir / "all_ids.json", encoding="utf-8") as f:
+    all_ids = json.load(f)
+# ---
 with open(radio_jsons_dir / "authors.json", encoding="utf-8") as f:
     authors = json.load(f)
 # ---
 with open(radio_jsons_dir / "infos.json", encoding="utf-8") as f:
     infos = json.load(f)
-# ---
-with open(radio_jsons_dir / "all_ids.json", encoding="utf-8") as f:
-    all_ids = json.load(f)
 # ---
 # cases_in_ids = []
 # ---

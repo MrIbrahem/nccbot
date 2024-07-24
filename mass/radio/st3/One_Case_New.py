@@ -24,6 +24,8 @@ from fix_sets.name_bots.files_names_bot import get_files_names
 
 # from ncc_jsons.dir_studies_bot import studies_dir
 
+from mass.radio.st3.cases_class import CASE_HELPS
+
 # ---
 try:
     import pywikibot
@@ -40,7 +42,7 @@ with open(os.path.join(str(main_dir), "authors_list/authors_infos.json"), encodi
     authors_infos = json.load(f)
 # ---
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 # ---
 urls_done = []
 # ---
@@ -74,8 +76,8 @@ def printt(s):
     printe.output(s)
 
 
-class OneCase:
-    def __init__(self, case_url, caseId, title, studies_ids, author):
+class OneCase(CASE_HELPS):
+    def __init__(self, case_url, caseId, title, studies_ids, author, work_dump_to_files=False):
         self.author = author
         self.caseId = caseId
         self.case_url = case_url
@@ -92,8 +94,10 @@ class OneCase:
         auth_location = authors_infos.get(self.author, {}).get("location", "")
         self.usa_auth = auth_location.lower().find("united states") != -1
         # ---
+        self.image_texts_cach = {}
         self.published = ""
         self.system = ""
+        self.work_dump_to_files = "dump_studies_urls_to_files" in sys.argv or work_dump_to_files
         # ---
         if self.case_url in jsons.infos:
             self.published = jsons.infos[self.case_url]["published"]
@@ -168,6 +172,9 @@ class OneCase:
     def make_image_text(self, image_url, image_id, plane, modality, study_id):
         auth_line = f"{self.author}"
         # ---
+        if self.image_texts_cach.get(image_url):
+            return self.image_texts_cach[image_url]
+        # ---
         auth_url = authors_infos.get(self.author, {}).get("url", "")
         auth_location = authors_infos.get(self.author, {}).get("location", "")
         if auth_url:
@@ -216,6 +223,9 @@ class OneCase:
             "[[Category:Uploads by Mr. Ibrahem]]\n"
             f"{set_cat}"
         )
+        # ---
+        self.image_texts_cach[image_url] = image_text
+        # ---
         return image_text
 
     def upload_image(self, image_url, image_name, image_id, plane, modality, study_id):
@@ -313,7 +323,7 @@ class OneCase:
             extension = get_image_extension(image["fullscreen_filename"])
         # ---
         if extension == "bmp":
-            if "dump_studies_urls_to_files" not in sys.argv:
+            if not self.work_dump_to_files:
                 image_url2, extension = work_bmp(image_url)
                 self.urls_rep[image_url2] = image_url
                 image_url = image_url2
@@ -364,15 +374,34 @@ class OneCase:
             na_in_cach = self.studies_names_cach[study].get(public_filename)
             # print(f"{na_in_cach=}")
             # ---
+            file_name = file_name.replace("..", ".")
+            # ---
             if na_in_cach and "noc" not in sys.argv:
                 file_name = na_in_cach.replace("File:", "")
                 printe.output(f"<<yellow>> make File name from studies_names_cach: {file_name}")
             # ---
             to_up[f"File:{file_name}"] = (image_url, file_name, image_id, plane, modality, study)
             # ---
-            self.img_to_url[study][f"File:{file_name}"] = {"url": image_url, "id": image_id}
+            taba = {
+                "file": f"File:{file_name}",
+                "url": image_url,
+                "url2": "",
+                "id": image_id,
+                "text": "",
+            }
+            # ---
+            image_url2 = self.urls_rep.get(image_url, image_url)
+            # ---
+            if image_url != image_url2:
+                taba["url2"] = image_url2
+            # ---
+            image_text = self.make_image_text(image_url2, image_id, plane, modality, study)
+            # ---
+            taba["text"] = image_text
+            # ---
+            self.img_to_url[study][f"File:{file_name}"] = taba
         # ---
-        if "dump_studies_urls_to_files" in sys.argv:
+        if self.work_dump_to_files:
             return
         # ---
         to_c = list(to_up.keys())
@@ -402,7 +431,7 @@ class OneCase:
         if self.img_to_url:
             dump_studies_urls_to_files(self.img_to_url)
 
-        if "dump_studies_urls_to_files" in sys.argv:
+        if self.work_dump_to_files:
             return
 
         printt(f"Images count: {self.images_count}")
@@ -523,3 +552,16 @@ class OneCase:
             new_text = p_text + add_text
             ssa = page.save(newtext=new_text, summary=f"Bot: added [[:{self.category}]]")
             return ssa
+
+    def start_work_dump_to_files(self):
+        self.get_studies_d()
+
+        for study, images in self.studies.items():
+            printt(f"{study} : len(images) = {len(images)}")
+            # ---
+            self.upload_images(study, images)
+
+        if self.img_to_url:
+            dump_studies_urls_to_files(self.img_to_url)
+
+        return self.img_to_url

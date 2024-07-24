@@ -22,7 +22,7 @@ from fix_mass.helps_bot.file_bot import from_cach, dumpit
 from fix_sets.bots2.match_helps import match_id  # match_id(content, title)
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 images_to_ids = {}
 ids_to_images = {}

@@ -18,7 +18,7 @@ from fix_sets.bots2.match_helps import match_urlid, match_id
 
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 
 # st_dic_infos = jsons_dir / "studies_files_infos"
 

@@ -1,5 +1,6 @@
 #!/bin/bash
 # fix cases
+# python3 core8/pwb.py mass/radio/st3/o del2 85177
 python3 core8/pwb.py mass/radio/st3/start3  ask noapi  get:1 allids del2 updatetext
 
 

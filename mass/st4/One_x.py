@@ -17,7 +17,7 @@ from mass.radio.jsons_files import jsons
 from mass.st4.lists import authors_infos
 
 api_new = NEW_API("www", family="nccommons")
-api_new.Login_to_wiki()
+# api_new.Login_to_wiki()
 # ---
 urls_done = []
 # ---

@@ -13,7 +13,7 @@ from fix_sets.bots.get_img_info import one_img_info
 from fix_sets.name_bots.files_names_bot import get_files_names
 
 
-def get_files_names_2(study_id, json_data):
+def get_files_names_2(study_id, json_data, study_infos={}):
     # ---
     files = get_study_files(study_id)
     # ---
@@ -28,7 +28,7 @@ def get_files_names_2(study_id, json_data):
     # ---
     maain_uurls = list(set(maain_uurls))
     # ---
-    file_names = get_files_names(maain_uurls, url_to_file, study_id, files)
+    file_names = get_files_names(maain_uurls, url_to_file, study_id, files, study_infos=study_infos)
     # ---
     file_names = {x:v for x, v in file_names.items() if v}
     # ---
@@ -84,9 +84,9 @@ def make_text_normal(texts, to_move, study_title2):
     return text
 
 
-def prase_json_data(json_data, study_id):
+def prase_json_data(json_data, study_id, study_infos={}):
     # ---
-    files_names, urls2 = get_files_names_2(study_id, json_data)
+    files_names, urls2 = get_files_names_2(study_id, json_data, study_infos=study_infos)
     # ---
     noo = 0
     urlls = {}
@@ -167,13 +167,13 @@ def replace_urls_in_texts(url_to_filename, texts):
     return texts
 
 
-def make_text_study(json_data, study_title, study_id):
+def make_text_study(json_data, study_title, study_id, study_infos={}):
     # ---
     modalities = set([x["modality"] for x in json_data])
     # ---
     printe.output(f"modalities: {modalities}")
     # ---
-    urlls, to_move, texts, urls2 = prase_json_data(json_data, study_id)
+    urlls, to_move, texts, urls2 = prase_json_data(json_data, study_id, study_infos=study_infos)
     # ---
     texts = replace_urls_in_texts(urlls, texts)
     # ---

@@ -14,7 +14,6 @@ tfj run aa8 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8
 tfj run aa9 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot 9"
 tfj run aa10 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/by_count/bot 10"
 
-
 """
 import sys
 from pathlib import Path
