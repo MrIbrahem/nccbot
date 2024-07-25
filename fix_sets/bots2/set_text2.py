@@ -130,7 +130,7 @@ def prase_json_data(json_data, study_id, study_infos={}):
             # ---
             file_name = files_names.get(url)
             # ---
-            if file_name.find("Radiopaedia") == -1 and len(file_name) < 25:
+            if file_name and file_name.find("Radiopaedia") == -1 and len(file_name) < 25:
                 printe.output(f"<<purple>> {url} {file_name=}")
                 file_name = ""
             # ---

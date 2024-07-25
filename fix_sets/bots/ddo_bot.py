@@ -1,5 +1,5 @@
 """
-from fix_sets.bots.ddo_bot import ddo
+from fix_sets.bots.ddo_bot import ddo, remove_done
 """
 import sys
 from time import sleep
@@ -25,6 +25,12 @@ def make_tabs(ids):
         printe.output(command)
     # ---
     return tabs
+
+
+def remove_done(taba):
+    no_done = [x for x in taba if x not in studies_fixed_done]
+    printe.output(f"\t\t ids after_done: <<yellow>>{len(no_done):,}")
+    return no_done
 
 
 def ddo(taba, spli=True):

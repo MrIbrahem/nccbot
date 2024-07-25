@@ -14,7 +14,7 @@ import mimetypes
 # from pathlib import Paths
 from newapi.ncc_page import NEW_API
 from newapi import printe
-
+from mass.radio.bots.bmp import work_bmp
 from fix_sets.jsons_dirs import jsons_dir
 
 from sets_dbs.dp_infos.db_duplict_new import find_data, insert_url_file, insert_all_infos  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
@@ -105,6 +105,14 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
     # ---
     # extension = get_image_extension(image_url)
     # ---
+    if filename.endswith(".bmp"):
+        url, extension = work_bmp(url, just_do=True)
+        # filename = filename.replace(".bmp", extension)
+        filename = str(Path(filename).with_suffix(f".{extension}"))
+    # ---
+    if not filename:
+        return ""
+    # ---
     if not filename:
         extension = "jpg"
         # ---
@@ -172,6 +180,7 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
         error_code = error.get("code", "")
         error_info = error.get("info", "")
         # ---
+        printe.output("____________________________________________")
         printe.output(f"<<yellow>> {filename=}, {url=}")
         printe.output(f"<<lightred>> error when upload_by_url, error_code:{error_code}")
         # ---

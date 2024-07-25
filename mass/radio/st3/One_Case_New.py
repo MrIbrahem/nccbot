@@ -330,8 +330,6 @@ class OneCase(CASE_HELPS):
                 image_url2, extension = work_bmp(image_url)
                 self.urls_rep[image_url2] = image_url
                 image_url = image_url2
-            else:
-                extension = "jpg"
         # ---
         return extension, image_url
 
@@ -426,8 +424,11 @@ class OneCase(CASE_HELPS):
     def start(self):
         self.get_studies_d()
 
-        for study, images in self.studies.items():
-            printt(f"{study} : len(images) = {len(images)}")
+        for n, (study, images) in enumerate(self.studies.items(), 1):
+            printt("<<blue>> ===========================")
+            printt(f"<<purple>> work {n}/{len(self.studies)} on study:{study}:")
+            # ---
+            printt(f"len(images) = {len(images)}")
             # ---
             self.upload_images(study, images)
 
