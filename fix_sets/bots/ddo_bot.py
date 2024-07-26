@@ -10,16 +10,31 @@ from fix_sets.bots.has_url import already_has_url
 
 def make_tabs(ids):
     length = (len(ids) // 10) + 1
-    length = 700
+    # ---
+    length = 1000
+    # ---
+    for arg in sys.argv:
+        arg, _, value = arg.partition(":")
+        if arg == "le" and value.isdigit():
+            length = int(value)
     # ---
     tabs = {}
+    # ---
     for i in range(0, len(ids), length):
         num = i // length + 1
         # ---
         tabs[str(num)] = ids[i : i + length]
         # ---
-        command = f'tfj run fix{num} --mem 1Gi --image python3.9 --command "'
-        command += f"$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:{num} {len(tabs[str(num)])}"
+        command = f"tfj run fix{num} --mem 1Gi --image python3.11 --command"
+        command += ' "'
+        # ---
+        command += f"$HOME/local/bin/python3 c8/pwb.py fix_sets/new_all le:{length} get:{num} rev nodb"
+        # ---
+        lena = len(tabs[str(num)])
+        # ---
+        if lena != length:
+            command += f" {lena}"
+        # ---
         command += '"'
         # ---
         printe.output(command)

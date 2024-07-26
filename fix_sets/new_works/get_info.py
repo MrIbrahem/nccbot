@@ -10,7 +10,7 @@ python3 core8/pwb.py fix_sets/new_works/get_info 101829
 """
 import sys
 import json
-from mass.radio.st3.One_Case_New import OneCase
+from mass.st3.One_x import OneCase
 from mass.radio.jsons_bot import radio_jsons_dir
 from fix_mass.files import study_id_to_case_id
 

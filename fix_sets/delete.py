@@ -1,7 +1,7 @@
 """
 python3 core8/pwb.py fix_sets/delete
 """
-from newapi.ncc_page import NEW_API
+from fix_sets.ncc_api import post_ncc_params
 
 list_to_delete = [
     "File:Ankle x-ray - labeling questions (Radiopaedia 70242-80302 None 1).JPG",
@@ -47,10 +47,6 @@ list_to_delete = [
 
 
 
-api_new = NEW_API("www", family="nccommons")
-# api_new.Login_to_wiki()
-
-
 for x in list_to_delete:
     params = {
         "action": "delete",
@@ -60,6 +56,6 @@ for x in list_to_delete:
         "formatversion": "2"
     }
     # ---
-    result = api_new.post_params(params, addtoken=True)
+    result = post_ncc_params(params, addtoken=True)
     # ---
     print(result)

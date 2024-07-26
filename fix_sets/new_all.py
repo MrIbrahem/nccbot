@@ -15,13 +15,8 @@ python3 core8/pwb.py fix_sets/new_all noapi norevip reverse
 python3 core8/pwb.py fix_sets/new_all noapi norevip
 
 tfj run newall --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all nodb noapi"
-tfj run aa1 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:1 reverse"
-tfj run aa2 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:2 reverse"
-tfj run aa3 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:3 reverse"
-tfj run aa4 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:4 reverse"
-tfj run aa5 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:5 reverse"
-tfj run aa6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:6 reverse"
-tfj run aa6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/new_all get:7 reverse"
+
+
 
 """
 import sys
@@ -43,7 +38,7 @@ def main():
     # ---
     ids.sort()
     # ---
-    if "reverse" in sys.argv:
+    if "reverse" in sys.argv or "rev" in sys.argv:
         ids.reverse()
     # ---
     printe.output(f"<<purple>> len of ids: {len(ids)}")

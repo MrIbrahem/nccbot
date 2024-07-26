@@ -12,7 +12,7 @@ from pathlib import Path
 from datetime import datetime
 
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
-from newapi.ncc_page import CatDepth
+from fix_sets.ncc_api import CatDepth
 from newapi import printe
 
 no_match = []

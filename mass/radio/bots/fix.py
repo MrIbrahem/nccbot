@@ -4,7 +4,7 @@ python3 core8/pwb.py mass/radio/bots/fix ask
 
 '''
 from newapi import printe
-from mass.radio.st3.start3 import ids_by_caseId, main
+from mass.st3.start3 import ids_by_caseId, main
 
 to_fix = [
     "180217",

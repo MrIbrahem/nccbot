@@ -1,9 +1,9 @@
 """
-python3 core8/pwb.py mass/radio/st3/o del2 ask 45822
-python3 core8/pwb.py mass/radio/st3/o del2 ask 16850
-python3 core8/pwb.py mass/radio/st3/o del2 ask 90352
+python3 core8/pwb.py mass/st3/o del2 ask 45822
+python3 core8/pwb.py mass/st3/o del2 ask 16850
+python3 core8/pwb.py mass/st3/o del2 ask 90352
 
-tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/o updatetex 90505 nodone noid noc del2 multi"
+tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st3/o updatetex 90505 nodone noid noc del2 multi"
 
 python3 core8/pwb.py fix_sets/new ask 109711 # 2files
 python3 core8/pwb.py fix_sets/new ask 143304
@@ -31,7 +31,7 @@ python3 core8/pwb.py fix_sets/new ask all
 import re
 import sys
 from newapi import printe
-from newapi.ncc_page import MainPage as ncc_MainPage
+from fix_sets.ncc_api import ncc_MainPage
 
 from fix_sets.bots.stacks import get_stacks  # get_stacks(study_id)
 from fix_sets.bots.has_url import has_url_append, find_has_url  # , already_has_url
