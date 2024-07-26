@@ -10,7 +10,7 @@ from fix_sets.bots.has_url import already_has_url
 
 def make_tabs(ids):
     length = (len(ids) // 10) + 1
-    length = 1500
+    length = 700
     # ---
     tabs = {}
     for i in range(0, len(ids), length):
