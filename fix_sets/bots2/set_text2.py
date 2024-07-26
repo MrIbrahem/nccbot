@@ -30,7 +30,7 @@ def get_files_names_2(study_id, json_data, study_infos={}):
     # ---
     file_names = get_files_names(maain_uurls, url_to_file, study_id, files, study_infos=study_infos)
     # ---
-    file_names = {x:v for x, v in file_names.items() if v}
+    file_names = {x: v for x, v in file_names.items() if v}
     # ---
     # print(json.dumps(file_names, indent=4))
     # ---
@@ -130,7 +130,12 @@ def prase_json_data(json_data, study_id, study_infos={}):
             # ---
             file_name = files_names.get(url)
             # ---
+            if file_name and file_name.find("Radiopaedia") == -1 and len(file_name) < 25:
+                printe.output(f"<<purple>> {url} {file_name=}")
+                file_name = ""
+            # ---
             if file_name:
+                file_name = file_name.replace("_", " ")
                 urlls[url] = file_name
             else:
                 noo += 1
@@ -148,7 +153,7 @@ def prase_json_data(json_data, study_id, study_infos={}):
 
 def replace_urls_in_texts(url_to_filename, texts):
     # ---
-    pp = "pp" in sys.argv
+    pp = "po" in sys.argv
     # ---
     if pp:
         print(json.dumps(url_to_filename, indent=2))
@@ -157,9 +162,10 @@ def replace_urls_in_texts(url_to_filename, texts):
         # ---
         if pp:
             print(f"text_type: {text_type}, len: {len(text_content)}")
-            print(text_content)
+            # print(text_content)
         # ---
         for url, file_name in url_to_filename.items():
+            file_name = file_name.replace("_", " ")
             text_content = text_content.replace(url, file_name)
         # ---
         texts[text_type] = text_content
@@ -193,5 +199,7 @@ def make_text_study(json_data, study_title, study_id, study_infos={}):
         text = make_new_text(texts, to_move, study_title)
     else:
         text = make_text_normal(texts, to_move, study_title)
+    # ---
+    text = text.strip()
     # ---
     return text, to_move, urls2

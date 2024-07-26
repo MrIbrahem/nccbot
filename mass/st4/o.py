@@ -28,7 +28,7 @@ import sys
 if "multi" not in sys.argv:
     sys.argv.append("ask")
 # ---
-from mass.st4.start4 import main_by_ids
+from mass.st4.start import main_by_ids
 
 # ---
 ids = [arg for arg in sys.argv if arg.isdigit()]

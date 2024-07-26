@@ -135,7 +135,7 @@ def get_file_name_rev(url, url_data_to_file, rev_id_to_file):
     return file_name
 
 
-def make_names_2(urls, study_id, files, study_infos={}):
+def make_names_2(urls, study_id, files, study_infos={}, noapi=False):
     printe.output(f"no_names: {len(urls)}")
     # ---
     only_cach = "revcach" in sys.argv
@@ -155,9 +155,12 @@ def make_names_2(urls, study_id, files, study_infos={}):
         # ---
         file_name = get_file_name_rev(url, url_data_to_file, rev_id_to_file)
         # ---
+        if not file_name and "new2" in sys.argv:
+            file_name = file_name_to_upload
+        # ---
         if not file_name:
             do_api = "noapi" not in sys.argv
-            file_name = find_url_file_upload(url, file_name_to_upload, do_api, file_text)
+            file_name = find_url_file_upload(url, file_name_to_upload, do_api, file_text, noapi=noapi)
         # ---
         if file_name:
             names2[url] = file_name
@@ -167,7 +170,7 @@ def make_names_2(urls, study_id, files, study_infos={}):
     return names2
 
 
-def get_files_names(urls, url_to_file, study_id, files=None, study_infos={}):
+def get_files_names(urls, url_to_file, study_id, files=None, study_infos={}, noapi=False):
     # ---
     if not files:
         files = get_study_files(study_id)
@@ -201,7 +204,7 @@ def get_files_names(urls, url_to_file, study_id, files=None, study_infos={}):
     no_names = [x for x in urls if not files_names.get(x)]
     # ---
     if no_names:
-        names_2 = make_names_2(no_names, study_id, files, study_infos=study_infos)
+        names_2 = make_names_2(no_names, study_id, files, study_infos=study_infos, noapi=noapi)
         if names_2:
             files_names.update(names_2)
     # ---

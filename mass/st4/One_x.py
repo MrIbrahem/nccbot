@@ -8,7 +8,7 @@ from nccommons import api
 from newapi import printe
 from newapi.ncc_page import NEW_API, MainPage as ncc_MainPage
 
-from mass.st4.One_x_helps import CaseHelps
+from mass.st4.One_x_helps import CASE_HELPS
 from mass.radio.get_studies import get_stacks_fixed  # (study_id, case_id, get_cach=False)
 from mass.radio.bots.update import update_text_add_pd_medical, update_text
 from mass.radio.bots.studies_utf import dump_studies_urls_to_files
@@ -39,8 +39,8 @@ def printt(s):
     printe.output(s)
 
 
-class OneCase(CaseHelps):
-    def __init__(self, case_url, caseId, title, studies_ids, author):
+class OneCase(CASE_HELPS):
+    def __init__(self, case_url, caseId, title, studies_ids, author, work_dump_to_files=False):
         super().__init__(case_url, caseId, title, studies_ids, author)
         self.author = author
         self.caseId = caseId
@@ -58,8 +58,10 @@ class OneCase(CaseHelps):
         auth_location = authors_infos.get(self.author, {}).get("location", "")
         self.usa_auth = auth_location.lower().find("united states") != -1
         # ---
+        self.image_texts_cach = {}
         self.published = ""
         self.system = ""
+        self.work_dump_to_files = "dump_studies_urls_to_files" in sys.argv or work_dump_to_files
         # ---
         if self.case_url in jsons.infos:
             self.published = jsons.infos[self.case_url]["published"]
@@ -71,28 +73,6 @@ class OneCase(CaseHelps):
         else:
             if self.case_url in jsons.url_to_sys:
                 self.system = jsons.url_to_sys[self.case_url]
-
-    def start(self):
-        self.get_studies_d()
-
-        for study, images in self.studies.items():
-            printt(f"{study} : len(images) = {len(images)}")
-            # ---
-            self.upload_images(study, images)
-
-        if self.img_to_url:
-            dump_studies_urls_to_files(self.img_to_url)
-
-        if "dump_studies_urls_to_files" in sys.argv:
-            return
-
-        printt(f"Images count: {self.images_count}")
-
-        if self.images_count == 0:
-            printt("no category created")
-            return
-
-        self.create_category(self.category)
 
     def create_category(self, category):
         text = f"* [{self.case_url} Radiopaedia case: {self.title} ({self.caseId})]\n"
@@ -122,12 +102,74 @@ class OneCase(CaseHelps):
             # sort images by position key
             images = sorted(images, key=lambda x: x["position"])
             # ---
-            self.studies_names_cach[study] = self.get_files_names_from_urls(study, images)
+            self.get_files_names_from_urls(study, images)
             # ---
             print(f"len of self.studies_names_cach[{study}] : {len(self.studies_names_cach.get(study))}")
             # ---
             self.studies[study] = images
             printt(f"study:{study} : len(images) = {len(images)}..")
+
+    def make_image_text(self, image_url, image_id, plane, modality, study_id):
+        auth_line = f"{self.author}"
+        # ---
+        if self.image_texts_cach.get(image_url):
+            return self.image_texts_cach[image_url]
+        # ---
+        auth_url = authors_infos.get(self.author, {}).get("url", "")
+        auth_location = authors_infos.get(self.author, {}).get("location", "")
+        if auth_url:
+            auth_line = f"[{auth_url} {self.author}]"
+        # ---
+        image_url = self.urls_rep.get(image_url, image_url)
+        # ---
+        usa_license = ""
+        # ---
+        if self.usa_auth:
+            usa_license = "{{PD-medical}}"
+        # ---
+        study_url = f"https://radiopaedia.org/cases/{self.caseId}/studies/{study_id}"
+        # ---
+        set_cat = ""
+        # ---
+        if len(self.studies) > 1 or str(study_id) in add_studies_cat_del_case or "del2" in sys.argv:
+            set_cat = f"[[Category:Radiopaedia case {self.title} id: {self.caseId} study: {study_id}]]"
+        # ---
+        cat_case = f"[[{self.category}]]"
+        # ---
+        if (str(study_id) in add_studies_cat_del_case or "del2" in sys.argv) and set_cat:
+            cat_case = ""
+        # ---
+        if cat_case != "":
+            set_cat = ""
+        # ---
+        image_text = "== {{int:summary}} ==\n"
+
+        image_text += (
+            "{{Information\n"
+            f"|Description = \n"
+            f"* Radiopaedia case ID: [{self.case_url} {self.caseId}]\n"
+            f"* Study ID: [{study_url} {study_id}]\n"
+            f"* Image ID: [{image_url} {image_id}]\n"
+            f"* Plane projection: {plane}\n"
+            f"* Modality: {modality}\n"
+            f"* System: {self.system}\n"
+            f"* Author location: {auth_location}\n"
+            f"|Date = {self.published}\n"
+            f"|Source = [{self.case_url} {self.title}]\n"
+            f"|Author = {auth_line}\n"
+            "|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/\n"
+            "}}\n"
+            "== {{int:license}} ==\n"
+            "{{CC-BY-NC-SA-3.0}}\n"
+            f"{usa_license}\n"
+            f"{cat_case}\n"
+            "[[Category:Uploads by Mr. Ibrahem]]\n"
+            f"{set_cat}"
+        )
+        # ---
+        self.image_texts_cach[image_url] = image_text
+        # ---
+        return image_text
 
     def upload_image(self, image_url, image_name, image_id, plane, modality, study_id):
         if "noup" in sys.argv:
@@ -155,59 +197,6 @@ class OneCase(CaseHelps):
             self.add_category(file_name, self.category)
 
         return file_name
-
-    def make_image_text(self, image_url, image_id, plane, modality, study_id):
-        auth_line = f"{self.author}"
-        # ---
-        auth_url = authors_infos.get(self.author, {}).get("url", "")
-        auth_location = authors_infos.get(self.author, {}).get("location", "")
-        if auth_url:
-            auth_line = f"[{auth_url} {self.author}]"
-        # ---
-        image_url = self.urls_rep.get(image_url, image_url)
-        # ---
-        usa_license = ""
-        # ---
-        if self.usa_auth:
-            usa_license = "{{PD-medical}}"
-        # ---
-        study_url = f"https://radiopaedia.org/cases/{self.caseId}/studies/{study_id}"
-        # ---
-        set_cat = ""
-        # ---
-        if len(self.studies) > 1 or str(study_id) in add_studies_cat_del_case or "del2" in sys.argv:
-            set_cat = f"[[Category:Radiopaedia case {self.title} id: {self.caseId} study: {study_id}]]"
-        # ---
-        cat_case = f"[[{self.category}]]"
-        # ---
-        if (str(study_id) in add_studies_cat_del_case or "del2" in sys.argv) and set_cat:
-            cat_case = ""
-        # ---
-        image_text = "== {{int:summary}} ==\n"
-
-        image_text += (
-            "{{Information\n"
-            f"|Description = \n"
-            f"* Radiopaedia case ID: [{self.case_url} {self.caseId}]\n"
-            f"* Study ID: [{study_url} {study_id}]\n"
-            f"* Image ID: [{image_url} {image_id}]\n"
-            f"* Plane projection: {plane}\n"
-            f"* Modality: {modality}\n"
-            f"* System: {self.system}\n"
-            f"* Author location: {auth_location}\n"
-            f"|Date = {self.published}\n"
-            f"|Source = [{self.case_url} {self.title}]\n"
-            f"|Author = {auth_line}\n"
-            "|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/\n"
-            "}}\n"
-            "== {{int:license}} ==\n"
-            "{{CC-BY-NC-SA-3.0}}\n"
-            f"{usa_license}\n"
-            f"{cat_case}\n"
-            "[[Category:Uploads by Mr. Ibrahem]]\n"
-            f"{set_cat}"
-        )
-        return image_text
 
     def update_images_text(self, to_up, already_in):
         # ---
@@ -286,11 +275,7 @@ class OneCase(CaseHelps):
                 self.images_count += 1
                 continue
             # ---
-            extension, image_url2 = self.image_url_extension(image, image_url)
-            # ---
-            if image_url2 != image_url:
-                self.urls_rep[image_url2] = image_url
-                image_url = image_url2
+            extension, image_url = self.image_url_extension(image, image_url)
             # ---
             urls_done.append(image_url)
             # ---
@@ -311,20 +296,41 @@ class OneCase(CaseHelps):
             na_in_cach = self.studies_names_cach[study].get(public_filename)
             # print(f"{na_in_cach=}")
             # ---
+            file_name = file_name.replace("..", ".")
+            # ---
             if na_in_cach and "noc" not in sys.argv:
                 file_name = na_in_cach.replace("File:", "")
-                printe.output(f"<<yellow>> make File name from studies_names_cach: {file_name}")
+                # printe.output(f"<<yellow>> make File name from studies_names_cach: {file_name}")
             # ---
             to_up[f"File:{file_name}"] = (image_url, file_name, image_id, plane, modality, study)
             # ---
-            self.img_to_url[study][f"File:{file_name}"] = {"url": image_url, "id": image_id}
+            taba = {
+                "file": f"File:{file_name}",
+                "url": image_url,
+                "url2": "",
+                "id": image_id,
+                "text": "",
+            }
+            # ---
+            image_url2 = self.urls_rep.get(image_url, image_url)
+            # ---
+            if image_url != image_url2:
+                taba["url2"] = image_url2
+            # ---
+            image_text = self.make_image_text(image_url2, image_id, plane, modality, study)
+            # ---
+            taba["text"] = image_text
+            # ---
+            self.img_to_url[study][f"File:{file_name}"] = taba
         # ---
-        if "dump_studies_urls_to_files" in sys.argv:
+        if self.work_dump_to_files:
             return
         # ---
         to_c = list(to_up.keys())
         # ---
         pages = api_new.Find_pages_exists_or_not(to_c)
+        # ---
+        # print(pages)
         # ---
         already_in = [k for k in to_up if pages.get(k)]
         # ---
@@ -335,3 +341,41 @@ class OneCase(CaseHelps):
             self.update_images_text(to_up, already_in)
         # ---
         self.study_set_works(to_up, pages, study, already_in)
+
+    def start(self):
+        self.get_studies_d()
+
+        for n, (study, images) in enumerate(self.studies.items(), 1):
+            printt("<<blue>> ===========================")
+            printt(f"<<purple>> work {n}/{len(self.studies)} on study:{study}:")
+            # ---
+            printt(f"len(images) = {len(images)}")
+            # ---
+            self.upload_images(study, images)
+
+        if self.img_to_url:
+            dump_studies_urls_to_files(self.img_to_url)
+
+        if self.work_dump_to_files:
+            return
+
+        printt(f"Images count: {self.images_count}")
+
+        if self.images_count == 0:
+            printt("no category created")
+            return
+
+        self.create_category(self.category)
+
+    def start_work_dump_to_files(self):
+        self.get_studies_d()
+
+        for study, images in self.studies.items():
+            printt(f"{study} : len(images) = {len(images)}")
+            # ---
+            self.upload_images(study, images)
+
+        if self.img_to_url:
+            dump_studies_urls_to_files(self.img_to_url)
+
+        return self.img_to_url

@@ -44,12 +44,12 @@ def save_image(image_data, file_name):
         return file_name
 
 
-def work_bmp(url):
+def work_bmp(url, just_do=False):
     extension = url.split(".")[-1].lower()
     # ---
-    if extension != "bmp":
-        print("URL is not a BMP image. Skipping...")
-        return url
+    if extension != "bmp" and not just_do:
+        print(f"URL is not a BMP image. Skipping... {extension=}")
+        return url, extension
     # ---
     file_name = os.path.basename(url).replace(".bmp", ".jpg")
     # ---

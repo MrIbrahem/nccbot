@@ -5,6 +5,7 @@ from fix_sets.new_works.get_info import get_case_infos, get_study_infos
 
 python3 core8/pwb.py fix_sets/new_works/get_info 90352
 python3 core8/pwb.py fix_sets/new_works/get_info 109711
+python3 core8/pwb.py fix_sets/new_works/get_info 101829
 
 """
 import sys
@@ -40,9 +41,13 @@ def get_case_infos(caseId):
     # ---
     studies = [study.split("/")[-1] for study in va["studies"]]
     # ---
+    print("----------------- start: get_case_infos\n" * 2)
+    # ---
     bot = OneCase(case_url, caseId, title, studies, author, work_dump_to_files=True)
     # ---
     result = bot.start_work_dump_to_files()
+    # ---
+    print("----------------- end: get_case_infos\n" * 2)
     # ---
     studies_cach[caseId] = result
     # ---

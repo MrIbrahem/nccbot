@@ -1,59 +1,19 @@
 """
 
-tfj run cdcd --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 noapi get:1 allids del2 updatetext"
+tfj run cdcd --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st4/start3 noapi get:1 allids del2 updatetext"
 
-
-tfj run allids --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 allids"
-
-python3 core8/pwb.py mass/radio/st3/start3 nomulti ask 97387
-python3 core8/pwb.py mass/radio/st3/start3 get:500
-python3 core8/pwb.py mass/radio/st3/start3 dump_studies_urls_to_files nomulti
-python3 /data/project/ncc/nccbot/mass/radio/st3/start3.py test
-
-tfj run mnx1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:1 157"
-tfj run mnx2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:2 157"
-tfj run mnx3 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:3 157"
-tfj run mnx4 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:4 157"
-tfj run gnr5 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:5 mdwiki"
-tfj run gnr6 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:6 mdwiki"
+tfj run allids --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st4/start3 allids"
 
 """
 import sys
 import psutil
 import tqdm
-import json
 import os
-from pathlib import Path
 from multiprocessing import Pool
 
-# ---
 from newapi import printe
-from mass.radio.st3.One_Case_New import OneCase
-# ---
-radio_jsons_dir = Path(__file__).parent.parent / "jsons"
-# ---
-with open(radio_jsons_dir / "all_ids.json", encoding="utf-8") as f:
-    all_ids = json.load(f)
-# ---
-with open(radio_jsons_dir / "authors.json", encoding="utf-8") as f:
-    authors = json.load(f)
-# ---
-with open(radio_jsons_dir / "infos.json", encoding="utf-8") as f:
-    infos = json.load(f)
-# ---
-# cases_in_ids = []
-# ---
-with open(radio_jsons_dir / "cases_in_ids.json", encoding="utf-8") as f:
-    cases_in_ids = json.load(f)
-# ---
-ids_by_caseId = {x: v for x, v in all_ids.items() if x not in cases_in_ids}
-# ---
-if "allids" in sys.argv:
-    ids_by_caseId = all_ids.copy()
-# ---
-printe.output(f"{len(ids_by_caseId)=}, {len(cases_in_ids)=}")
-# ---
-del cases_in_ids
+from mass.st4.One_x import OneCase
+from mass.st4.lists import authors, infos, all_ids, ids_by_caseId, authors_infos
 
 
 def print_memory():
@@ -108,7 +68,7 @@ def ddo(taba):
         num = i // length + 1
         tabs[str(num)] = dict(list(ids_tabs.items())[i : i + length])
         # print(f'tab {num} : {len(tabs[str(num)])}')
-        print(f'tfj run mnx{num} --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/start3 get:{num} {len(tabs[str(num)])}"')
+        print(f'tfj run mnx{num} --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st4/start get:{num} {len(tabs[str(num)])}"')
 
     for arg in sys.argv:
         arg, _, value = arg.partition(":")

@@ -164,6 +164,8 @@ def get_file_urls_rev(study_id, files=None, only_cach=False):
         # ---
         if files2:
             printe.output(f"get_file_urls_rev: files2: {len(files2)=}")
+    else:
+        print(f"no rev cach for: {study_id}")
     # ---
     if (cach or only_cach) and not files2:
         return cach

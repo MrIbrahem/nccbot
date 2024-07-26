@@ -14,7 +14,7 @@ import mimetypes
 # from pathlib import Paths
 from newapi.ncc_page import NEW_API
 from newapi import printe
-
+from mass.radio.bots.bmp import work_bmp
 from fix_sets.jsons_dirs import jsons_dir
 
 from sets_dbs.dp_infos.db_duplict_new import find_data, insert_url_file, insert_all_infos  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
@@ -105,6 +105,14 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
     # ---
     # extension = get_image_extension(image_url)
     # ---
+    if filename.endswith(".bmp"):
+        url, extension = work_bmp(url, just_do=True)
+        # filename = filename.replace(".bmp", extension)
+        filename = str(Path(filename).with_suffix(f".{extension}"))
+    # ---
+    if not filename:
+        return ""
+    # ---
     if not filename:
         extension = "jpg"
         # ---
@@ -133,7 +141,7 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
         "formatversion": "2",
     }
     # ---
-    data = api_new.post_params(params)
+    data = api_new.post_params(params, do_error=False)
     # ---
     result = data.get("upload", {}).get("result", "")  # Success
     # ---
@@ -172,13 +180,15 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
         error_code = error.get("code", "")
         error_info = error.get("info", "")
         # ---
+        printe.output("____________________________________________")
+        printe.output(f"<<yellow>> {filename=}, {url=}")
         printe.output(f"<<lightred>> error when upload_by_url, error_code:{error_code}")
         # ---
         if error_code == "verification-error":
             if do_ext and "MIME type of the file" in error_info:
                 new_file_name = get_new_ext(error_info, filename)
                 if new_file_name:
-                    return get_from_api(url, filename=new_file_name, do_ext=False)
+                    return get_from_api(url, filename=new_file_name, do_ext=False, file_text=file_text)
     else:
         print(data)
     # ---
@@ -198,7 +208,7 @@ def from_cach_or_db(url, url_id=""):
     # ---
     # file_name = db_data.get(url) or (db_data.get(url_id) if url_id else "")
     # ---
-    file_name = find_data(url=url) or (find_data(urlid=url_id) if url_id else "")
+    file_name = find_data(url=url, urlid=url_id)
     # ---
     if file_name:
         printe.output(f"<<green>> find_from_data_db: {url} -> {file_name}")
@@ -206,7 +216,7 @@ def from_cach_or_db(url, url_id=""):
     return file_name
 
 
-def find_url_file_upload(url, file_name_to_upload, do_api, file_text):
+def find_url_file_upload(url, file_name_to_upload, do_api, file_text, noapi=False):
     # ---
     url_id = match_urlid(url)
     # ---
@@ -218,10 +228,12 @@ def find_url_file_upload(url, file_name_to_upload, do_api, file_text):
     # ---
     na = ""
     # ---
-    if do_api:
-        na = get_from_api(url, filename=file_name_to_upload, file_text=file_text)
+    if "noapi" not in sys.argv:
+        if do_api and not noapi:
+            na = get_from_api(url, filename=file_name_to_upload, file_text=file_text)
     # ---
     if na:
+        na = na.replace("_", " ")
         append_data(url, na)
     # ---
     return na

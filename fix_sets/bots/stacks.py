@@ -27,8 +27,7 @@ def stacks_from_cach(study_id):
     # ---
     data = from_cach(file)
     # ---
-    if not data:
-        printe.output(f"stacks_from_cach: file not found: {file}")
+    # if not data: printe.output(f"stacks_from_cach: file not found: {file}")
     # ---
     return data
 

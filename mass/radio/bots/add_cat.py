@@ -1,5 +1,5 @@
 """
-from mass.radio.bots.add_cat import add_cat_to_images, add_cat_bot
+from mass.radio.bots.add_cat import add_cat_to_images, add_cat_bot, add
 
 """
 # import re
@@ -90,17 +90,25 @@ def add_cat_bot(pages, cattitle, cat2):
             add(title=title, cat=cattitle, cat2=cat2)
 
 
-def add_cat_to_images(cat_list, cat_title, cat):
+def add_cat_to_images(cat_list, cat_title, cat2):
     # ---
     done = CatDepth(cat_title, sitecode="www", family="nccommons", depth=0, ns="")
+    # ---
+    if cat2 == cat_title:
+        cat2 = ""
+    # ---
+    done_cat2 = []
+    # ---
+    if cat2:
+        done_cat2 = CatDepth(cat2, sitecode="www", family="nccommons", depth=0, ns="")
     # ---
     study_done.extend(done)
     # ---
     new_cat_list = cat_list
     # ---
-    if "del2" not in sys.argv:
-        new_cat_list = [x for x in cat_list if x not in study_done and x not in done]
+    # if "del2" not in sys.argv or not cat2:
+    new_cat_list = [x for x in cat_list if x not in study_done and x not in done and x not in done_cat2]
     # ---
     printe.output(f"{len(done)=}, {len(new_cat_list)=}")
     # ---
-    add_cat_bot(new_cat_list, cat_title, cat)
+    add_cat_bot(new_cat_list, cat_title, cat2)

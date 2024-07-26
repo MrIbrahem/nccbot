@@ -13,7 +13,7 @@ python3 core8/pwb.py fix_sets/new ask 62191 printtext
 python3 core8/pwb.py fix_sets/new ask 144866 nodudb
 python3 core8/pwb.py fix_sets/new ask nodb 101035
 python3 core8/pwb.py fix_sets/new ask nodb
-python3 core8/pwb.py fix_sets/new ask nodb 135999
+python3 core8/pwb.py fix_sets/new ask nodb
 python3 core8/pwb.py fix_sets/new ask 50090 50088
 python3 core8/pwb.py fix_sets/new ask nodb 22435
 python3 core8/pwb.py fix_sets/new ask nodb
@@ -87,35 +87,6 @@ def update_set_text(title, n_text, study_id):
     page.save(newtext=n_text, summary="Fix sort.")
 
 
-def work_text(study_id, study_title, study_infos={}):
-    # ---
-    json_data = get_stacks(study_id)
-    # ---
-    if not json_data:
-        printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, no json_data")
-        return "", {}
-    # ---
-    if "iop" in sys.argv:
-        all_files = []
-        # ---
-        for x in json_data:
-            all_files.extend([x["public_filename"] for x in x["images"]])
-        # ---
-        all_files = list(set(all_files))
-        # ---
-        printe.output(f"all_files: {len(all_files)}, len json_data: {len(json_data)}")
-    # ---
-    # if len(all_files) != len(json_data):
-    #     # ---
-    #     if len(all_files) < 3 and len(all_files) != 1 and "nosskip" not in sys.argv:
-    #         printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, all_files < 3")
-    #         return "", {}
-    # ---
-    text, to_move, urls2 = make_text_study(json_data, study_title, study_id, study_infos=study_infos)
-    # ---
-    return text, to_move
-
-
 def fix_one_url(text, study_id, files=None):
     # ---
     # if "fix_one_url" not in sys.argv and "ask" not in sys.argv:
@@ -184,8 +155,7 @@ def has_http_links(text, study_id):
 
 def work_one_study(study_id, study_title=""):
     # ---
-    if not study_title:
-        study_title = studies_titles.get(study_id) or studies_titles2.get(study_id)
+    study_title = study_title or studies_titles.get(study_id) or studies_titles2.get(study_id)
     # ---
     if not study_title:
         printe.output(f"<<red>> study_title is empty... study_id: {study_id}")
@@ -200,9 +170,13 @@ def work_one_study(study_id, study_title=""):
     # ---
     study_infos = {v["url"]: v for x, v in study_infos.items()}
     # ---
-    text, to_move = work_text(study_id, study_title, study_infos=study_infos)
+    json_data = get_stacks(study_id)
     # ---
-    text = text.strip()
+    if not json_data:
+        printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, no json_data")
+        return "", {}
+    # ---
+    text, to_move, urls2 = make_text_study(json_data, study_title, study_id, study_infos=study_infos)
     # ---
     text = fix_one_url(text, study_id)
     # ---
