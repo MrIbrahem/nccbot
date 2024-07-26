@@ -87,19 +87,6 @@ def update_set_text(title, n_text, study_id):
     page.save(newtext=n_text, summary="Fix sort.")
 
 
-def work_text(study_id, study_title, study_infos={}):
-    # ---
-    json_data = get_stacks(study_id)
-    # ---
-    if not json_data:
-        printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, no json_data")
-        return "", {}
-    # ---
-    text, to_move, urls2 = make_text_study(json_data, study_title, study_id, study_infos=study_infos)
-    # ---
-    return text, to_move
-
-
 def fix_one_url(text, study_id, files=None):
     # ---
     # if "fix_one_url" not in sys.argv and "ask" not in sys.argv:
@@ -183,9 +170,13 @@ def work_one_study(study_id, study_title=""):
     # ---
     study_infos = {v["url"]: v for x, v in study_infos.items()}
     # ---
-    text, to_move = work_text(study_id, study_title, study_infos=study_infos)
+    json_data = get_stacks(study_id)
     # ---
-    text = text.strip()
+    if not json_data:
+        printe.output(f"\t\t<<lightred>>SKIP: <<yellow>> {study_id=}, no json_data")
+        return "", {}
+    # ---
+    text, to_move, urls2 = make_text_study(json_data, study_title, study_id, study_infos=study_infos)
     # ---
     text = fix_one_url(text, study_id)
     # ---

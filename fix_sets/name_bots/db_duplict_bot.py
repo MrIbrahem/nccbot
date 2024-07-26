@@ -208,7 +208,7 @@ def from_cach_or_db(url, url_id=""):
     # ---
     # file_name = db_data.get(url) or (db_data.get(url_id) if url_id else "")
     # ---
-    file_name = find_data(url=url) or (find_data(urlid=url_id) if url_id else "")
+    file_name = find_data(url=url, urlid=url_id)
     # ---
     if file_name:
         printe.output(f"<<green>> find_from_data_db: {url} -> {file_name}")
@@ -228,8 +228,9 @@ def find_url_file_upload(url, file_name_to_upload, do_api, file_text, noapi=Fals
     # ---
     na = ""
     # ---
-    if do_api and not noapi:
-        na = get_from_api(url, filename=file_name_to_upload, file_text=file_text)
+    if "noapi" not in sys.argv:
+        if do_api and not noapi:
+            na = get_from_api(url, filename=file_name_to_upload, file_text=file_text)
     # ---
     if na:
         na = na.replace("_", " ")

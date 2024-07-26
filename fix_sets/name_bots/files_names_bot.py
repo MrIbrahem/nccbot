@@ -155,6 +155,9 @@ def make_names_2(urls, study_id, files, study_infos={}, noapi=False):
         # ---
         file_name = get_file_name_rev(url, url_data_to_file, rev_id_to_file)
         # ---
+        if not file_name and "new2" in sys.argv:
+            file_name = file_name_to_upload
+        # ---
         if not file_name:
             do_api = "noapi" not in sys.argv
             file_name = find_url_file_upload(url, file_name_to_upload, do_api, file_text, noapi=noapi)

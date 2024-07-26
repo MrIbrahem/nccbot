@@ -153,7 +153,7 @@ def prase_json_data(json_data, study_id, study_infos={}):
 
 def replace_urls_in_texts(url_to_filename, texts):
     # ---
-    pp = "pp" in sys.argv
+    pp = "po" in sys.argv
     # ---
     if pp:
         print(json.dumps(url_to_filename, indent=2))
@@ -162,7 +162,7 @@ def replace_urls_in_texts(url_to_filename, texts):
         # ---
         if pp:
             print(f"text_type: {text_type}, len: {len(text_content)}")
-            print(text_content)
+            # print(text_content)
         # ---
         for url, file_name in url_to_filename.items():
             file_name = file_name.replace("_", " ")
@@ -199,5 +199,7 @@ def make_text_study(json_data, study_title, study_id, study_infos={}):
         text = make_new_text(texts, to_move, study_title)
     else:
         text = make_text_normal(texts, to_move, study_title)
+    # ---
+    text = text.strip()
     # ---
     return text, to_move, urls2
