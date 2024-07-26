@@ -1,6 +1,6 @@
 """
 
-from mass.st4.lists import authors, infos, all_ids, cases_in_ids, ids_by_caseId, authors_infos
+from mass.st4.lists import authors, infos, all_ids, ids_by_caseId, authors_infos
 
 """
 import sys
@@ -21,6 +21,8 @@ with open(radio_jsons_dir / "infos.json", encoding="utf-8") as f:
 # ---
 with open(radio_jsons_dir / "all_ids.json", encoding="utf-8") as f:
     all_ids = json.load(f)
+# ---
+# cases_in_ids = []
 # ---
 with open(radio_jsons_dir / "cases_in_ids.json", encoding="utf-8") as f:
     cases_in_ids = json.load(f)

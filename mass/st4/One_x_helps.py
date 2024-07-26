@@ -1,6 +1,6 @@
 """
 
-from mass.st4.One_x_helps import CaseHelps
+from mass.st4.One_x_helps import CASE_HELPS
 
 """
 import sys
@@ -23,7 +23,7 @@ def printt(s):
     printe.output(s)
 
 
-class CaseHelps:
+class CASE_HELPS:
     def __init__(self, case_url, caseId, title, studies_ids, author):
         self.case_url = case_url
         self.caseId = caseId
@@ -35,9 +35,9 @@ class CaseHelps:
         # ---
         maain_uurls = list({x["public_filename"] for x in images})
         # ---
-        files_names = get_files_names(maain_uurls, {}, study)
+        files_names = get_files_names(maain_uurls, {}, study, noapi=True)
         # ---
-        return files_names
+        self.studies_names_cach[study] = files_names
 
     def get_image_extension(self, image_url):
         # Split the URL to get the filename and extension
@@ -62,11 +62,10 @@ class CaseHelps:
             extension = self.get_image_extension(image["fullscreen_filename"])
         # ---
         if extension == "bmp":
-            if "dump_studies_urls_to_files" not in sys.argv:
+            if not self.work_dump_to_files:
                 image_url2, extension = work_bmp(image_url)
+                self.urls_rep[image_url2] = image_url
                 image_url = image_url2
-            else:
-                extension = "jpg"
         # ---
         extension = extension.strip()
         if extension.startswith("."):
@@ -151,6 +150,7 @@ class CaseHelps:
         text += f"|title={set_title}\n|align=centre\n|loop=no\n"
         # ---
         for image_name in set_files:
+            image_name = image_name.replace("_", " ")
             text += f"|{image_name}|\n"
         # ---
         text += "\n}}\n[[Category:Image set]]\n"
