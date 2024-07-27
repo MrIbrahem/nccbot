@@ -1,6 +1,6 @@
 """
 
-tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3/o updatetex 90505 nodone noid noc del2 multi"
+tfj run cdcf --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st3/o updatetex 90505 nodone noid noc del2 multi"
 tfj run catpages --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py fix_sets/set_cats catpages"
 
 python3 core8/pwb.py fix_sets/set_cats catpages ask
@@ -13,8 +13,7 @@ import tqdm
 import re
 import sys
 from newapi import printe
-from newapi.ncc_page import MainPage as ncc_MainPage
-from newapi.ncc_page import CatDepth
+from fix_sets.ncc_api import ncc_MainPage, CatDepth
 
 from fix_sets.bots2.text_cat_bot import add_cat_to_set
 from fix_sets.bots2.filter_ids import filter_no_title

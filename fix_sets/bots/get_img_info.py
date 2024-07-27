@@ -11,14 +11,10 @@ import json
 
 # import os
 from newapi import printe
-from newapi.ncc_page import NEW_API
+from fix_sets.ncc_api import post_ncc_params
 from fix_sets.jsons_dirs import get_study_dir  # , jsons_dir
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 from fix_sets.bots2.match_helps import match_urlid, match_id
-
-
-api_new = NEW_API("www", family="nccommons")
-# api_new.Login_to_wiki()
 
 # st_dic_infos = jsons_dir / "studies_files_infos"
 
@@ -95,7 +91,7 @@ def gt_img_info(titles, id_to_url=None):
         # ---
         # print("|".join(group))
         # ---
-        data = api_new.post_params(params)
+        data = post_ncc_params(params)
         # ---
         error = data.get("error", {})
         if error:

@@ -19,7 +19,6 @@ from ncc_jsons.dir_studies_bot import studies_dir
 # ---
 try:
     import pywikibot
-
     pywikibotoutput = pywikibot.output
 except ImportError:
     pywikibotoutput = print
@@ -52,8 +51,8 @@ class CaseDo:
                     with open(st_file, encoding="utf-8") as f:
                         images = json.loads(f.read())
                 except Exception as e:
-                    print("<<lightred>> Traceback (most recent call last):")
-                    printt(f"{study} : error")
+                    printe.output("<<lightred>> Traceback (most recent call last):")
+                    printe.output(f"{study} : error")
                     print(e)
                     print(traceback.format_exc())
                     print("CRITICAL:")

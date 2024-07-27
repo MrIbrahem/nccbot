@@ -11,7 +11,6 @@ from newapi import printe
 import json
 from pathlib import Path
 
-# from newapi.ncc_page import CatDepth
 # from fix_mass.helps_bot.file_bot import from_cach, dumpit
 from fix_sets.lists.studies_fixed import studies_fixed_done
 

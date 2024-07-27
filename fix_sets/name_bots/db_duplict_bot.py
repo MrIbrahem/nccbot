@@ -12,15 +12,12 @@ from pathlib import Path
 import mimetypes
 
 # from pathlib import Paths
-from newapi.ncc_page import NEW_API
+from fix_sets.ncc_api import post_ncc_params
 from newapi import printe
 from mass.radio.bots.bmp import work_bmp
 from fix_sets.jsons_dirs import jsons_dir
 
 from sets_dbs.dp_infos.db_duplict_new import find_data, insert_url_file, insert_all_infos  # ,find_from_data_db as find_from_db_dp # insert_url_file(url, file)
-
-api_new = NEW_API("www", family="nccommons")
-# api_new.Login_to_wiki()
 
 url_to_file_file = jsons_dir / "find_from_url.jsonl"
 
@@ -141,7 +138,7 @@ def get_from_api(url, filename="", do_ext=True, file_text=""):
         "formatversion": "2",
     }
     # ---
-    data = api_new.post_params(params, do_error=False)
+    data = post_ncc_params(params, do_error=False)
     # ---
     result = data.get("upload", {}).get("result", "")  # Success
     # ---

@@ -14,15 +14,13 @@ import json
 # from pathlib import Path
 
 from newapi import printe
-from newapi.ncc_page import NEW_API
+from fix_sets.ncc_api import post_ncc_params
+
 # from fix_mass.files import study_to_case_cats
 from fix_sets.bots.study_files import get_study_files
 from fix_sets.jsons_dirs import get_study_dir
 from fix_mass.helps_bot.file_bot import from_cach, dumpit
 from fix_sets.bots2.match_helps import match_id  # match_id(content, title)
-
-api_new = NEW_API("www", family="nccommons")
-# api_new.Login_to_wiki()
 
 images_to_ids = {}
 ids_to_images = {}
@@ -91,7 +89,7 @@ def get_file_rev(title):
         "rvlimit": "10",
         "rvdir": "newer",
     }
-    data = api_new.post_params(params)
+    data = post_ncc_params(params)
     # ---
     error = data.get("error", {})
     if error:
