@@ -39,7 +39,7 @@ def new_list():
             # ---
             id2cat[case_id] = cat
     # ---
-    print(f"cases_cats, lenth of members: {len(members)}, lenth of id2cat: {len(id2cat)} ")
+    print(f"cases_cats, length of members: {len(members)}, length of id2cat: {len(id2cat)} ")
     # ---
     with open(cases_cats_file, "w", encoding="utf-8") as f:
         json.dump(id2cat, f)

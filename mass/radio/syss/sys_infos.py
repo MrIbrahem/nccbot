@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 # ---
-from mass.radio.geturlsnew import get_urls_system, systems, lenth_of_systems
+from mass.radio.geturlsnew import get_urls_system, systems, length_of_systems
 from mass.radio.jsons_files import jsons
 
 # ---
@@ -28,7 +28,7 @@ for arg in sys.argv:
     if arg in systems:
         system_to_work = arg
 # ---
-nnno = dict(sorted(lenth_of_systems.items(), key=lambda x: x[1], reverse=True))
+nnno = dict(sorted(length_of_systems.items(), key=lambda x: x[1], reverse=True))
 # ---
 
 
@@ -54,7 +54,7 @@ for n, sy in enumerate(nnno, start=10):
     if "only" in sys.argv:
         systems_len[sy] = get_urls_system(sy, only_one=True)
     # ---
-    ln = lenth_of_systems[sy] * 20
+    ln = length_of_systems[sy] * 20
     # ---
     if 'todo' in sys.argv:
         to_do = get_to_do(sy)
@@ -94,7 +94,7 @@ if not to_do:
     print("exit()")
     exit()
 # ---
-len_all = lenth_of_systems.get(system_to_work, 0) * 20
+len_all = length_of_systems.get(system_to_work, 0) * 20
 # ---
 u_data = get_urls_system(system_to_work, return_tab=True, len_all=len_all)
 # ---

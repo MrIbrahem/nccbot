@@ -14,7 +14,7 @@ from mass.radio.jsons_files import jsons, dumps_jsons, dump_json_file
 
 
 def geo():
-    print(f"lenth of jsons.cases_in_ids: {len(jsons.cases_in_ids)} ")
+    print(f"length of jsons.cases_in_ids: {len(jsons.cases_in_ids)} ")
     already = 0
 
     cases = CatDepth("Category:Radiopaedia images by case", sitecode="www", family="nccommons", depth=0, ns="14")  # 8068 cat before me
@@ -43,7 +43,7 @@ def geo():
 
     # sort new_cases_in by key
     new_cases_in = dict(sorted(new_cases_in.items(), key=lambda x: int(x[0])))
-    print(f"lenth of new_cases_in: {len(new_cases_in)} ")
+    print(f"length of new_cases_in: {len(new_cases_in)} ")
 
     # dump
     # jsons.cases_in_ids = new_cases_in
@@ -51,10 +51,10 @@ def geo():
     # dumps_jsons(cases_in_ids=1)
     dump_json_file("jsons/cases_in_ids.json", new_cases_in, False)
 
-    # sort jsons.cases_dup by lenth if lenth > 1
+    # sort jsons.cases_dup by length if length > 1
     new_dup = {k: v for k, v in sorted(new_dup.items(), key=lambda item: len(item[1]), reverse=True) if len(v) > 1}
 
-    print(f"lenth of new_dup: {len(new_dup)} ")
+    print(f"length of new_dup: {len(new_dup)} ")
 
     # dump
     # jsons.cases_dup = new_dup

@@ -50,7 +50,7 @@ for p_tag in soup.find_all('p', class_='toc__title'):
         urls_dict[title] = {"url": href, "images": {}}
         print(f"Step 3-4: Extracted href and title - Title: {title}, Href: {href}")
 
-print(f"lenth of urls_dict: {len(urls_dict)}")
+print(f"length of urls_dict: {len(urls_dict)}")
 
 # Step 5: Save the dictionary to a JSON file
 with open(urlsfile, "w") as json_file:

@@ -95,7 +95,7 @@ def mainnew():
     # ---
     urls_to_get_info = jsons.urls_to_get_info
     # ---
-    print(f"lenth of urls_to_get_info: {len(urls_to_get_info)}")
+    print(f"length of urls_to_get_info: {len(urls_to_get_info)}")
     # ---
     for n, url in enumerate(urls_to_get_info, start=1):
         # ---
