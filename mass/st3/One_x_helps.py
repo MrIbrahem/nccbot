@@ -30,6 +30,7 @@ class CASE_HELPS:
         self.title = title
         self.studies_ids = studies_ids
         self.author = author
+        self.studies_names_cach = {}
 
     def get_files_names_from_urls(self, study, images):
         # ---

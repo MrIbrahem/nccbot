@@ -14,7 +14,7 @@ from mass.radio.bots.add_cat import add
 
 def images_to_cats():
     members = CatDepth("Category:Radiopaedia_images_by_system", sitecode="www", family="nccommons", depth=1, ns="10")
-    reg = r"^File:.*? \(Radiopaedia (\d+)\)\.\w+$"
+    reg = r"^File:.*? \(Radiopaedia (\d+)\)\.\w+$"  # Match files with Radiopaedia case IDs
     # ---
     tab = {}
     # ---
@@ -25,8 +25,8 @@ def images_to_cats():
             # ---
             tab[file] = case_id
     # ---
-    print(f"images_to_cats, lenth of members: {len(members)} ")
-    print(f"images_to_cats, lenth of tab: {len(tab)} ")
+    print(f"images_to_cats, length of members: {len(members)} ")
+    print(f"images_to_cats, length of tab: {len(tab)} ")
 
     return tab
 

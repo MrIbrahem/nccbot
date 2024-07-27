@@ -44,8 +44,13 @@ def cases_counts():
         with open(cases_count_file, "w", encoding="utf-8") as f:
             f.write("{}")
 
-    with open(cases_count_file, encoding="utf-8") as f:
-        cases_count = json.load(f)
+    try:
+        with open(cases_count_file, encoding="utf-8") as f:
+            cases_count = json.load(f)
+    except (IOError, json.JSONDecodeError) as e:
+        print(f"Error reading {cases_count_file}: {e}")
+        return {}
+
 
     return cases_count
 
@@ -100,9 +105,8 @@ def start():
     print(f"{len(images_count)=}")
     # ---
     print(f"<<purple>> start.py all: {len(ids_tab)}:")
-    n = 0
-    for _, va in tqdm.tqdm(ids_tab.items()):
-        n += 1
+    # ---
+    for n, (_, va) in enumerate(tqdm.tqdm(ids_tab.items()), 1):
         caseId = va["caseId"]
 
         studies = [study.split("/")[-1] for study in va["studies"]]

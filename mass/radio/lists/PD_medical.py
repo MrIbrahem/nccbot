@@ -29,7 +29,7 @@ with open(pd_file, "r", encoding="utf-8") as f:
 def new_list():
     members = CatDepth("Category:PD medical", sitecode="www", family="nccommons", depth=1, ns="10")
     # ---
-    print(f"lenth of members: {len(members)} ")
+    print(f"length of members: {len(members)} ")
     # ---
     with open(pd_file, "w", encoding="utf-8") as f:
         json.dump(PD_medical_pages, f)

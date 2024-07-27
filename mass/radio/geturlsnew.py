@@ -33,7 +33,7 @@ systems = [
     "Not Applicable"  # 7
 ]
 # ---
-lenth_of_systems = {
+length_of_systems = {
     "Breast": 50,
     "Cardiac": 69,
     "Central Nervous System": 549,
@@ -143,9 +143,9 @@ def get_urls_system(system, only_one=False, return_tab=False, len_all=0):
                 else:
                     tat[href] = title
         # ---
-        print(f"n:{n}, lenth of links: {len(links)}, tat: {len(tat)}/{len_all}")
+        print(f"n:{n}, length of links: {len(links)}, tat: {len(tat)}/{len_all}")
     # ---
-    print(f"lenth of tat: {len(tat)}")
+    print(f"length of tat: {len(tat)}")
 
     return tat
 

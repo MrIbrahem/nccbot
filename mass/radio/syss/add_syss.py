@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from newapi import printe
 from mass.radio.jsons_files import jsons, dump_json_file
-from mass.radio.geturlsnew import lenth_of_systems
+from mass.radio.geturlsnew import length_of_systems
 
 # dumps_jsons(infos=0, urls=0, cases_in_ids=0, cases_dup=0, authors=0, to_work=0, all_ids=0, urls_to_get_info=0)
 # ---
@@ -42,7 +42,7 @@ for file in urls_files:
     with open(os.path.join(files_path, file), encoding="utf-8") as f:
         data = json.loads(f.read())
     # ---
-    lnn = (lenth_of_systems[file.replace('.json', '')] * 20) - 10
+    lnn = (length_of_systems[file.replace('.json', '')] * 20) - 10
     # ---
     po(file, data, lnn)
     # ---
@@ -71,7 +71,7 @@ for file in infos_files:
     with open(os.path.join(files_path, file), encoding="utf-8") as f:
         data = json.loads(f.read())
     # ---
-    lnn = (lenth_of_systems[file.replace('_infos.json', '')] * 20) - 10
+    lnn = (length_of_systems[file.replace('_infos.json', '')] * 20) - 10
     # ---
     # po(file, data, lnn)
     # ---
