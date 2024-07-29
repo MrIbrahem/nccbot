@@ -1,33 +1,31 @@
-'''
+"""
 
 python3 core8/pwb.py mass/radio/authors_list/bot nodump
 python3 core8/pwb.py mass/radio/authors_list/bot
 
 tfj run auths --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/authors_list/bot && $HOME/local/bin/python3 core8/pwb.py mass/radio/authors_list/save"
 
-'''
-import re
+"""
 import sys
 import json
-import os
 from pathlib import Path
 from newapi import printe
-from mass.radio.authors_list.auths_infos import get_author_infos
+
 from mass.radio.jsons_bot import radio_jsons_dir
-# ---
+
+
 main_dir = Path(__file__).parent.parent
 # ---
-with open(radio_jsons_dir / 'infos.json', "r", encoding="utf-8") as f:
+with open(radio_jsons_dir / "infos.json", "r", encoding="utf-8") as f:
     infos = json.load(f)
 # ---
-with open(radio_jsons_dir  / 'authors.json', "r", encoding="utf-8") as f:
+with open(radio_jsons_dir / "authors.json", "r", encoding="utf-8") as f:
     authors = json.load(f)
 # ---
-with open(radio_jsons_dir / 'all_ids.json', "r", encoding="utf-8") as f:
+with open(radio_jsons_dir / "all_ids.json", "r", encoding="utf-8") as f:
     all_ids = json.load(f)
 # ---
 print(f"Length of all_ids: {len(all_ids)}")
-# ---
 
 
 def get_missing_authors():
@@ -44,15 +42,15 @@ def get_missing_authors():
         if author_exists:
             continue
         # ---
-        url = ta.get('url', None)
+        url = ta.get("url", None)
         # ---
         if not x or x in updated_authors:
             continue
         # ---
-        author = ta.get('author', "")
+        author = ta.get("author", "")
         # ---
         if not author:
-            author = infos.get(url, {}).get('author', "")
+            author = infos.get(url, {}).get("author", "")
             if author:
                 add_from_info += 1
         # ---
@@ -67,8 +65,7 @@ def get_missing_authors():
     updated_authors = dict(sorted(updated_authors.items(), key=lambda x: int(x[0])))
     # ---
     if "nodump" not in sys.argv:
-        # with open(os.path.join(str(main_dir), 'authors_list/authors_new.json'), "w", encoding="utf-8") as f:
-        with open(radio_jsons_dir /'authors.json', "w", encoding="utf-8") as f:
+        with open(radio_jsons_dir / "authors.json", "w", encoding="utf-8") as f:
             json.dump(updated_authors, f, ensure_ascii=False, indent=2)
     # ---
     # len of empty authors
@@ -102,7 +99,7 @@ def make_authors_list(authors_n):
             break
     # ---
     if "nodump" not in sys.argv:
-        with open(os.path.join(str(main_dir), 'authors_list/authors_to_cases.json'), "w", encoding="utf-8") as f:
+        with open(main_dir / "authors_list/authors_to_cases.json", "w", encoding="utf-8") as f:
             json.dump(new_authors, f, ensure_ascii=False, indent=2)
     # ---
     # print sum of all new_authors values
@@ -117,5 +114,5 @@ def start():
     new = make_authors_list(authors_n)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     start()
