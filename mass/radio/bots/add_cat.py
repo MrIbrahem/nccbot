@@ -1,5 +1,6 @@
 """
-from mass.radio.bots.add_cat import add_cat_to_images, add_cat_bot, add
+
+from mass.radio.bots.add_cat import add_cat_to_images, add_cat_bot, add,
 
 """
 # import re
@@ -88,6 +89,21 @@ def add_cat_bot(pages, cattitle, cat2):
     else:
         for title in pages:
             add(title=title, cat=cattitle, cat2=cat2)
+
+
+def add_cat_to_pages(cat_list, cat_title):
+    # ---
+    done = CatDepth(cat_title, sitecode="www", family="nccommons", depth=0, ns="")
+    # ---
+    study_done.extend(done)
+    # ---
+    new_cat_list = cat_list
+    # ---
+    new_cat_list = [x for x in cat_list if x not in done]
+    # ---
+    printe.output(f"{len(done)=}, {len(new_cat_list)=}")
+    # ---
+    add_cat_bot(new_cat_list, cat_title, "")
 
 
 def add_cat_to_images(cat_list, cat_title, cat2):

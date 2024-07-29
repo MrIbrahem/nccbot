@@ -1,27 +1,24 @@
 """
 
-python3 core8/pwb.py mass/radio/authors_list/bot1 nodump
-python3 core8/pwb.py mass/radio/authors_list/bot1
+python3 core8/pwb.py mass/radio/authors_list/create_authors_infos nodump
+python3 core8/pwb.py mass/radio/authors_list/create_authors_infos
 
-tfj run auths --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/authors_list/bot1 && $HOME/local/bin/python3 core8/pwb.py mass/radio/authors_list/save"
+tfj run auths --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/authors_list/create_authors_infos && $HOME/local/bin/python3 core8/pwb.py mass/radio/authors_list/save"
 
 """
-import re
 import sys
 import json
-import os
 from pathlib import Path
 from newapi import printe
 from mass.radio.authors_list.auths_infos import get_author_infos
 from mass.radio.jsons_bot import radio_jsons_dir
 
-# ---
 main_dir = Path(__file__).parent.parent
 # ---
-with open(os.path.join(str(main_dir), "authors_list/authors_to_cases.json"), "r", encoding="utf-8") as f:
+with open(main_dir / "authors_list/authors_to_cases.json", "r", encoding="utf-8") as f:
     authors_to_cases = json.load(f)
 # ---
-with open(os.path.join(str(main_dir), "authors_list/authors_infos.json"), "r", encoding="utf-8") as f:
+with open(main_dir / "authors_list/authors_infos.json", "r", encoding="utf-8") as f:
     authors_infos = json.load(f)
 # ---
 with open(radio_jsons_dir / "all_ids.json", "r", encoding="utf-8") as f:
@@ -30,7 +27,6 @@ with open(radio_jsons_dir / "all_ids.json", "r", encoding="utf-8") as f:
 print(f"Length of all_ids: {len(all_ids)}")
 print(f"Length of authors_to_cases: {len(authors_to_cases)}")
 print(f"Length of authors_infos: {len(authors_infos)}")
-# ---
 
 
 def make_authors_infos():
@@ -55,7 +51,7 @@ def make_authors_infos():
             break
     # ---
     if "nodump" not in sys.argv:
-        with open(os.path.join(str(main_dir), "authors_list/authors_infos.json"), "w", encoding="utf-8") as f:
+        with open(main_dir / "authors_list/authors_infos.json", "w", encoding="utf-8") as f:
             json.dump(auths_infos, f, ensure_ascii=False, indent=2)
 
 
