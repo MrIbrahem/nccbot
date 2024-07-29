@@ -15,6 +15,7 @@ from mass.radio.bots.studies_utf import dump_studies_urls_to_files
 from mass.radio.jsons_files import jsons
 
 from mass.st3.lists import authors_infos
+from sets_dbs.dp_infos.db_duplict_new import insert_url_file
 
 api_new = NEW_API("www", family="nccommons")
 # api_new.Login_to_wiki()
@@ -189,6 +190,11 @@ class OneCase(CASE_HELPS):
         file_name = api.upload_by_url(image_name, image_text, image_url, return_file_name=True, do_ext=True)
 
         printt(f"upload result: {file_name}")
+        # ---
+        result = insert_url_file(image_url, file_name)
+        # ---
+        printe.output(f"<<green>> append_data: {image_url} -> {file_name} -> {result}")
+        # ---
         if file_name and file_name != image_name:
             # ---
             if self.usa_auth and "updatetext" in sys.argv and f"File:{file_name}" not in PD_medical_pages:

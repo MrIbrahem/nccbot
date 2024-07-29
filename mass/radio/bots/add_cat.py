@@ -106,9 +106,13 @@ def add_cat_to_images(cat_list, cat_title, cat2):
     # ---
     new_cat_list = cat_list
     # ---
-    # if "del2" not in sys.argv or not cat2:
-    new_cat_list = [x for x in cat_list if x not in study_done and x not in done and x not in done_cat2]
+    new_cat_list = [x for x in cat_list if x not in done]
     # ---
     printe.output(f"{len(done)=}, {len(new_cat_list)=}")
+    # ---
+    if "del2" not in sys.argv and cat2:
+        new_cat_list = [x for x in new_cat_list if x not in done_cat2]
+        # ---
+        printe.output(f"{len(done)=}, after cat2: {len(new_cat_list)=}")
     # ---
     add_cat_bot(new_cat_list, cat_title, cat2)
