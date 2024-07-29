@@ -10,7 +10,7 @@ from fix_sets.new import work_one_study
 from fix_sets.by_count.bot import get_ids_o
 
 if "st4" in sys.argv:
-    from mass.st4.start4 import main_by_ids
+    from mass.st4.start import main_by_ids
 Dir = Path(__file__).parent
 
 

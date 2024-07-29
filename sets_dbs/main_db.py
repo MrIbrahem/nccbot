@@ -23,7 +23,7 @@ class MyDb(DbClass):
         # ---
         super().__init__(self.table_name, self.create_table_query)
         # ---
-        # self.execute(query, params=None)
+        # self.execute(query, params=None, get_data=False)
         # self.executemany(query, params=None)
         # self.get_all()
         # self.do_query(query, values=None, get_data=False)
@@ -113,20 +113,27 @@ class DbClass:
         # ---
         self.create_database_table()
 
-    def execute(self, query, params=None):
+    def execute(self, query, params=None, get_data=False):
         if not self.connection:
             return []
+        # ---
         # with self.connection as conn, conn.cursor() as cursor:
         with self.connection.cursor() as cursor:
             # skip sql errors
             try:
                 cursor.execute(query, params)
+                if not get_data:
+                    return True
 
             except Exception as e:
                 pywikibot.output("Traceback (most recent call last):")
                 pywikibot.output(traceback.format_exc())
                 pywikibot.output("CRITICAL:")
-                return []
+                # ---
+                if get_data:
+                    return []
+                else:
+                    return False
 
             try:
                 results = cursor.fetchall()
@@ -170,7 +177,7 @@ class DbClass:
         function
         """
         # ---
-        results = self.execute(query, values)
+        results = self.execute(query, values, get_data=True)
         # ---
         if get_data:
             list_accumulator = []

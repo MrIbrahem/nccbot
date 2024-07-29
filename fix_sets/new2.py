@@ -1,4 +1,8 @@
 """
+python3 core8/pwb.py mass/st3/o del2 ask 167295
+python3 core8/pwb.py mass/st3/o del2 ask
+python3 core8/pwb.py mass/st3/o del2 ask
+python3 core8/pwb.py mass/st3/o del2 ask
 python3 core8/pwb.py mass/st3/o del2 ask 45822
 python3 core8/pwb.py mass/st3/o del2 ask 16850
 python3 core8/pwb.py mass/st3/o del2 ask 90352
@@ -13,7 +17,7 @@ python3 core8/pwb.py fix_sets/new ask 62191 printtext
 python3 core8/pwb.py fix_sets/new ask 144866 nodudb
 python3 core8/pwb.py fix_sets/new ask nodb 101035
 python3 core8/pwb.py fix_sets/new ask nodb
-python3 core8/pwb.py fix_sets/new ask nodb
+python3 core8/pwb.py fix_sets/new ask nodb 135999
 python3 core8/pwb.py fix_sets/new ask 50090 50088
 python3 core8/pwb.py fix_sets/new ask nodb 22435
 python3 core8/pwb.py fix_sets/new ask nodb
@@ -55,20 +59,6 @@ def update_set_text(title, n_text, study_id):
     # ---
     p_text = page.get_text()
     # ---
-    # split p_text get after first [[Category:
-    # ---
-    # cats = page.get_categories()
-    # ---
-    # printe.output(cat_text)
-    # ---
-    # cats_text = "\n".join([f"[[Category:{x}]]" for x in cats])
-    # ---
-    # cat_text = ""
-    # if p_text.find("[[Category:") != -1:
-    #     cat_text = "[[Category:" + p_text.split("[[Category:", maxsplit=1)[1]
-    # ---
-    # n_text += f"\n\n{cat_text}"
-    # ---
     n_text += "\n[[Category:Sort studies fixed]]"
     # ---
     if p_text.find("[[Category:Radiopaedia case ") == -1:
@@ -85,7 +75,6 @@ def update_set_text(title, n_text, study_id):
             n_text = n_text.replace("[[Category:Image set]]\n", "")
     # ---
     page.save(newtext=n_text, summary="Fix sort.")
-
 
 def fix_one_url(text, study_id, files=None):
     # ---
@@ -177,6 +166,8 @@ def work_one_study(study_id, study_title=""):
         return "", {}
     # ---
     text, to_move, urls2 = make_text_study(json_data, study_title, study_id, study_infos=study_infos)
+    # ---
+    text = text.strip()
     # ---
     text = fix_one_url(text, study_id)
     # ---

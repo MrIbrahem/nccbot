@@ -149,7 +149,7 @@ python3 core8/pwb.py mass/st3/o del2 updatetext 16447
 
 """
 
-from mass.st3.start3 import main_by_ids
+from mass.st3.start import main_by_ids
 
 ids = """
     10902

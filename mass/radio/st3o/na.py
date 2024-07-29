@@ -19,7 +19,7 @@ for _u_path in user_script_paths:
     if os.path.exists(_u_path):
         sys.path.append(os.path.abspath(_u_path))
 
-from mass.st3.start3 import ids_by_caseId, main
+from mass.st3.start import ids_by_caseId, main
 
 # ---
 print('ids_by_caseId: ', len(ids_by_caseId))

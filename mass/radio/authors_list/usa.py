@@ -16,7 +16,7 @@ from pathlib import Path
 
 # ---
 from newapi import printe
-from mass.st3.start3 import main_by_ids
+from mass.st3.start import main_by_ids
 
 # ---
 main_dir = Path(__file__).parent

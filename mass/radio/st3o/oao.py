@@ -1,13 +1,14 @@
 """
 
-python3 core8/pwb.py mass/st3/oao 62050
-python3 core8/pwb.py mass/st3/oao 33298
+python3 core8/pwb.py mass/radio/st3o/oao 167295
+python3 core8/pwb.py mass/radio/st3o/oao 62050
+python3 core8/pwb.py mass/radio/st3o/oao 33298
 
-tfj run unyx1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st3/oao multi"
-tfj run unyx2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st3/oao multi reverse"
+tfj run unyx1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3o/oao multi"
+tfj run unyx2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3o/oao multi reverse"
 
-tfj run oaoc1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st3/oao create multi"
-tfj run oaoc2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st3/oao create multi reverse"
+tfj run oaoc1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3o/oao create multi"
+tfj run oaoc2 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/st3o/oao create multi reverse"
 
 """
 import re
@@ -281,9 +282,9 @@ def start(ids):
             if "create" in sys.argv:
                 if not in_subs:
                     in_subs = create_sub_cat(x, case_id, cat, set_cat)
-                    if in_subs:
-                        # add_cat_to_images(files, set_cat, cat)
-                        da.append((files, set_cat, cat))
+                if in_subs:
+                    # add_cat_to_images(files, set_cat, cat)
+                    da.append((files, set_cat, cat))
             else:
                 # ---
                 if not in_subs:
@@ -293,11 +294,10 @@ def start(ids):
                 da.append((files, set_cat, cat))
     # ---
     printe.output(f"len da: {len(da)}")
-    printe.output(f"len da: {len(da)}")
-    printe.output(f"len da: {len(da)}")
-    printe.output(f"len da: {len(da)}")
     # ---
     for files, set_cat, cat in da:
+        printe.output(f"______________________________")
+        printe.output(f"  {set_cat}, {len(files)=}")
         add_cat_to_images(files, set_cat, cat)
 
 

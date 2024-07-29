@@ -1,8 +1,8 @@
 """
 
-tfj run cdcd --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st4/start3 noapi get:1 allids del2 updatetext"
+tfj run cdcd --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st4/start noapi get:1 allids del2 updatetext"
 
-tfj run allids --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st4/start3 allids"
+tfj run allids --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/st4/start allids"
 
 """
 import sys

@@ -3,7 +3,7 @@
 يعمل هذا البوت على إضافة PD-medical
 إلى الصور الموجودة في تصنيفات الكتاب الأمريكيين
 
-python3 core8/pwb.py mass/radio/authors_list/usa_images test
+python3 core8/pwb.py mass/radio/authors_list/usa_images ask
 
 tfj run usaimages1 --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mass/radio/authors_list/usa_images"
 
