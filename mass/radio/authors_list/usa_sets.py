@@ -8,13 +8,18 @@ tfj run ussets --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 co
 
 """
 import tqdm
+import sys
 import json
+from multiprocessing import Pool
 from pathlib import Path
+
 from newapi import printe
 from mass.radio.authors_list.auths_by_location import locations
 from mass.radio.jsons_bot import radio_jsons_dir
-from newapi.ncc_page import NEW_API
-from fix_mass.files import studies_titles
+from newapi.ncc_page import NEW_API, CatDepth
+from fix_mass.files import studies_titles, studies_titles2
+
+studies_titles.update(studies_titles2)
 
 United_States = locations.get("united states", [])
 
@@ -48,14 +53,23 @@ def get_studies_of_cases(cases: list) -> list:
     return sets
 
 
-def add_cat_to_all_studies(all_studies: list) -> None:
-    # ---
-    titles = [studies_titles.get(study) for study in all_studies if studies_titles.get(study)]
-    # ---
+def add_it(title):
     text = "\n[[Category:Radiopaedia studies by United States authors]]"
     # ---
-    for title in tqdm.tqdm(titles):
-        api_new.Add_To_Bottom(text, "Added category", title, poss="Bottom")
+    api_new.Add_To_Bottom(text, "Added category", title, poss="Bottom")
+
+
+def add_cat_to_all_studies(titles: list) -> None:
+    # ---
+    if "multi" in sys.argv and "ask" not in sys.argv:
+        pool = Pool(processes=3)
+        pool.map(add_it, titles)
+        pool.close()
+
+        pool.terminate()
+    else:
+        for title in tqdm.tqdm(titles):
+            add_it(title)
 
 
 def get_auth_to_studies() -> None:
@@ -76,15 +90,12 @@ def get_auth_to_studies() -> None:
         # ---
         tab[auth] = studies
     # ---
+    tab = dict(sorted(tab.items(), key=lambda x: len(x[1]), reverse=False))
+    # ---
     return tab
 
 
-def start() -> None:
-    # ---
-    tab = get_auth_to_studies()
-    # ---
-    tab = dict(sorted(tab.items(), key=lambda x: len(x[1]), reverse=False))
-    # ---
+def get_titles(tab):
     all_studies = []
     # ---
     for n, (auth, studies) in enumerate(tab.items(), start=1):
@@ -97,7 +108,28 @@ def start() -> None:
     # ---
     printe.output(f"all_studies: {len(all_studies)}")
     # ---
-    add_cat_to_all_studies(all_studies)
+    titles = [studies_titles.get(study) for study in all_studies if studies_titles.get(study)]
+    # ---
+    studies_no_titles = [x for x in all_studies if not studies_titles.get(x)]
+    # ---
+    printe.output(f"titles: {len(titles)}, studies_no_titles: {len(studies_no_titles)}")
+    # ---
+    return titles
+
+
+def start() -> None:
+    # ---
+    tab = get_auth_to_studies()
+    # ---
+    titles = get_titles(tab)
+    # ---
+    done = CatDepth("Category:Radiopaedia studies by United States authors", sitecode="www", family="nccommons", depth=0, ns="")
+    # ---
+    new_titles = [x for x in titles if x not in done]
+    # ---
+    printe.output(f"titles done: {len(done):,}\t new_titles: {len(new_titles):,}")
+    # ---
+    add_cat_to_all_studies(new_titles)
 
 
 if __name__ == "__main__":
