@@ -12,36 +12,62 @@ from fix_mass.files import studies_titles, study_to_case_cats
 import re
 import sys
 import json
+
 from newapi import printe
 from fix_sets.ncc_api import CatDepth
-
 from fix_sets.jsons_dirs import jsons_dir
 
 mem_cach = {}
 
 
-def get_mem(title):
+def get_members_ids(title):
+    # ---
     members = CatDepth(title, sitecode="www", family="nccommons", depth=0, ns=0, onlyns=0)
     # ---
-    sets = {}
     not_match = 0
+    title_to_id = {}
     # ---
     for x in members:
         # ---
         ma = re.match(r"^Radiopaedia case .*? id: \d+ study: (\d+)$", x)
         ma2 = re.match(r"^.*? \(Radiopaedia \d+-(\d+) .*?$", x)
         # ---
+        set_id = ""
+        # ---
         if ma:
-            sets[ma.group(1)] = x
+            set_id = ma.group(1)
         elif ma2:
-            sets[ma2.group(1)] = x
+            set_id = ma2.group(1)
         else:
             not_match += 1
+            continue
+        # ---
+        title_to_id[x] = set_id
     # ---
     printe.output(f"title: {title}")
-    printe.output(f"\tmembers: {len(members)}")
-    printe.output(f"\tnot match: {not_match}")
-    printe.output(f"\t{len(sets)=}")
+    printe.output(f"\t title_to_id: {len(title_to_id):,}")
+    printe.output(f"\t not_match: {not_match:,}")
+    # ---
+    return title_to_id
+
+
+def get_mem(title):
+    title_to_id = get_members_ids(title)
+    # ---
+    sets = {}
+    duplicates = 0
+    not_match = 0
+    # ---
+    for x, set_id in title_to_id.items():
+        # ---
+        if set_id in sets:
+            duplicates += 1
+            sets[set_id] = x
+        else:
+            sets[set_id] = x
+    # ---
+    printe.output(f"\t duplicates: {duplicates:,}")
+    printe.output(f"\t{len(sets)=:,}")
     # ---
     mem_cach[title] = sets
     # ---
@@ -59,7 +85,7 @@ def dumpit(file, data):
     # ---
     with open(file, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-        printe.output(f"<<green>> write {len(data)} to {file=}")
+        printe.output(f"<<green>> write {len(data)} to file: {str(file)}")
 
 
 def read_new(cat, file):
@@ -68,10 +94,13 @@ def read_new(cat, file):
     # ---
     file = jsons_dir / file
     # ---
+    in_file = {}
+    # ---
     # read file
-    with open(file, "r", encoding="utf-8") as f:
-        in_file = json.load(f)
-        printe.output(f"<<green>> read {len(in_file)} from {file=}")
+    if file.exists():
+        with open(file, "r", encoding="utf-8") as f:
+            in_file = json.load(f)
+            printe.output(f"<<green>> read {len(in_file)} from {file=}")
     # ---
     sets = get_mem(cat)
     # ---
@@ -93,18 +122,20 @@ def fix_2():
     # ---
     with open(file1, "r", encoding="utf-8") as f:
         data_1 = json.load(f)
-        printe.output(f"<<green>> read {len(data_1)} from {file1=}")
+        printe.output(f"<<green>> read {len(data_1)} from file1: {str(file1)}")
     # ---
     with open(file2, "r", encoding="utf-8") as f:
         data_2 = json.load(f)
-        printe.output(f"<<green>> read {len(data_2)} from {file2=}")
+        printe.output(f"<<green>> read {len(data_2)} from file2: {str(file2)}")
     # ---
     # items in data_2 and not in data_1
     new_data = {x: v for x, v in data_2.items() if x not in data_1}
+    data_false = {x: v for x, v in data_2.items() if x in data_1}
     # ---
     printe.output(f"len(new_data): {len(new_data)}")
     # ---
     dumpit("studies_titles2.json", new_data)
+    dumpit("studies_titles_false.json", data_false)
 
 
 def main():
@@ -123,7 +154,8 @@ def main():
         # ---
         dumpit(file, data)
     # ---
-    fix_2()
+    if "no_fix_2" not in sys.argv:
+        fix_2()
 
 
 if __name__ == "__main__":
