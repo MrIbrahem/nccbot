@@ -59,6 +59,9 @@ def read_files():
 
 def move_them(to_move, old="", new=""):
     # ---
+    if len(to_move) == 0:
+        return
+    # ---
     done = CatDepth(new, sitecode="www", family="nccommons", depth=0, ns=0, onlyns=0)
     # ---
     new_to_move = [x for x in to_move if x not in done]

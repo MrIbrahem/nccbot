@@ -13,6 +13,7 @@ from fix_sets.ncc_api import ncc_MainPage, CatDepth
 
 len_all = {1: 0}
 
+
 def del_cat(newtext, old):
     # ---
     old_cat = f"[[{old}]]"
@@ -119,7 +120,7 @@ def move_them(to_move, old="", new=""):
     # ---
     done = []
     # ---
-    if "del2" not in sys.argv or len(to_move) < 20:
+    if "del2" not in sys.argv:# or len(to_move) < 20:
         done = CatDepth(new, sitecode="www", family="nccommons", depth=0, ns=0, onlyns=0)
     # ---
     new_to_move = [x for x in to_move if x not in done]

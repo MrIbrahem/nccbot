@@ -19,7 +19,7 @@ Category:Image stacks
 
 import sys
 from newapi import printe
-from dup_sets.move_pages import move_titles
+from dup_sets.move_pages import move_them
 from fix_sets.ncc_api import CatDepth
 
 
@@ -37,22 +37,6 @@ for x in lal[:]:
         lal = [x]
         break
 
-
-def move_them(to_move, old="", new=""):
-    # ---
-    if len(to_move) == 0:
-        return
-    # ---
-    done = []
-    # ---
-    if "del2" not in sys.argv or len(to_move) < 20:
-        done = CatDepth(new, sitecode="www", family="nccommons", depth=0, ns=0, onlyns=0)
-    # ---
-    new_to_move = [x for x in to_move if x not in done]
-    # ---
-    printe.output(f" len(to_move): {len(to_move):,}, after done : {len(new_to_move):,}")
-    # ---
-    move_titles(new_to_move, old, new)
 
 
 def in_both():
