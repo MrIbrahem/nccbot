@@ -100,6 +100,9 @@ def move_titles(titles, old, new):
     # ---
     len_all[1] = len(titles)
     # ---
+    if "reverse" in sys.argv:
+        titles = list(reversed(titles))
+    # ---
     printe.output(f"len(titles): {len(titles):,}")
     # ---
     if "multi" in sys.argv and "ask" not in sys.argv:
