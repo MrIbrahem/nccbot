@@ -75,10 +75,9 @@ def new_get_all_titles():
 def get_all_titles(cache=False):
     file = Path(__file__).parent / "all_members.json"
     # ---
-    if cache:
-        if file.exists():
-            with open(file, "r", encoding="utf-8") as f:
-                return json.load(f)
+    if cache and file.exists():
+        with open(file, "r", encoding="utf-8") as f:
+            return json.load(f)
     # ---
     titles = new_get_all_titles()
     # ---

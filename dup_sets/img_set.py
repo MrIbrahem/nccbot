@@ -2,6 +2,8 @@
 
 python3 core8/pwb.py dup_sets/img_set multi del2 ask
 
+tfj run dup --mem 1Gi --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py dup_sets/img_set multi del2"
+
 لإزالة الصفحات الموجودة في تصنيف
 Category:Radiopaedia sets
 وكذلك في تصنيف
