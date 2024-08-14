@@ -1,29 +1,21 @@
-name: Deploy via SSH # (1) Title of the action
-
+name: u.yml
 on:
   push:
     branches:
-      - main # (2) Name of the branch where the action should run
-
+      - main
 jobs:
-  deploy:
-    name: Deploy to SSH Server # (3) Title of the job
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run deployment script
+      - uses: actions/checkout@v2
+      - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: login.toolforge.org
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
           port: 22
           request_pty: true
           script_stop: true
-          # (4) Actual command(s) to run
+          key: ${{ secrets.KEY }}
           script: |
-            become ncc
-            toolforge-jobs run update --image mariadb --command "$HOME/move.sh"
+            become ncc sh -c "shs/update_nccbot.sh; touch ncc_github"
