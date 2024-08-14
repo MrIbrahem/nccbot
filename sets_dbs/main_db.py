@@ -37,6 +37,7 @@ import sys
 from pywikibot import config
 import pymysql
 import pymysql.cursors
+from newapi.except_err import exception_err
 import pywikibot
 
 # ---
@@ -107,9 +108,7 @@ class DbClass:
         try:
             self.connection = pymysql.connect(**args, **credentials)
         except Exception as e:
-            pywikibot.output("Traceback (most recent call last):")
-            pywikibot.output(traceback.format_exc())
-            pywikibot.output("CRITICAL:")
+            exception_err(e)
         # ---
         self.create_database_table()
 
@@ -126,9 +125,7 @@ class DbClass:
                     return True
 
             except Exception as e:
-                pywikibot.output("Traceback (most recent call last):")
-                pywikibot.output(traceback.format_exc())
-                pywikibot.output("CRITICAL:")
+                exception_err(e)
                 # ---
                 if get_data:
                     return []
@@ -138,9 +135,7 @@ class DbClass:
             try:
                 results = cursor.fetchall()
             except Exception as e:
-                pywikibot.output("Traceback (most recent call last):")
-                pywikibot.output(traceback.format_exc())
-                pywikibot.output("CRITICAL:")
+                exception_err(e)
                 return []
 
         return results
@@ -156,9 +151,7 @@ class DbClass:
                 return True
 
             except Exception as e:
-                pywikibot.output("Traceback (most recent call last):")
-                pywikibot.output(traceback.format_exc())
-                pywikibot.output("CRITICAL:")
+                exception_err(e)
                 return False
 
     def create_database_table(self):
